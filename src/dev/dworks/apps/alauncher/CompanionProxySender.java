@@ -53,7 +53,7 @@ public class CompanionProxySender {
         }
 
         if (!TextUtils.equals(versionName, COMPANION_VERSION_NAME) || versionCode != COMPANION_VERSION_CODE) {
-            Toast.makeText(context, R.string.companion_not_up_to_date_please_update, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.companion_app_update, Toast.LENGTH_LONG).show();
         }
     }
  }

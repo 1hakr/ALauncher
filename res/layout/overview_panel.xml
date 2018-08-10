@@ -68,7 +68,7 @@
         android:fontFamily="sans-serif-condensed"
         android:gravity="center_horizontal"
         android:stateListAnimator="@animator/overview_button_anim"
-        android:text="@string/settings_button_text"
+        android:text="@string/settings_title"
         android:textAllCaps="true"
         android:textColor="?attr/workspaceTextColor"
         android:textSize="12sp" />

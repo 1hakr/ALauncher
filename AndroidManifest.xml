@@ -79,8 +79,6 @@
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/ic_launcher"
-        android:roundIcon="@drawable/ic_launcher"
         android:label="@string/derived_app_name"
         android:theme="@style/LauncherTheme"
         android:largeHeap="@bool/config_largeHeap"
@@ -125,7 +123,7 @@
         -->
         <activity
             android:name="com.google.android.apps.nexuslauncher.SettingsActivity"
-            android:label="@string/settings_button_text"
+            android:label="@string/derived_app_name"
             android:theme="@style/SettingsTheme"
             android:autoRemoveFromRecents="true">
             <intent-filter>

@@ -35,7 +35,7 @@ public class OverviewAccessibilityDelegate extends AccessibilityDelegate {
     private static final int OVERVIEW = R.string.accessibility_action_overview;
     private static final int WALLPAPERS = R.string.wallpaper_button_text;
     private static final int WIDGETS = R.string.widget_button_text;
-    private static final int SETTINGS = R.string.settings_button_text;
+    private static final int SETTINGS = R.string.settings_title;
 
     @Override
     public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
