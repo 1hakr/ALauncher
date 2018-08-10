@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toolbar;
 
-import dev.dworks.apps.alauncher.companion.BuildConfig;
 import dev.dworks.apps.alauncher.companion.R;
 
 import static com.google.android.apps.nexuslauncher.smartspace.SmartspaceBroadcastReceiver.ENABLE_UPDATE_ACTION;
@@ -30,8 +28,6 @@ public class SmartSpaceCompanionActivity extends Activity {
     private void setupUi() {
         setContentView(R.layout.activity_home);
 
-        TextView status = findViewById(R.id.status);
-        status.setText("" + BuildConfig.DEBUG);
         Toolbar toolbar = findViewById(R.id.home_toolbar);
         setActionBar(toolbar);
 

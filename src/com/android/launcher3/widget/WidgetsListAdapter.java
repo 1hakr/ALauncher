@@ -16,8 +16,6 @@
 package com.android.launcher3.widget;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +38,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 /**
  * List view adapter for the widget tray.
@@ -116,7 +117,9 @@ public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
         }
         WidgetListRowEntryComparator rowComparator = new WidgetListRowEntryComparator();
         Collections.sort(tempEntries, rowComparator);
-        mDiffReporter.process(mEntries, tempEntries, rowComparator);
+        try {
+            mDiffReporter.process(mEntries, tempEntries, rowComparator);
+        } catch (Exception ignore) {  }
     }
 
     @Override

@@ -6,6 +6,6 @@
     <string name="companion_app_title" translatable="false">Companion app</string>
     <string name="companion_app_not_installed" translatable="false">Not installed</string>
     <string name="companion_app_version_x" translatable="false">version %s</string>
-    <string name="at_a_glance_companion_url" translatable="false">https://github.com/1hakr/ALauncher</string>
-    <string name="lean_glance_not_up_to_date_please_update" translatable="false">ALauncher companion is outdated. Please update to make sure everything works correctly!</string>
+    <string name="companion_app_url" translatable="false">https://raw.githubusercontent.com/1hakr/ALauncher/master/companion-debug.apk</string>
+    <string name="companion_not_up_to_date_please_update" translatable="false">ALauncher companion is outdated. Please update to make sure everything works correctly!</string>
 </resources>
