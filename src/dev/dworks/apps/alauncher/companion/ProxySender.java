@@ -1,4 +1,4 @@
-package dev.dworks.apps.alauncher;
+package dev.dworks.apps.alauncher.companion;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 
-public class CompanionProxySender {
+public class ProxySender {
 
      private static final String AT_A_GLANCE_WEATHER_ACTION = BuildConfig.APPLICATION_ID + ".AT_A_GLANCE_WEATHER_ACTION";
      private static final String AT_A_GLANCE_PREFERENCE_ACTION = BuildConfig.APPLICATION_ID + ".AT_A_GLANCE_PREFERENCE_ACTION";
@@ -20,7 +20,7 @@ public class CompanionProxySender {
      private static final String COMPANION_VERSION_NAME = "1.0";
      private static final int COMPANION_VERSION_CODE = 1;
 
-     private CompanionProxySender() {
+     private ProxySender() {
 
      }
 

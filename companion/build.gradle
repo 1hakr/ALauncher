@@ -28,12 +28,6 @@ android {
     }
 }
 
-android.variantFilter { variant ->
-    if (variant.buildType.name == 'release') {
-        variant.setIgnore(true)
-    }
-}
-
 dependencies {
     implementation project(':client')
     implementation fileTree(dir: 'libs', include: ['*.jar'])

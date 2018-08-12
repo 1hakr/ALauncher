@@ -26,7 +26,7 @@ import com.google.android.apps.nexuslauncher.utils.ColorManipulation;
 
 import java.net.URISyntaxException;
 
-import dev.dworks.apps.alauncher.CompanionProxySender;
+import dev.dworks.apps.alauncher.companion.ProxySender;
 
 public class SmartspaceCard {
     private final b dI;
@@ -300,7 +300,7 @@ public class SmartspaceCard {
                 intent.setSourceBounds(launcher.getViewBounds(view));
                 // Google started to enforce a new permission, so we have to forward this event
                 // view.getContext().sendBroadcast(intent);
-                CompanionProxySender.sendWeatherAction(view.getContext(), intent);
+                ProxySender.sendWeatherAction(view.getContext(), intent);
                 break;
             }
             case 2: {

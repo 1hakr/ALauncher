@@ -1,4 +1,4 @@
-package dev.dworks.apps.alauncher;
+package dev.dworks.apps.alauncher.companion;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -15,7 +15,7 @@ import com.google.android.apps.nexuslauncher.smartspace.SmartspaceController;
 import com.google.android.apps.nexuslauncher.smartspace.nano.SmartspaceProto;
 import com.google.protobuf.nano.InvalidProtocolBufferNanoException;
 
-public class CompanionProxyReceiver extends BroadcastReceiver {
+public class ProxyReceiver extends BroadcastReceiver {
 
     private static final String AT_A_GLANCE_ACTION = BuildConfig.APPLICATION_ID + ".AT_A_GLANCE";
     private static final String HIDE_ACTION = BuildConfig.APPLICATION_ID + ".HIDE_AT_A_GLANCE_COMPANION";

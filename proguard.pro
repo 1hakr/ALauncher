@@ -94,10 +94,10 @@
 # next row when focus is on the last item of last row when using a RecyclerView
 # Keep optimized and shrunk proguard to prevent issues like this when using
 # support jar.
-#-keep,allowoptimization,allowshrinking class android.support.** {
-#  *;
-#}
--keep class android.support.v7.widget.RecyclerView { *; }
+-keep,allowoptimization,allowshrinking class androidx.** {
+  *;
+}
+-keep class androidx.recyclerview.widget.RecyclerView { *; }
 
 -keep interface com.android.launcher3.userevent.nano.LauncherLogProto.** {
   *;

@@ -75,6 +75,7 @@
         android:description="@string/companion_app_permission_description" />
 
     <application
+        android:name="dev.dworks.apps.alauncher.App"
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"
@@ -182,9 +183,10 @@
         Custom
         -->
         <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
 
         <receiver
-            android:name="dev.dworks.apps.alauncher.CompanionProxyReceiver"
+            android:name="dev.dworks.apps.alauncher.companion.ProxyReceiver"
             android:permission="${applicationId}.COMPANION">
             <intent-filter>
                 <action android:name="${applicationId}.AT_A_GLANCE" />

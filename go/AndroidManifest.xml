@@ -23,6 +23,7 @@
     package="com.android.launcher3" >
 
     <application
+        android:name="dev.dworks.apps.alauncher.App"
         android:backupAgent="com.android.launcher3.LauncherBackupAgent"
         android:fullBackupOnly="true"
         android:fullBackupContent="@xml/backupscheme"

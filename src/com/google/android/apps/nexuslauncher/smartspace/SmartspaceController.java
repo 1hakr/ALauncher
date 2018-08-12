@@ -18,7 +18,7 @@ import com.google.android.apps.nexuslauncher.utils.ProtoStore;
 import java.io.PrintWriter;
 import java.util.List;
 
-import dev.dworks.apps.alauncher.CompanionProxySender;
+import dev.dworks.apps.alauncher.companion.ProxySender;
 
 public class SmartspaceController implements Handler.Callback {
     enum Store {
@@ -154,7 +154,7 @@ public class SmartspaceController implements Handler.Callback {
     public void cZ() {
         // Google started to enforce a new permission, so we have to forward this event
         // this.mAppContext.sendBroadcast(this.db());
-        CompanionProxySender.sendPreferenceAction(mAppContext, db());
+        ProxySender.sendPreferenceAction(mAppContext, db());
     }
 
     public void da(final ISmartspace ds) {
