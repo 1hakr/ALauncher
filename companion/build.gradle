@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
 
 def props = new Properties()
 props.load(new FileInputStream(rootProject.file("keystore.properties")))
@@ -26,12 +25,18 @@ android {
             signingConfig signingConfigs.companion
         }
     }
+
+    productFlavors {
+        bridge {
+            applicationId 'com.google.android.apps.nexuslauncher'
+            flavorDimensions 'default'
+        }
+    }
 }
 
 dependencies {
     implementation project(':client')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 repositories {

@@ -3,14 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="dev.dworks.apps.alauncher.companion">
 
-    <uses-permission android:name="dev.dworks.apps.alauncher.COMPANION" />
-
-     <permission
-         android:name="com.google.android.apps.nexuslauncher.permission.QSB"
-         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-         android:protectionLevel="signatureOrSystem" />
-     <uses-permission android:name="com.google.android.apps.nexuslauncher.permission.QSB" />
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -19,30 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name="com.google.android.apps.nexuslauncher.SmartSpaceCompanionActivity"
-            android:autoRemoveFromRecents="true">
+        <service android:name=".BridgeService">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="com.android.launcher3.WINDOW_OVERLAY" />
+                <data android:scheme="app" />
             </intent-filter>
-        </activity>
-
-        <receiver android:name="com.google.android.apps.nexuslauncher.smartspace.SmartspaceBroadcastReceiver">
-            <intent-filter>
-                <action android:name="com.google.android.apps.nexuslauncher.UPDATE_SMARTSPACE" />
-                <action android:name="dev.dworks.apps.alauncher.AT_A_GLANCE_FORCE_ENABLE" />
-                <action android:name="dev.dworks.apps.alauncher.AT_A_GLANCE_PING" />
-                <action android:name="dev.dworks.apps.alauncher.AT_A_GLANCE_WEATHER_ACTION" />
-                <action android:name="dev.dworks.apps.alauncher.AT_A_GLANCE_PREFERENCE_ACTION" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".LauncherClientProxyService"
-            android:enabled="true"
-            android:exported="true" />
+        </service>
     </application>
 
 </manifest>
