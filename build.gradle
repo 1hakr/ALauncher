@@ -1,5 +1,4 @@
 buildscript {
-    ext.kotlin_version = '1.2.60'
     repositories {
         mavenCentral()
         jcenter()
@@ -10,7 +9,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.0-beta05'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.0.1'
         classpath 'io.fabric.tools:gradle:1.25.4'
     }
@@ -132,20 +130,20 @@ repositories {
 
 dependencies {
     implementation project(':client')
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
-    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0-rc01'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc01'
-    implementation 'androidx.palette:palette:1.0.0-rc01'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0-rc02'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
+    implementation 'androidx.palette:palette:1.0.0-rc02'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.mockito:mockito-core:1.10.19'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0-alpha4'
-    androidTestImplementation 'androidx.annotation:annotation:1.0.0-rc01'
+    androidTestImplementation 'androidx.annotation:annotation:1.0.0-rc02'
 }
 
 protobuf {

@@ -5,11 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,27 +15,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 
 public class SettingsActivity extends com.android.launcher3.SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
-    public static final String TAG = "ALauncher Settings";
     public final static String ICON_PACK_PREF = "pref_icon_pack";
     public final static String SHOW_PREDICTIONS_PREF = "pref_show_predictions";
     public final static String ENABLE_MINUS_ONE_PREF = "pref_enable_minus_one";
     public final static String SMARTSPACE_PREF = "pref_smartspace";
     public final static String APP_VERSION_PREF = "about_app_version";
     private final static String GOOGLE_APP = "com.google.android.googlequicksearchbox";
-
-    private static final String SMARTSPACE_COMPANION = "pref_smartspace_companion";
-    private static final String SMARTSPACE_PING = BuildConfig.APPLICATION_ID + ".AT_A_GLANCE_PING";
-    private static final String SMARTSPACE_PING_RESPONSE = BuildConfig.APPLICATION_ID + ".AT_A_GLANCE_PING_RESPONSE";
 
     @Override
     protected void onCreate(final Bundle bundle) {
@@ -63,16 +56,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             implements Preference.OnPreferenceChangeListener {
         private CustomIconPreference mIconPackPref;
         private Context mContext;
-
-        BroadcastReceiver smartspaceReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                String version = intent.getStringExtra(SMARTSPACE_PING_RESPONSE);
-                findPreference(SMARTSPACE_COMPANION).setSummary(context.getString(R.string.companion_app_version_x, version));
-                findPreference(SMARTSPACE_PREF).setEnabled(true);
-                Log.i(TAG, "recieved broadcast");
-            }
-        };
 
         @Override
         public void onCreate(Bundle bundle) {
@@ -127,18 +110,12 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         public void onResume() {
             super.onResume();
             mIconPackPref.reloadIconPacks();
-            findPreference(SMARTSPACE_COMPANION).setSummary(getString(R.string.companion_app_not_installed));
-            findPreference(SMARTSPACE_PREF).setEnabled(false);
-            getActivity().registerReceiver(smartspaceReceiver, new IntentFilter(SMARTSPACE_PING_RESPONSE));
-            Intent intent = new Intent(SMARTSPACE_PING).setPackage("com.google.android.apps.nexuslauncher");
-            getActivity().sendBroadcast(intent);
-            Log.i(TAG, "sent broadcast");
-        }
 
-        @Override
-        public void onPause() {
-            getActivity().unregisterReceiver(smartspaceReceiver);
-            super.onPause();
+            SwitchPreference minusOne = (SwitchPreference) findPreference(ENABLE_MINUS_ONE_PREF);
+            if (minusOne != null) {
+                minusOne.setChecked(Utilities.getPrefs(getActivity())
+                        .getBoolean(ENABLE_MINUS_ONE_PREF, true));
+            }
         }
 
         @Override

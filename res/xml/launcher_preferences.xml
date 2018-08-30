@@ -29,17 +29,6 @@
         </intent>
     </com.android.launcher3.views.ButtonPreference>
 
-
-    <Preference
-        android:key="pref_smartspace_companion"
-        android:title="@string/companion_app_title">
-
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="@string/companion_app_url" />
-
-    </Preference>
-
     <SwitchPreference
         android:key="pref_smartspace"
         android:title="@string/smartspace_preferences_in_settings"

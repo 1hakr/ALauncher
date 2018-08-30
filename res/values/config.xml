@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 <!-- Dynamic Grid -->
     <!-- Out of 100, the percent of space the overview bar should try and take vertically. -->
     <integer name="config_dynamic_grid_overview_icon_zone_percentage">22</integer>
@@ -161,14 +161,14 @@
     <item type="id" name="search_container_hotseat" />
     <item type="id" name="search_container_all_apps" />
 
-    <string-array translatable="false" name="theme_override_values">
-        <item></item>
+    <string-array translatable="false" name="theme_override_values" tools:ignore="InconsistentArrays">
+        <item />
         <item>0</item>
         <item>2</item>
-        <item>4</item>
+        <item>256</item>
     </string-array>
 
-    <string-array translatable="false" name="theme_override_names">
+    <string-array translatable="false" name="theme_override_names" tools:ignore="InconsistentArrays">
         <item>@string/theme_automatic</item>
         <item>@string/theme_default</item>
         <item>@string/theme_dark</item>

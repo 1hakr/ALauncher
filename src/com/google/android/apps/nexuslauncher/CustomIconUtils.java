@@ -31,13 +31,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 public class CustomIconUtils {
     private final static String[] ICON_INTENTS = new String[] {
             "com.fede.launcher.THEME_ICONPACK",
             "com.anddoes.launcher.THEME",
             "com.teslacoilsw.launcher.THEME",
+            "com.novalauncher.THEME",
             "com.gau.go.launcherex.theme",
             "org.adw.launcher.THEMES",
             "org.adw.launcher.icons.ACTION_PICK_ICON"

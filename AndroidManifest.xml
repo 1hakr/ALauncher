@@ -34,13 +34,13 @@
     <permission
         android:name="${applicationId}.permission.READ_SETTINGS"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal"
+        android:protectionLevel="signature"
         android:label="@string/permlab_read_settings"
         android:description="@string/permdesc_read_settings"/>
     <permission
         android:name="${applicationId}.permission.WRITE_SETTINGS"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="signatureOrSystem"
+        android:protectionLevel="signature"
         android:label="@string/permlab_write_settings"
         android:description="@string/permdesc_write_settings"/>
 
@@ -58,6 +58,11 @@
 
     <!-- Custom -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!--Bridge-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -175,7 +180,7 @@
         </receiver>
         <receiver android:name="com.google.android.apps.nexuslauncher.qsb.LongClickReceiver" />
         <provider
-            android:authorities="com.google.android.apps.nexuslauncher.appssearch"
+            android:authorities="${applicationId}.appssearch"
             android:exported="true"
             android:name="com.google.android.apps.nexuslauncher.search.AppSearchProvider" />
 
@@ -185,15 +190,16 @@
         <meta-data android:name="android.max_aspect" android:value="2.1" />
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
 
-        <receiver
-            android:name="dev.dworks.apps.alauncher.companion.ProxyReceiver"
-            android:permission="${applicationId}.COMPANION">
-            <intent-filter>
-                <action android:name="${applicationId}.AT_A_GLANCE" />
-                <action android:name="${applicationId}.HIDE_AT_A_GLANCE_COMPANION" />
-                <action android:name="${applicationId}.OPEN_LEAN_SETTINGS" />
-            </intent-filter>
-        </receiver>
+        <!-- Bridge -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.bridge"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- ENABLE_FOR_TESTING
 

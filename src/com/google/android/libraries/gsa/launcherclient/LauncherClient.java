@@ -25,6 +25,9 @@ import com.google.android.libraries.launcherclient.ILauncherOverlayCallback;
 import java.lang.ref.WeakReference;
 
 public class LauncherClient {
+    public final static boolean BRIDGE_USE = true;
+    public final static String BRIDGE_PACKAGE = "com.google.android.apps.nexuslauncher";
+
     private static int apiVersion = -1;
 
     private ILauncherOverlay mOverlay;
@@ -117,7 +120,7 @@ public class LauncherClient {
     public LauncherClient(Activity activity, IScrollCallback scrollCallback, StaticInteger flags) {
         mActivity = activity;
         mScrollCallback = scrollCallback;
-        mBaseService = new BaseClientService(activity, 65);
+        mBaseService = new BaseClientService(activity, Context.BIND_AUTO_CREATE | Context.BIND_IMPORTANT);
         mFlags = flags.mData;
 
         mLauncherService = LauncherClientService.getInstance(activity);
@@ -361,16 +364,16 @@ public class LauncherClient {
         }
     }
 
-    static Intent getIntent(Context context) {
+    static Intent getIntent(Context context, boolean proxy) {
         String pkg = context.getPackageName();
         return new Intent("com.android.launcher3.WINDOW_OVERLAY")
-                .setPackage("com.google.android.googlequicksearchbox")
+                .setPackage(proxy ? BRIDGE_PACKAGE : "com.google.android.googlequicksearchbox")
                 .setData(Uri.parse(new StringBuilder(pkg.length() + 18)
-                            .append("app://")
-                            .append(pkg)
-                            .append(":")
-                            .append(Process.myUid())
-                            .toString())
+                        .append("app://")
+                        .append(pkg)
+                        .append(":")
+                        .append(Process.myUid())
+                        .toString())
                         .buildUpon()
                         .appendQueryParameter("v", Integer.toString(7))
                         .appendQueryParameter("cv", Integer.toString(9))
@@ -378,7 +381,7 @@ public class LauncherClient {
     }
 
     private static void loadApiVersion(Context context) {
-        ResolveInfo resolveService = context.getPackageManager().resolveService(getIntent(context), PackageManager.GET_META_DATA);
+        ResolveInfo resolveService = context.getPackageManager().resolveService(getIntent(context, false), PackageManager.GET_META_DATA);
         apiVersion = resolveService == null || resolveService.serviceInfo.metaData == null ?
                 1 :
                 resolveService.serviceInfo.metaData.getInt("service.api.version", 1);

@@ -11,12 +11,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.ParcelFileDescriptor;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.launcher3.AllAppsList;
 import com.android.launcher3.AppInfo;
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
 import com.android.launcher3.allapps.AppInfoComparator;
@@ -38,6 +37,9 @@ import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class AppSearchProvider extends ContentProvider
 {
@@ -75,7 +77,7 @@ public class AppSearchProvider extends ContentProvider
     public static Uri buildUri(final AppInfo appInfo, final UserManagerCompat userManagerCompat) {
         return new Uri.Builder()
                 .scheme("content")
-                .authority("com.google.android.apps.nexuslauncher.appssearch")
+                .authority(BuildConfig.APPLICATION_ID + ".appssearch")
                 .appendQueryParameter("component", appInfo.componentName.flattenToShortString())
                 .appendQueryParameter("user", Long.toString(userManagerCompat.getSerialNumberForUser(appInfo.user)))
                 .build();
