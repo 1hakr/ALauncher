@@ -6,7 +6,7 @@
     <string name="settings_title" translatable="false">Settings</string>
 
     <integer name="bridge_signature_hash">0xB662CC2F</integer>
-    <string name="bridge_download_url" translatable="false">https://raw.githubusercontent.com/1hakr/ALauncher/master/companion-debug.apk?raw=true</string>
+    <string name="bridge_download_url" translatable="false">https://raw.githubusercontent.com/1hakr/ALauncher/master/companion-bridge-debug.apk?raw=true</string>
     <string name="bridge_download_version" translatable="false">1.0</string>
     <string name="bridge_download_file" translatable="false">bridge.apk</string>
     <string name="bridge_missing_title" translatable="false">ALauncher Bridge</string>
