@@ -16,7 +16,6 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.protobuf'
-apply plugin: 'io.fabric'
 
 def props = new Properties()
 File keystoreProperties = rootProject.file("keystore.properties")
@@ -45,6 +44,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
+            applicationIdSuffix ".debug"
         }
 
         release {
@@ -129,7 +129,6 @@ repositories {
 }
 
 dependencies {
-    implementation project(':client')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0-rc02'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
@@ -174,4 +173,7 @@ android.signingConfigs.release.storePassword props.keyStorePassword
 android.signingConfigs.release.keyAlias props.keyAlias
 android.signingConfigs.release.keyPassword props.keyAliasPassword
 
-apply plugin: 'com.google.gms.google-services'
+if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
+    apply plugin: 'com.google.gms.google-services'
+    apply plugin: 'io.fabric'
+}
