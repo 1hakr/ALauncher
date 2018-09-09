@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-beta05'
+        classpath 'com.android.tools.build:gradle:3.2.0-rc02'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
         classpath 'com.google.gms:google-services:4.0.1'
         classpath 'io.fabric.tools:gradle:1.25.4'
@@ -37,6 +37,8 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "PLAYSTORE_LICENSE_KEY",  "$props.PLAYSTORE_LICENSE_KEY"
+        buildConfigField "String", "MERCHANT_ID",  "$props.MERCHANT_ID"
     }
     signingConfigs {
         release
@@ -133,9 +135,12 @@ dependencies {
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0-rc02'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
     implementation 'androidx.palette:palette:1.0.0-rc02'
+    implementation 'com.google.android.material:material:1.0.0-rc01'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    implementation 'com.zsoltsafrany:needle:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.mockito:mockito-core:1.10.19'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'

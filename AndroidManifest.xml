@@ -149,7 +149,8 @@
         <provider
             android:name="com.android.launcher3.LauncherProvider"
             android:authorities="${applicationId}.settings"
-            android:exported="true"
+            android:exported="false"
+            android:protectionLevel="signature"
             android:writePermission="${applicationId}.permission.WRITE_SETTINGS"
             android:readPermission="${applicationId}.permission.READ_SETTINGS" />
 
