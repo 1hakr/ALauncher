@@ -252,4 +252,10 @@
     <dimen name="hotseat_qsb_scroll_shadow_blur_radius">1.5dp</dimen>
     <dimen name="hotseat_qsb_scroll_key_shadow_offset">2dp</dimen>
     <dimen name="all_apps_extra_search_padding">8dp</dimen>
+
+    <dimen name="second_keyline">72dp</dimen>
+    <dimen name="second_keyline_default">72dp</dimen>
+    <dimen name="toolbar_h_padding">4dp</dimen>
+    <dimen name="side_navigation_width">304dp</dimen>
+    <dimen name="card_padding">8dp</dimen>
 </resources>
