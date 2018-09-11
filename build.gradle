@@ -57,14 +57,23 @@ android {
                     'proguard.pro'
         }
     }
-
+    flavorDimensions "release", "default"
     productFlavors {
         aosp {
-            flavorDimensions 'default'
+            dimension "default"
         }
-
         l3go {
-            flavorDimensions 'default'
+            dimension "default"
+        }
+        google {
+            dimension "release"
+        }
+        amazon {
+            dimension "release"
+            targetSdkVersion 25
+        }
+        other {
+            dimension "release"
         }
     }
 
@@ -91,6 +100,11 @@ android {
         aosp {
             java.srcDirs = ['src_flags']
             manifest.srcFile "AndroidManifest.xml"
+        }
+
+        amazon {
+            java.srcDirs = ['amazon/src']
+            manifest.srcFile "amazon/AndroidManifest.xml"
         }
 
         androidTestAosp {

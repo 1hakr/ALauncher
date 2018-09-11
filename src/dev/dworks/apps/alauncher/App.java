@@ -14,8 +14,8 @@ public class App extends AppFlavour {
         sInstance = this;
         if(!BuildConfig.DEBUG) {
             AnalyticsHelper.intialize(getApplicationContext());
+            CrashHelper.enable(getApplicationContext(), true);
         }
-        CrashHelper.enable(getApplicationContext(), true);
     }
 
     public static synchronized App getInstance() {
