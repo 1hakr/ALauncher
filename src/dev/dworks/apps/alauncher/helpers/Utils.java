@@ -3,6 +3,7 @@ package dev.dworks.apps.alauncher.helpers;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.UiModeManager;
@@ -11,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -30,6 +32,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
@@ -38,19 +41,26 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.LooperExecutor;
+import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
+import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.core.content.FileProvider;
 import androidx.palette.graphics.Palette;
 import dev.dworks.apps.alauncher.Settings;
+
+import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
 
 public class Utils {
 
     private static final long WAIT_BEFORE_RESTART = 250;
     private static final String GOOGLE_QSB = "com.google.android.googlequicksearchbox";
     private static final int WHITE = 0xffffffff;
+    public static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
     /**
      * Returns true when running Android TV
      *
@@ -281,6 +291,43 @@ public class Utils {
 
     public static void openOverview(Launcher launcher) {
         launcher.showOverviewMode(true);
+    }
+
+    public static void checkBridge(Activity context) {
+        PackageManager manager = context.getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(LauncherClient.BRIDGE_PACKAGE, PackageManager.GET_SIGNATURES);
+            if (info.versionName.equals(context.getString(R.string.bridge_download_version))) {
+                return;
+            }
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+
+        FragmentManager fm = context.getFragmentManager();
+        if (fm.findFragmentByTag(BRIDGE_TAG) == null) {
+            NexusLauncherActivity.InstallFragment fragment = new NexusLauncherActivity.InstallFragment();
+            fragment.show(fm, BRIDGE_TAG);
+        }
+    }
+
+    public static  void installCompanionApp(Context context, File file) {
+        Intent install;
+        if (Utilities.ATLEAST_NOUGAT) {
+            Uri apkUri = FileProvider.getUriForFile(context,
+                    BuildConfig.APPLICATION_ID + ".bridge", file);
+
+            install = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+            install.setData(apkUri);
+            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            Uri apkUri = Uri.fromFile(file);
+
+            install = new Intent(Intent.ACTION_VIEW);
+            install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+
+        context.startActivity(install);
     }
 
 }

@@ -15,13 +15,10 @@ import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
-import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.model.WidgetItem;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.widget.WidgetsBottomSheet;
-import com.google.android.apps.nexuslauncher.CustomBottomSheet;
-import com.google.android.apps.nexuslauncher.CustomDrawableFactory;
-import com.google.android.apps.nexuslauncher.CustomIconUtils;
+import com.google.android.apps.nexuslauncher.CustomEditShortcut;
 
 import java.util.List;
 
@@ -62,41 +59,15 @@ public abstract class SystemShortcut extends ItemInfo {
             super(R.drawable.ic_edit_no_shadow, R.string.action_preferences);
         }
 
+        public Custom(int iconResId, int labelResId) {
+            super(iconResId, labelResId);
+        }
+
         @Override
         public View.OnClickListener getOnClickListener(Launcher launcher, ItemInfo itemInfo) {
             return null;
         }
     }
-
-    public static class CustomEditShortcut extends SystemShortcut {
-        public CustomEditShortcut() {
-            super(R.drawable.ic_edit_no_shadow, R.string.action_preferences);
-        }
-
-        @Override
-        public View.OnClickListener getOnClickListener(final Launcher launcher, final ItemInfo itemInfo) {
-            if (CustomIconUtils.usingValidPack(launcher)) {
-                CustomDrawableFactory factory = (CustomDrawableFactory) DrawableFactory.get(launcher);
-                factory.ensureInitialLoadComplete();
-            }
-
-            return new View.OnClickListener() {
-                private boolean mOpened = false;
-
-                @Override
-                public void onClick(View view) {
-                    if (!mOpened) {
-                        mOpened = true;
-                        AbstractFloatingView.closeAllOpenViews(launcher);
-                        CustomBottomSheet cbs = (CustomBottomSheet) launcher.getLayoutInflater()
-                                .inflate(R.layout.app_edit_bottom_sheet, launcher.getDragLayer(), false);
-                        cbs.populateAndShow(itemInfo);
-                    }
-                }
-            };
-        }
-    }
-
 
     public static class Edit extends CustomEditShortcut {
         @Override

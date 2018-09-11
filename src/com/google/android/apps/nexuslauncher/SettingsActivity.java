@@ -1,17 +1,24 @@
 package com.google.android.apps.nexuslauncher;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -27,6 +34,8 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.google.android.apps.nexuslauncher.smartspace.SmartspaceController;
 
+import java.io.File;
+
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.helpers.Utils;
 
@@ -41,6 +50,8 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
     private static final String SMARTSPACE_SETTINGS = "pref_smartspace_settings";
 
     private static final String RESTART_PREFERENCE = "restart_alauncher";
+
+    private final static int REQUEST_EXTERNAL_STORAGE = 100;
 
     @Override
     protected void onCreate(final Bundle bundle) {
@@ -68,6 +79,60 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             Settings.clearSettingsDirty(this);
             Utils.restart(this);
         }
+    }
+
+    protected void promptBridge() {
+        if (Utilities.ATLEAST_MARSHMALLOW &&
+                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, REQUEST_EXTERNAL_STORAGE);
+        } else {
+            installBridge();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                installBridge();
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private void installBridge() {
+        // Use application context to ensure it does not expire after the download.
+        final Context context = getApplicationContext();
+
+        final String fileName = "/" + getString(R.string.bridge_download_file);
+
+        final String src = getString(R.string.bridge_download_url);
+
+        final String dest = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DOWNLOADS) + fileName;
+
+        final File file = new File(dest);
+        if (file.exists() && !file.delete()) {
+            return;
+        }
+
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(src))
+                .setVisibleInDownloadsUi(false)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+
+        final DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        final long downloadId = manager.enqueue(request);
+
+        context.registerReceiver(new BroadcastReceiver() {
+            public void onReceive(Context ignored, Intent intent) {
+                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+                if (id == downloadId) {
+                    Utils.installCompanionApp(ignored, file);
+                    context.unregisterReceiver(this);
+                }
+            }
+        }, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     public static class MySettingsFragment extends com.android.launcher3.SettingsActivity.LauncherSettingsFragment
@@ -121,6 +186,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             //findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
             //findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
             findPreference(RESTART_PREFERENCE).setOnPreferenceClickListener(this);
+            findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceClickListener(this);
 
             if (SmartspaceController.get(mContext).cY()) {
                 findPreference(SMARTSPACE_SETTINGS).setOnPreferenceClickListener(this);
@@ -286,6 +352,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     return true;
                 case RESTART_PREFERENCE:
                     Utils.restart(mContext);
+                    return true;
+                case ENABLE_MINUS_ONE_PREF:
+                    Utils.checkBridge(getActivity());
                     return true;
             }
             return false;

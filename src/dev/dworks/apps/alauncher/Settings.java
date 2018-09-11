@@ -9,6 +9,8 @@ import android.util.Pair;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 
+import static com.google.android.apps.nexuslauncher.SettingsActivity.ENABLE_MINUS_ONE_PREF;
+
 public class Settings {
 
     public static final String SETTINGS_DIRTY = "pref_lean_settings_dirty";
@@ -94,6 +96,7 @@ public class Settings {
     private static final boolean CARET_LONG_PRESS_DEFAULT = true;
     private static final int DATE_FORMAT_DEFAULT = R.string.date_format_normal;
     private static final boolean PAGE_INDICATOR_DEFAULT = true;
+    private static final boolean ENABLE_MINUS_ONE_DEFAULT = false;
 
     private static final String THEME_WALLPAPER = "wallpaper";
     private static final String THEME_LIGHT = "light";
@@ -384,6 +387,10 @@ public class Settings {
 
     public static boolean isPageIndicatorVisible(Context context) {
         return prefs(context).getBoolean(PAGE_INDICATOR, PAGE_INDICATOR_DEFAULT);
+    }
+
+    public static boolean isMinusOneEnabled(Context context) {
+        return prefs(context).getBoolean(ENABLE_MINUS_ONE_PREF, ENABLE_MINUS_ONE_DEFAULT);
     }
 
     private static SharedPreferences prefs(Context context) {

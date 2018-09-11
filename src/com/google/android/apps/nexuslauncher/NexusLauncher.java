@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.graphics.ColorUtils;
+import dev.dworks.apps.alauncher.Settings;
 
 public class NexusLauncher {
     private final Launcher mLauncher;
@@ -107,7 +108,7 @@ public class NexusLauncher {
             SharedPreferences prefs = Utilities.getPrefs(mLauncher);
             mOverlay = new NexusLauncherOverlay(mLauncher);
             mClient = new LauncherClient(mLauncher, mOverlay, new StaticInteger(
-                    (prefs.getBoolean(SettingsActivity.ENABLE_MINUS_ONE_PREF, true) ? 1 : 0) | 2 | 4 | 8));
+                    (Settings.isMinusOneEnabled(mLauncher) ? 1 : 0) | 2 | 4 | 8));
             mOverlay.setClient(mClient);
 
             prefs.registerOnSharedPreferenceChangeListener(this);
@@ -287,7 +288,7 @@ public class NexusLauncher {
             if (SettingsActivity.ENABLE_MINUS_ONE_PREF.equals(key)) {
                 LauncherClient launcherClient = mClient;
                 StaticInteger i = new StaticInteger(
-                        (sharedPreferences.getBoolean(SettingsActivity.ENABLE_MINUS_ONE_PREF, true) ? 1 : 0) | 2 | 4 | 8);
+                        (Settings.isMinusOneEnabled(mLauncher) ? 1 : 0) | 2 | 4 | 8);
                 if (i.mData != launcherClient.mFlags) {
                     launcherClient.mFlags = i.mData;
                     if (launcherClient.mLayoutParams != null) {
@@ -327,7 +328,7 @@ public class NexusLauncher {
 
             @Override
             public void run() {
-                if (Utilities.getPrefs(mLauncher).getBoolean(SettingsActivity.ENABLE_MINUS_ONE_PREF, true) &&
+                if (Settings.isMinusOneEnabled(mLauncher) &&
                         !mClient.mDestroyed &&
                         mClient.mLayoutParams != null &&
                         !mOverlay.mAttached &&
