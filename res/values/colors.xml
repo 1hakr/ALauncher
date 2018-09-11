@@ -56,6 +56,7 @@
 
     <!-- Pixel -->
     <color name="colorAccent">#ff009688</color>
+    <color name="colorAccentSecondary">#017065</color>
 
     <color name="qsb_icon_shadow_color">#20000000</color>
     <color name="qsb_dark_icon_tint">#ff757575</color>

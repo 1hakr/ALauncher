@@ -56,6 +56,7 @@ public class Settings {
     public static final String CARET_LONG_PRESS = "pref_caret_long_press";
     public static final String DATE_FORMAT = "pref_date_format";
     public static final String PAGE_INDICATOR = "pref_page_indicator";
+    public static final String SUPPORT = "pref_support";
 
     private static final boolean SETTINGS_DIRTY_DEFAULT = false;
     private static final boolean LOCK_DESKTOP_DEFAULT = false;

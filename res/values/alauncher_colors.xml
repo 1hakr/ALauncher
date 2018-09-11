@@ -2,4 +2,5 @@
 <resources>
     <color name="qsb_dark_color">#A0424242</color>
     <color name="md_amber_500">#FFC107</color>
+    <color name="accent_pink">#e91e63</color>
 </resources>

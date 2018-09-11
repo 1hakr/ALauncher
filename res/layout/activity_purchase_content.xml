@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingLeft="@dimen/card_padding"
@@ -10,7 +11,6 @@
     android:weightSum="1">
 
     <androidx.cardview.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -25,7 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"  />
+                android:scaleType="fitCenter"
+                android:src="@drawable/promo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -44,14 +45,14 @@
                     android:paddingBottom="16dp"
                     android:paddingTop="24dp"
                     android:text="@string/app_pro"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Title" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="@string/app_pro_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:textAppearance="@android:style/TextAppearance.Material.Body1" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,19 +63,19 @@
 
                 <Button
                     android:id="@+id/restore_button"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
+                    style="@android:style/Widget.Material.Light.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/restore" />
 
                 <Button
                     android:id="@+id/purchase_button"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
+                    style="@android:style/Widget.Material.Light.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/purchase"
-                    android:textColor="@color/md_amber_500" />
+                    android:textColor="@color/md_amber_500"/>
 
             </LinearLayout>
 

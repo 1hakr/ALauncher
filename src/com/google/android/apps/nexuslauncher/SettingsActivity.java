@@ -36,8 +36,11 @@ import com.google.android.apps.nexuslauncher.smartspace.SmartspaceController;
 
 import java.io.File;
 
+import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.helpers.Utils;
+
+import static dev.dworks.apps.alauncher.Settings.SUPPORT;
 
 public class SettingsActivity extends com.android.launcher3.SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
     public final static String ICON_PACK_PREF = "pref_icon_pack";
@@ -188,6 +191,31 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(RESTART_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceClickListener(this);
 
+            //PRO
+            findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceClickListener(this);
+            findPreference(Settings.EXTRA_BOTTOM_PADDING).setOnPreferenceClickListener(this);
+            findPreference(Settings.TOP_SEARCH_BAR_KEY).setOnPreferenceClickListener(this);
+            findPreference(Settings.PHYSICAL_ANIMATION_KEY).setOnPreferenceClickListener(this);
+            findPreference(Settings.TRANSPARENT_NAVIGATION_BAR).setOnPreferenceClickListener(this);
+            findPreference(Settings.FORCE_COLORED_G_ICON).setOnPreferenceClickListener(this);
+            findPreference(Settings.DARK_BOTTOM_SEARCH_BAR).setOnPreferenceClickListener(this);
+            findPreference(Settings.DARK_TOP_SEARCH_BAR).setOnPreferenceClickListener(this);
+            //findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceClickListener(this);
+            //findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceClickListener(this);
+            findPreference(Settings.QSB_VOICE_ICON).setOnPreferenceClickListener(this);
+            findPreference(Settings.BLACK_COLORS).setOnPreferenceClickListener(this);
+            findPreference(Settings.ALLOW_TWO_LINE_LABELS).setOnPreferenceClickListener(this);
+            findPreference(Settings.GENERATE_ADAPTIVE_ICONS).setOnPreferenceClickListener(this);
+            findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND).setOnPreferenceClickListener(this);
+            findPreference(Settings.GRID_COLUMNS).setOnPreferenceClickListener(this);
+            findPreference(Settings.GRID_ROWS).setOnPreferenceClickListener(this);
+            findPreference(Settings.HOTSEAT_ICONS).setOnPreferenceClickListener(this);
+            findPreference(Settings.ICON_SIZE).setOnPreferenceClickListener(this);
+            findPreference(Settings.ICON_TEXT_SIZE).setOnPreferenceClickListener(this);
+
+            if(App.isPurchased()) {
+                ((PreferenceScreen) getPreferenceScreen().findPreference("pref_main")).removePreference(findPreference(SUPPORT));
+            }
             if (SmartspaceController.get(mContext).cY()) {
                 findPreference(SMARTSPACE_SETTINGS).setOnPreferenceClickListener(this);
             } else {
@@ -248,6 +276,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.HOTSEAT_ICONS:
                 case Settings.ICON_SIZE:
                 case Settings.ICON_TEXT_SIZE:
+                    if(!App.isPurchased()) {
+                        break;
+                    }
                     if (preference instanceof ListPreference) {
                         ((ListPreference) preference).setValue((String) newValue);
                     }
@@ -277,6 +308,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.BLACK_COLORS:
                 case Settings.SHOW_CARET:
                 case Settings.ALLOW_TWO_LINE_LABELS:
+                    if(!App.isPurchased()) {
+                        break;
+                    }
                     if (preference instanceof TwoStatePreference) {
                         ((TwoStatePreference) preference).setChecked((boolean) newValue);
                     }
@@ -285,6 +319,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
                 case Settings.GENERATE_ADAPTIVE_ICONS:
                 case Settings.GENERATED_ADAPTIVE_BACKGROUND:
+                    if(!App.isPurchased()) {
+                        break;
+                    }
                     if (preference instanceof TwoStatePreference) {
                         ((TwoStatePreference) preference).setChecked((boolean) newValue);
                     }
@@ -355,6 +392,31 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     return true;
                 case ENABLE_MINUS_ONE_PREF:
                     Utils.checkBridge(getActivity());
+                    return true;
+                case Settings.BOTTOM_SEARCH_BAR_KEY:
+                case Settings.EXTRA_BOTTOM_PADDING:
+                case Settings.TOP_SEARCH_BAR_KEY:
+                case Settings.PHYSICAL_ANIMATION_KEY:
+                case Settings.TRANSPARENT_NAVIGATION_BAR:
+                case Settings.FORCE_COLORED_G_ICON:
+                case Settings.DARK_BOTTOM_SEARCH_BAR:
+                case Settings.DARK_TOP_SEARCH_BAR:
+                case Settings.LABEL_HIDDEN_ON_DESKTOP:
+                case Settings.LABEL_HIDDEN_ON_ALL_APPS:
+                case Settings.QSB_VOICE_ICON:
+                case Settings.BLACK_COLORS:
+                case Settings.SHOW_CARET:
+                case Settings.ALLOW_TWO_LINE_LABELS:
+                case Settings.GENERATE_ADAPTIVE_ICONS:
+                case Settings.GENERATED_ADAPTIVE_BACKGROUND:
+                case Settings.GRID_COLUMNS:
+                case Settings.GRID_ROWS:
+                case Settings.HOTSEAT_ICONS:
+                case Settings.ICON_SIZE:
+                case Settings.ICON_TEXT_SIZE:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    }
                     return true;
             }
             return false;

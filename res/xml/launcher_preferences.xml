@@ -13,8 +13,20 @@
      limitations under the License.
 -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_main">
+    <Preference
+        android:icon="@drawable/ic_support"
+        android:key="pref_support"
+        android:summary="@string/support_summary"
+        android:title="@string/support_title">
 
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="dev.dworks.apps.alauncher.PurchaseActivity"
+            android:targetPackage="dev.dworks.apps.alauncher.debug" />
+
+    </Preference>
     <PreferenceCategory
         android:key="pref_basic_category"
         android:title="Basic">
@@ -164,13 +176,13 @@
                 android:title="@string/color_category">
 
                 <ListPreference
-                    android:key="pref_override_theme"
-                    android:title="@string/theme_title"
-                    android:summary="%s"
+                    android:defaultValue=""
                     android:entries="@array/theme_override_names"
                     android:entryValues="@array/theme_override_values"
-                    android:defaultValue=""
-                    android:persistent="true" />
+                    android:key="pref_override_theme"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/theme_title" />
 
                 <SwitchPreference
                     android:defaultValue="false"
@@ -287,34 +299,34 @@
             android:title="@string/edit_apps_category">
 
             <!--<PreferenceCategory-->
-                <!--android:key="pref_visibility_category"-->
-                <!--android:title="@string/visibility_category">-->
+            <!--android:key="pref_visibility_category"-->
+            <!--android:title="@string/visibility_category">-->
 
-                <!--<Preference-->
-                    <!--android:key="pref_hide_apps"-->
-                    <!--android:summary="@string/hide_apps_summary"-->
-                    <!--android:title="@string/hide_apps_title">-->
+            <!--<Preference-->
+            <!--android:key="pref_hide_apps"-->
+            <!--android:summary="@string/hide_apps_summary"-->
+            <!--android:title="@string/hide_apps_title">-->
 
-                    <!--<intent-->
-                        <!--android:action="android.intent.action.VIEW"-->
-                        <!--android:targetClass="com.hdeva.launcher.HideAppsActivity"-->
-                        <!--android:targetPackage="@string/xmlApplicationId" />-->
+            <!--<intent-->
+            <!--android:action="android.intent.action.VIEW"-->
+            <!--android:targetClass="HideAppsActivity"-->
+            <!--android:targetPackage="@string/xmlApplicationId" />-->
 
-                <!--</Preference>-->
+            <!--</Preference>-->
 
-                <!--<SwitchPreference-->
-                    <!--android:defaultValue="false"-->
-                    <!--android:key="pref_label_hidden_on_desktop"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/hide_app_label_on_desktop_summary"-->
-                    <!--android:title="@string/hide_app_label_title" />-->
+            <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="pref_label_hidden_on_desktop"-->
+            <!--android:persistent="true"-->
+            <!--android:summary="@string/hide_app_label_on_desktop_summary"-->
+            <!--android:title="@string/hide_app_label_title" />-->
 
-                <!--<SwitchPreference-->
-                    <!--android:defaultValue="false"-->
-                    <!--android:key="pref_label_hidden_on_all_apps"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/hide_app_label_on_all_apps_summary"-->
-                    <!--android:title="@string/hide_app_label_title" />-->
+            <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="pref_label_hidden_on_all_apps"-->
+            <!--android:persistent="true"-->
+            <!--android:summary="@string/hide_app_label_on_all_apps_summary"-->
+            <!--android:title="@string/hide_app_label_title" />-->
 
             <!--</PreferenceCategory>-->
 
@@ -355,23 +367,23 @@
             </PreferenceCategory>
 
             <!--<PreferenceCategory-->
-                <!--android:key="pref_reset_category"-->
-                <!--android:title="@string/reset_category">-->
+            <!--android:key="pref_reset_category"-->
+            <!--android:title="@string/reset_category">-->
 
-                <!--<Preference-->
-                    <!--android:key="pref_reset_app_names"-->
-                    <!--android:summary="@string/reset_app_names_summary"-->
-                    <!--android:title="@string/reset_app_names_title" />-->
+            <!--<Preference-->
+            <!--android:key="pref_reset_app_names"-->
+            <!--android:summary="@string/reset_app_names_summary"-->
+            <!--android:title="@string/reset_app_names_title" />-->
 
-                <!--<Preference-->
-                    <!--android:key="pref_reset_app_visibility"-->
-                    <!--android:summary="@string/reset_app_visibility_summary"-->
-                    <!--android:title="@string/reset_app_visibility_title" />-->
+            <!--<Preference-->
+            <!--android:key="pref_reset_app_visibility"-->
+            <!--android:summary="@string/reset_app_visibility_summary"-->
+            <!--android:title="@string/reset_app_visibility_title" />-->
 
-                <!--<Preference-->
-                    <!--android:key="pref_reset_app_icons"-->
-                    <!--android:summary="@string/reset_app_icons_summary"-->
-                    <!--android:title="@string/reset_app_icons_title" />-->
+            <!--<Preference-->
+            <!--android:key="pref_reset_app_icons"-->
+            <!--android:summary="@string/reset_app_icons_summary"-->
+            <!--android:title="@string/reset_app_icons_title" />-->
 
             <!--</PreferenceCategory>-->
 
@@ -397,22 +409,22 @@
             android:title="@string/gestures_and_actions">
 
             <!--<PreferenceCategory-->
-                <!--android:key="pref_gestures_category"-->
-                <!--android:title="@string/gestures_category">-->
+            <!--android:key="pref_gestures_category"-->
+            <!--android:title="@string/gestures_category">-->
 
-                <!--<SwitchPreference-->
-                    <!--android:defaultValue="true"-->
-                    <!--android:key="pref_one_finger_down"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/one_finger_down_summary"-->
-                    <!--android:title="@string/one_finger_down_title" />-->
+            <!--<SwitchPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="pref_one_finger_down"-->
+            <!--android:persistent="true"-->
+            <!--android:summary="@string/one_finger_down_summary"-->
+            <!--android:title="@string/one_finger_down_title" />-->
 
-                <!--<SwitchPreference-->
-                    <!--android:defaultValue="true"-->
-                    <!--android:key="pref_two_finger_down"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/two_finger_down_summary"-->
-                    <!--android:title="@string/two_finger_down_title" />-->
+            <!--<SwitchPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="pref_two_finger_down"-->
+            <!--android:persistent="true"-->
+            <!--android:summary="@string/two_finger_down_summary"-->
+            <!--android:title="@string/two_finger_down_title" />-->
 
             <!--</PreferenceCategory>-->
 
@@ -421,28 +433,28 @@
                 android:title="@string/actions_category">
 
                 <!--<SwitchPreference-->
-                    <!--android:defaultValue="false"-->
-                    <!--android:key="pref_double_tap_to_lock"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/double_tap_to_lock_summary"-->
-                    <!--android:title="@string/double_tap_to_lock_title" />-->
+                <!--android:defaultValue="false"-->
+                <!--android:key="pref_double_tap_to_lock"-->
+                <!--android:persistent="true"-->
+                <!--android:summary="@string/double_tap_to_lock_summary"-->
+                <!--android:title="@string/double_tap_to_lock_title" />-->
 
                 <!--<SwitchPreference-->
-                    <!--android:defaultValue="false"-->
-                    <!--android:dependency="pref_double_tap_to_lock"-->
-                    <!--android:key="pref_double_tap_to_lock_is_secure"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="@string/double_tap_to_secure_lock_summary"-->
-                    <!--android:title="@string/double_tap_to_secure_lock_title" />-->
+                <!--android:defaultValue="false"-->
+                <!--android:dependency="pref_double_tap_to_lock"-->
+                <!--android:key="pref_double_tap_to_lock_is_secure"-->
+                <!--android:persistent="true"-->
+                <!--android:summary="@string/double_tap_to_secure_lock_summary"-->
+                <!--android:title="@string/double_tap_to_secure_lock_title" />-->
 
                 <!--<ListPreference-->
-                    <!--android:defaultValue="nothing"-->
-                    <!--android:entries="@array/home_action_names"-->
-                    <!--android:entryValues="@array/home_action_values"-->
-                    <!--android:key="pref_home_action"-->
-                    <!--android:persistent="true"-->
-                    <!--android:summary="%s"-->
-                    <!--android:title="@string/home_action_title" />-->
+                <!--android:defaultValue="nothing"-->
+                <!--android:entries="@array/home_action_names"-->
+                <!--android:entryValues="@array/home_action_values"-->
+                <!--android:key="pref_home_action"-->
+                <!--android:persistent="true"-->
+                <!--android:summary="%s"-->
+                <!--android:title="@string/home_action_title" />-->
 
                 <SwitchPreference
                     android:defaultValue="true"

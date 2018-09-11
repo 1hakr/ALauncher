@@ -234,10 +234,12 @@
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/lollipopStatusBar</item>
+        <item name="android:statusBarColor">@color/colorAccentSecondary</item>
     </style>
     <style name="SettingsTheme.ActionBar">
-        <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:colorPrimary">@color/colorAccent</item>
+        <item name="android:colorPrimaryDark">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:colorControlNormal">@color/colorAccent</item>
     </style>
     <style name="DialogAlert" parent="@android:style/Theme.Material.Light.Dialog.Alert">

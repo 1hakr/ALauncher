@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.Toolbar;
 
 import com.android.launcher3.R;
-import com.google.android.material.appbar.AppBarLayout;
 
 import androidx.core.content.ContextCompat;
 import dev.dworks.apps.alauncher.helpers.Utils;
@@ -19,7 +18,6 @@ import needle.UiRelatedTask;
 public class PurchaseActivity extends Activity {
 
     public static final String TAG = PurchaseActivity.class.getSimpleName();
-    int color;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +25,13 @@ public class PurchaseActivity extends Activity {
         setContentView(R.layout.activity_purchase);
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        mToolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+        mToolbar.setTitleTextAppearance(this, android.R.style.TextAppearance_Material_Widget_ActionBar_Title);
         int color = ContextCompat.getColor(this, R.color.colorAccent);
         mToolbar.setBackgroundColor(color);
-        appBarLayout.setBackgroundColor(color);
         setActionBar(mToolbar);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle(getString(R.string.support_app));
-
+        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentSecondary));
         initControls();
         App.getInstance().initializeBilling();
     }
@@ -46,9 +42,6 @@ public class PurchaseActivity extends Activity {
         Button purchaseButton = (Button) findViewById(R.id.purchase_button);
         restoreButton.setEnabled(true);
         purchaseButton.setEnabled(true);
-
-
-        purchaseButton.setTextColor(color);
 
         restoreButton.setOnClickListener(new View.OnClickListener() {
             @Override

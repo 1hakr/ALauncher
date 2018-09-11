@@ -5,7 +5,6 @@
 
     <string name="settings_title" translatable="false">Settings</string>
 
-    <integer name="bridge_signature_hash">0xB662CC2F</integer>
     <string name="bridge_download_url" translatable="false">https://raw.githubusercontent.com/1hakr/ALauncher/master/companion-bridge-debug.apk?raw=true</string>
     <string name="bridge_download_version" translatable="false">1.0</string>
     <string name="bridge_download_file" translatable="false">bridge.apk</string>
@@ -18,12 +17,12 @@
 
     //PRO
     <string name="app_pro">ALauncher Pro</string>
-    <string name="app_pro_content">Unlocks extra features, such as the Network &amp; Cloud Storage,
-        Root Storage, USB Storage and removes ads. \n\nThe source code of AnExplorer is available on GitHub.
+    <string name="app_pro_content">Unlocks extra features, such as the Shortcuts, Gestures, Edit apps
+        Theme customisations and removes ads. \n\nThe source code of ALauncher is available on GitHub.
         You are welcome to compile the pro version yourself for free.
-        \n\nHowever if you like what I do and love AnExplorer and want us to survive,
+        \n\nHowever if you like what I do and love ALauncher and want us to survive,
         please support the development and receive updates through the Play Store, consider purchasing
-        AnExplorer Pro.
+        ALauncher Pro.
         \n\nThank you,\nHari</string>
     <string name="restoring_purchase">Restoring purchase…</string>
     <string name="could_not_restore_purchase">Could not restore purchase.</string>
@@ -32,6 +31,9 @@
     <string name="thank_you">Thank you!</string>
     <string name="support_app">Support ALauncher</string>
     <string name="restored_previous_purchase_please_restart">Restored previous purchase.</string>
+
+    <string name="support_title">Support ALauncher</string>
+    <string name="support_summary">Support the development and receive updates through the Play Store</string>
 
     <string name="at_a_glance_category">At A Glance</string>
     <string name="other_category">Other</string>

@@ -28,7 +28,7 @@ import needle.Needle;
 
 public abstract class AppFlavour extends Application implements BillingProcessor.IBillingHandler {
 	private static final String PURCHASE_PRODUCT_ID = "purchase_product_id";
-    public static final String PURCH_ID = BuildConfig.APPLICATION_ID + ".purch";
+    public static final String PURCH_ID = "dev.dworks.apps.alauncher" + ".purch";
     public static final String PURCHASED = "purchased";
     private static final int IAP_ID_CODE = 1;
 
@@ -47,7 +47,7 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 	}
 
 	public static boolean isPurchased() {
-		return BuildConfig.DEBUG || PreferenceUtils.getBooleanPrefs(PURCHASED);
+		return PreferenceUtils.getBooleanPrefs(PURCHASED);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 	}
 
 	public static String getPurchaseId(){
-		return PURCH_ID+ ".pro" + IAP_ID_CODE;
+		return PURCH_ID + ".pro" + IAP_ID_CODE;
 	}
 
 	public static String getPurchasedProductId(){

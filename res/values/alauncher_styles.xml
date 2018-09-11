@@ -9,4 +9,16 @@
     <style name="GoogleSearchLauncherThemeBlack" parent="@style/LauncherThemeBlack">
         <item name="android:keyboardLayout">@layout/search_container_all_apps_google</item>
     </style>
+
+    <style name="DefaultTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimaryDark">@color/colorAccentSecondary</item>
+        <item name="android:colorPrimary">@android:color/transparent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlNormal">@color/primary_text_default_material_dark</item>
+        <item name="android:colorControlActivated">@color/primary_text_default_material_dark</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@android:style/Theme.Material.Light">
+        <item name="android:colorControlNormal">@android:color/white</item>
+    </style>
 </resources>

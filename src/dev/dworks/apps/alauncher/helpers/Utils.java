@@ -18,7 +18,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -30,7 +29,7 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
@@ -43,7 +42,6 @@ import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.LooperExecutor;
 import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
 import com.google.android.libraries.gsa.launcherclient.LauncherClient;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
 import java.util.List;
@@ -96,18 +94,7 @@ public class Utils {
     }
 
     public static void showSnackBar(Activity activity, int text){
-        Snackbar snackbar = Snackbar.make(activity.findViewById(R.id.content_view), text, Snackbar.LENGTH_SHORT);
-        snackbar.show();
-    }
-
-    public static void showSnackBar(Activity activity, String text, int duration, String action, View.OnClickListener listener){
-        Snackbar snackbar = Snackbar.make(activity.findViewById(R.id.content_view), text, duration);
-        int color = Color.parseColor("#EF3A0F");
-        if (null != listener) {
-            snackbar.setAction(action, listener)
-                    .setActionTextColor(color);
-        }
-        snackbar.show();
+        Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
     }
 
     public static void reload(Context context) {

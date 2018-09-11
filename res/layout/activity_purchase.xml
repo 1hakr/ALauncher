@@ -9,24 +9,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <FrameLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="128dp"
             android:background="@color/colorAccent"
             android:elevation="4dp">
 
-            <androidx.appcompat.widget.Toolbar
+            <Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/transparent"
-                app:contentInsetLeft="@dimen/second_keyline_default"
-                app:contentInsetStart="@dimen/second_keyline_default"
-                app:popupTheme="?attr/actionBarPopupTheme"
-                app:theme="?attr/actionBarTheme" />
+                android:layout_height="wrap_content"
+                android:background="?android:attr/colorAccent"
+                android:contentInsetLeft="@dimen/second_keyline_default"
+                android:contentInsetStart="@dimen/second_keyline_default"
+                android:titleTextColor="@android:color/white"
+                android:minHeight="?android:attr/actionBarSize"
+                android:theme="@style/ToolbarTheme" />
 
-        </com.google.android.material.appbar.AppBarLayout>
+        </FrameLayout>
 
         <ScrollView
             android:layout_width="match_parent"
