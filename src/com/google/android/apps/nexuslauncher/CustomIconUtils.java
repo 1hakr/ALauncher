@@ -77,7 +77,7 @@ public class CustomIconUtils {
         edit.apply();
     }
 
-    static boolean usingValidPack(Context context) {
+    public static boolean usingValidPack(Context context) {
         return isPackProvider(context, getCurrentPack(context));
     }
 

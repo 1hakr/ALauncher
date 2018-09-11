@@ -20,7 +20,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.LauncherApps;
 import android.service.notification.StatusBarNotification;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.android.launcher3.ItemInfo;
@@ -46,6 +45,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
+import dev.dworks.apps.alauncher.Settings;
+
 /**
  * Provides data for the popup menu that appears after long-clicking on apps.
  */
@@ -55,7 +57,7 @@ public class PopupDataProvider implements NotificationListener.NotificationsChan
     private static final String TAG = "PopupDataProvider";
 
     /** Note that these are in order of priority. */
-    private final SystemShortcut[] mSystemShortcuts;
+    private SystemShortcut[] mSystemShortcuts;
 
     private final Launcher mLauncher;
 
@@ -66,11 +68,22 @@ public class PopupDataProvider implements NotificationListener.NotificationsChan
 
     public PopupDataProvider(Launcher launcher) {
         mLauncher = launcher;
-        mSystemShortcuts = new SystemShortcut[] {
-                Utilities.getOverrideObject(SystemShortcut.Custom.class, launcher, R.string.custom_shortcut_class),
-                new SystemShortcut.AppInfo(),
-                new SystemShortcut.Widgets(),
-        };
+
+        if (Settings.isDesktopLocked(launcher)) {
+            mSystemShortcuts = new SystemShortcut[] {
+                    Utilities.getOverrideObject(SystemShortcut.Custom.class, launcher, R.string.custom_shortcut_class),
+                    new SystemShortcut.AppInfo(),
+                    new SystemShortcut.Widgets(),
+            };
+        } else {
+            mSystemShortcuts = new SystemShortcut[] {
+                    Utilities.getOverrideObject(SystemShortcut.Custom.class, launcher, R.string.custom_shortcut_class),
+                    new SystemShortcut.Edit(),
+                    new SystemShortcut.Uninstall(),
+                    new SystemShortcut.AppInfo(),
+                    new SystemShortcut.Widgets(),
+            };
+        }
     }
 
     @Override

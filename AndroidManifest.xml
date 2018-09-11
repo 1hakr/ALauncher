@@ -64,6 +64,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <uses-permission android:name="com.huawei.wallpaperservcie.permission.SET_WALLPAPER_OFFSET" />
+
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
@@ -190,7 +192,7 @@
         -->
         <meta-data android:name="android.max_aspect" android:value="2.1" />
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
-
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
         <!-- Bridge -->
         <provider
             android:name="androidx.core.content.FileProvider"

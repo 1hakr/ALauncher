@@ -1,9 +1,12 @@
 package com.android.launcher3.popup;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.android.launcher3.AbstractFloatingView;
@@ -11,11 +14,18 @@ import com.android.launcher3.InfoDropTarget;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
+import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.model.WidgetItem;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.widget.WidgetsBottomSheet;
+import com.google.android.apps.nexuslauncher.CustomBottomSheet;
+import com.google.android.apps.nexuslauncher.CustomDrawableFactory;
+import com.google.android.apps.nexuslauncher.CustomIconUtils;
 
 import java.util.List;
+
+import dev.dworks.apps.alauncher.Settings;
 
 import static com.android.launcher3.userevent.nano.LauncherLogProto.Action;
 import static com.android.launcher3.userevent.nano.LauncherLogProto.ControlType;
@@ -58,6 +68,98 @@ public abstract class SystemShortcut extends ItemInfo {
         }
     }
 
+    public static class CustomEditShortcut extends SystemShortcut {
+        public CustomEditShortcut() {
+            super(R.drawable.ic_edit_no_shadow, R.string.action_preferences);
+        }
+
+        @Override
+        public View.OnClickListener getOnClickListener(final Launcher launcher, final ItemInfo itemInfo) {
+            if (CustomIconUtils.usingValidPack(launcher)) {
+                CustomDrawableFactory factory = (CustomDrawableFactory) DrawableFactory.get(launcher);
+                factory.ensureInitialLoadComplete();
+            }
+
+            return new View.OnClickListener() {
+                private boolean mOpened = false;
+
+                @Override
+                public void onClick(View view) {
+                    if (!mOpened) {
+                        mOpened = true;
+                        AbstractFloatingView.closeAllOpenViews(launcher);
+                        CustomBottomSheet cbs = (CustomBottomSheet) launcher.getLayoutInflater()
+                                .inflate(R.layout.app_edit_bottom_sheet, launcher.getDragLayer(), false);
+                        cbs.populateAndShow(itemInfo);
+                    }
+                }
+            };
+        }
+    }
+
+
+    public static class Edit extends CustomEditShortcut {
+        @Override
+        public View.OnClickListener getOnClickListener(Launcher launcher, ItemInfo itemInfo) {
+            if (Settings.isDesktopLocked(launcher)) {
+                if (!Settings.isLockedEditVisible(launcher)) {
+                    return null;
+                }
+            } else {
+                if (!Settings.isUnlockedEditVisible(launcher)) {
+                    return null;
+                }
+            }
+
+            return super.getOnClickListener(launcher, itemInfo);
+        }
+    }
+
+    public static class Uninstall extends SystemShortcut {
+
+        public Uninstall() {
+            super(R.drawable.ic_delete_no_shadow, R.string.uninstall_drop_target_label);
+        }
+
+        @Override
+        public View.OnClickListener getOnClickListener(final Launcher launcher, final ItemInfo itemInfo) {
+            if (Settings.isDesktopLocked(launcher)) {
+                if (!Settings.isLockedUninstallVisible(launcher)) {
+                    return null;
+                }
+            } else {
+                if (!Settings.isUnlockedUninstallVisible(launcher)) {
+                    return null;
+                }
+            }
+
+            boolean isSystemApp;
+            try {
+                isSystemApp = Utilities.isSystemApp(launcher, itemInfo.getIntent());
+            } catch (Throwable t) {
+                isSystemApp = false;
+            }
+
+            if (isSystemApp) {
+                return null;
+            }
+
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        AbstractFloatingView.closeAllOpenViews(launcher);
+                        Intent intent = new Intent(Intent.ACTION_DELETE);
+                        intent.setData(Uri.parse("package:" + itemInfo.getTargetComponent().getPackageName()));
+                        v.getContext().startActivity(intent);
+                    } catch (Throwable t) {
+                        Log.e("UninstallShortcut", "Failed to start uninstall intent for: " + itemInfo.toString(), t);
+                    }
+                }
+            };
+        }
+    }
+
     public static class Widgets extends SystemShortcut {
 
         public Widgets() {
@@ -67,6 +169,14 @@ public abstract class SystemShortcut extends ItemInfo {
         @Override
         public View.OnClickListener getOnClickListener(final Launcher launcher,
                 final ItemInfo itemInfo) {
+            if (Settings.isDesktopLocked(launcher)) {
+                return null;
+            } else {
+                if (!Settings.isUnlockedWidgetsVisible(launcher)) {
+                    return null;
+                }
+            }
+
             final List<WidgetItem> widgets = launcher.getWidgetsForPackageUser(new PackageUserKey(
                     itemInfo.getTargetComponent().getPackageName(), itemInfo.user));
             if (widgets == null) {

@@ -38,9 +38,9 @@ import android.os.Handler;
 import android.os.Process;
 import android.os.SystemClock;
 import android.os.UserHandle;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.compat.UserManagerCompat;
 import com.android.launcher3.config.FeatureFlags;
@@ -52,12 +52,16 @@ import com.android.launcher3.util.Preconditions;
 import com.android.launcher3.util.Provider;
 import com.android.launcher3.util.SQLiteCacheHelper;
 import com.android.launcher3.util.Thunk;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
+
+import androidx.annotation.NonNull;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * Cache of application icons.  Icons can be made from any thread.
@@ -481,7 +485,8 @@ public class IconCache {
     }
 
     private void applyCacheEntry(CacheEntry entry, ItemInfoWithIcon info) {
-        info.title = Utilities.trim(entry.title);
+        String editedTitle = Settings.getCustomAppName(mContext, info.getTargetComponent());
+        info.title = Utilities.trim(TextUtils.isEmpty(editedTitle) ? entry.title : editedTitle);
         info.contentDescription = entry.contentDescription;
         info.iconBitmap = entry.icon == null ? getDefaultIcon(info.user) : entry.icon;
         info.usingLowResIcon = entry.isLowResIcon;

@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import dev.dworks.apps.alauncher.Settings;
+
 public class InvariantDeviceProfile {
 
     // This is a static that we use for the default icon size on a 4/5-inch phone
@@ -143,19 +145,21 @@ public class InvariantDeviceProfile {
                 invDistWeightedInterpolate(minWidthDps,  minHeightDps, closestProfiles);
 
         InvariantDeviceProfile closestProfile = closestProfiles.get(0);
-        numRows = closestProfile.numRows;
-        numColumns = closestProfile.numColumns;
-        numHotseatIcons = closestProfile.numHotseatIcons;
+        numRows = Settings.getGridRows(context, closestProfile.numRows);
+        numColumns = Settings.getGridColumns(context, closestProfile.numColumns);
+        numHotseatIcons = Settings.getHotseatIcons(context, closestProfile.numHotseatIcons);
         defaultLayoutId = closestProfile.defaultLayoutId;
         demoModeLayoutId = closestProfile.demoModeLayoutId;
         numFolderRows = closestProfile.numFolderRows;
         numFolderColumns = closestProfile.numFolderColumns;
         minAllAppsPredictionColumns = closestProfile.minAllAppsPredictionColumns;
 
-        iconSize = interpolatedDeviceProfileOut.iconSize;
-        landscapeIconSize = interpolatedDeviceProfileOut.landscapeIconSize;
+        float iconSizeModifier = Settings.getIconSizeModifier(context);
+        iconSize = interpolatedDeviceProfileOut.iconSize * iconSizeModifier;
+        landscapeIconSize = interpolatedDeviceProfileOut.landscapeIconSize * iconSizeModifier;
         iconBitmapSize = Utilities.pxFromDp(iconSize, dm);
-        iconTextSize = interpolatedDeviceProfileOut.iconTextSize;
+        float iconTextSizeModifier = Settings.getIconTextSizeModifier(context);
+        iconTextSize = interpolatedDeviceProfileOut.iconTextSize * iconTextSizeModifier;
         fillResIconDpi = getLauncherIconDensity(iconBitmapSize);
 
         // If the partner customization apk contains any grid overrides, apply them

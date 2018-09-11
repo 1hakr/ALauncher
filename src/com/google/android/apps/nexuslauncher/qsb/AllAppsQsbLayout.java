@@ -3,11 +3,6 @@ package com.google.android.apps.nexuslauncher.qsb;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.dynamicanimation.animation.FloatPropertyCompat;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -24,7 +19,18 @@ import com.android.launcher3.allapps.SearchUiManager;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.Themes;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.dynamicanimation.animation.FloatPropertyCompat;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.recyclerview.widget.RecyclerView;
+import dev.dworks.apps.alauncher.Settings;
+
 public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManager, WallpaperColorInfo.OnChangeListener {
+    protected static final int DARK_QSB_COLOR = 0xA0424242;
+    protected static final int DARK_QSB_TEXT_COLOR = 0xffffffff;
+
     private AllAppsRecyclerView mRecyclerView;
     private FallbackAppsSearchView mFallback;
     private int mAlpha;
@@ -59,6 +65,7 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
                 allAppsQsbLayout.setTranslationY(Math.round(mStartY + v));
             }
         }, 0f);
+        setVisibility(Settings.isTopSearchBarVisible(context) ? VISIBLE : GONE);
     }
 
     public void addOnScrollRangeChangeListener(final SearchUiManager.OnScrollRangeChangeListener onScrollRangeChangeListener) {
@@ -165,8 +172,8 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
     }
 
     public void onExtractedColorsChanged(final WallpaperColorInfo wallpaperColorInfo) {
-        int color = getResources().getColor(Themes.getAttrBoolean(mActivity, R.attr.isMainColorDark) ? R.color.qsb_background_drawer_dark : R.color.qsb_background_drawer_default);
-        bz(ColorUtils.compositeColors(ColorUtils.compositeColors(color, Themes.getAttrColor(mActivity, R.attr.allAppsScrimColor)), wallpaperColorInfo.getMainColor()));
+        int color = Settings.isTopSearchBarDark(mActivity) ? R.color.qsb_dark_color : Themes.getAttrBoolean(mActivity, R.attr.isMainColorDark) ? R.color.qsb_background_drawer_dark : R.color.qsb_background_drawer_default;
+        bz(ColorUtils.compositeColors(ColorUtils.compositeColors(ContextCompat.getColor(mActivity, color), Themes.getAttrColor(mActivity, R.attr.allAppsScrimColor)), wallpaperColorInfo.getMainColor()));
     }
 
     public void preDispatchKeyEvent(final KeyEvent keyEvent) {
@@ -177,6 +184,9 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
         if (mFallback == null) {
             mFallback = (FallbackAppsSearchView) mActivity.getLayoutInflater()
                     .inflate(R.layout.all_apps_google_search_fallback, this, false);
+            if (Themes.getAttrBoolean(getContext(), R.attr.isMainColorDark) && Settings.isTopSearchBarDark(mActivity)) {
+                mFallback.setTextColor(DARK_QSB_TEXT_COLOR);
+            }
             mFallback.initialize(this, mApps, mRecyclerView);
             mFallback.setOnFocusChangeListener(new OnFocusChangeListener() {
                 @Override
@@ -211,5 +221,20 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
     @NonNull
     public SpringAnimation getSpringForFling() {
         return mSpring;
+    }
+
+    private void searchFallback() {
+        if (mFallback != null) {
+            mFallback.showKeyboard();
+            return;
+        }
+        setOnClickListener(null);
+        mFallback = (FallbackAppsSearchView) mActivity.getLayoutInflater().inflate(R.layout.all_apps_google_search_fallback, this, false);
+        if (Themes.getAttrBoolean(getContext(), R.attr.isMainColorDark) && Settings.isTopSearchBarDark(mActivity)) {
+            mFallback.setTextColor(DARK_QSB_TEXT_COLOR);
+        }
+        mFallback.bu(this, mApps, mRecyclerView);
+        addView(mFallback);
+        mFallback.showKeyboard();
     }
 }

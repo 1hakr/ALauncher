@@ -41,6 +41,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
+import dev.dworks.apps.alauncher.helpers.CrashHelper;
 
 /**
  * List view adapter for the widget tray.
@@ -110,6 +111,13 @@ public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
 
         WidgetItemComparator widgetComparator = new WidgetItemComparator();
         for (Map.Entry<PackageItemInfo, ArrayList<WidgetItem>> entry : widgets.entrySet()) {
+            try {
+                if (entry.getKey().packageName.toLowerCase().contains("huawei")) {
+                    continue;
+                }
+            } catch (Throwable t) {
+                CrashHelper.logException(new Exception("Error inspecting widget for origin", t));
+            }
             WidgetListRowEntry row = new WidgetListRowEntry(entry.getKey(), entry.getValue());
             row.titleSectionName = mIndexer.computeSectionName(row.pkgItem.title);
             Collections.sort(row.widgets, widgetComparator);

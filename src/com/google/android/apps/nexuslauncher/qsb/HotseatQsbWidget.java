@@ -32,6 +32,9 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.dragndrop.DragLayer;
 
+import androidx.core.content.ContextCompat;
+import dev.dworks.apps.alauncher.Settings;
+
 public class HotseatQsbWidget extends AbstractQsbLayout {
     private boolean mIsDefaultLiveWallpaper;
     private boolean mGoogleHasFocus;
@@ -58,6 +61,8 @@ public class HotseatQsbWidget extends AbstractQsbLayout {
         mIsDefaultLiveWallpaper = isDefaultLiveWallpaper();
         setColors();
         setOnClickListener(this);
+
+        setVisibility(Settings.isBottomSearchBarVisible(context) ? VISIBLE : GONE);
     }
 
     static int getBottomMargin(Launcher launcher) {
@@ -69,8 +74,9 @@ public class HotseatQsbWidget extends AbstractQsbLayout {
     }
 
     private void setColors() {
-        View.inflate(new ContextThemeWrapper(getContext(), mIsDefaultLiveWallpaper ? R.style.HotseatQsbTheme_Colored : R.style.HotseatQsbTheme), R.layout.qsb_hotseat_content, this);
-        bz(getResources().getColor(mIsDefaultLiveWallpaper ? R.color.qsb_background_hotseat_white : R.color.qsb_background_hotseat_default));
+        View.inflate(new ContextThemeWrapper(getContext(), Settings.isColoredGIconForced(getContext()) || mIsDefaultLiveWallpaper ? R.style.HotseatQsbTheme_Colored : R.style.HotseatQsbTheme), R.layout.qsb_hotseat_content, this);
+        int color = Settings.isBottomSearchBarDark(getContext()) ? R.color.qsb_dark_color : mIsDefaultLiveWallpaper ? R.color.qsb_background_hotseat_white : R.color.qsb_background_hotseat_default;
+        bz(ContextCompat.getColor(mActivity, color));
     }
 
     private void openQSB() {
@@ -117,24 +123,30 @@ public class HotseatQsbWidget extends AbstractQsbLayout {
     }
 
     private void doOnClick() {
-        final ConfigBuilder f = new ConfigBuilder(this, false);
-        if (mActivity.getGoogleNow().startSearch(f.build(), f.getExtras())) {
-            SharedPreferences devicePrefs = Utilities.getDevicePrefs(getContext());
-            devicePrefs.edit().putInt("key_hotseat_qsb_tap_count", devicePrefs.getInt("key_hotseat_qsb_tap_count", 0) + 1).apply();
-            playQsbAnimation();
-        } else {
-            getContext().sendOrderedBroadcast(getSearchIntent(), null,
-                    new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            Log.e("HotseatQsbSearch", getResultCode() + " " + getResultData());
-                            if (getResultCode() == 0) {
-                                fallbackSearch("com.google.android.googlequicksearchbox.TEXT_ASSIST");
-                            } else {
-                                playQsbAnimation();
+        String provider = Settings.getSearchProvider(getContext());
+        if(provider.contains("google")) {
+            final ConfigBuilder f = new ConfigBuilder(this, false);
+            if (mActivity.getGoogleNow().startSearch(f.build(), f.getExtras())) {
+                SharedPreferences devicePrefs = Utilities.getDevicePrefs(getContext());
+                devicePrefs.edit().putInt("key_hotseat_qsb_tap_count", devicePrefs.getInt("key_hotseat_qsb_tap_count", 0) + 1).apply();
+                playQsbAnimation();
+            } else {
+                getContext().sendOrderedBroadcast(getSearchIntent(), null,
+                        new BroadcastReceiver() {
+                            @Override
+                            public void onReceive(Context context, Intent intent) {
+                                Log.e("HotseatQsbSearch", getResultCode() + " " + getResultData());
+                                if (getResultCode() == 0) {
+                                    fallbackSearch("com.google.android.googlequicksearchbox.TEXT_ASSIST");
+                                } else {
+                                    playQsbAnimation();
+                                }
                             }
-                        }
-                    }, null, 0, null, null);
+                        }, null, 0, null, null);
+            }
+        } else {
+            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(provider)));
+            playQsbAnimation();
         }
     }
 

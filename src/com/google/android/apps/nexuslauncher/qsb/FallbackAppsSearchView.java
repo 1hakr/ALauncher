@@ -1,8 +1,6 @@
 package com.google.android.apps.nexuslauncher.qsb;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.android.launcher3.ExtendedEditText;
@@ -16,6 +14,9 @@ import com.android.launcher3.discovery.AppDiscoveryUpdateState;
 import com.google.android.apps.nexuslauncher.search.SearchThread;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class FallbackAppsSearchView extends ExtendedEditText implements AllAppsSearchBarController.Callbacks {
     private AllAppsQsbLayout mQsbLayout;
@@ -43,6 +44,14 @@ public class FallbackAppsSearchView extends ExtendedEditText implements AllAppsS
     }
 
     public void initialize(AllAppsQsbLayout qsbLayout, AlphabeticalAppsList apps, AllAppsRecyclerView appsRecyclerView) {
+        mQsbLayout = qsbLayout;
+        mApps = apps;
+        mAppsRecyclerView = appsRecyclerView;
+        mAdapter = (AllAppsGridAdapter) appsRecyclerView.getAdapter();
+        mSearchBarController.initialize(new SearchThread(getContext()), this, Launcher.getLauncher(getContext()), this);
+    }
+
+    public void bu(AllAppsQsbLayout qsbLayout, AlphabeticalAppsList apps, AllAppsRecyclerView appsRecyclerView) {
         mQsbLayout = qsbLayout;
         mApps = apps;
         mAppsRecyclerView = appsRecyclerView;

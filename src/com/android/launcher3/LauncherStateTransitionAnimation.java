@@ -36,6 +36,8 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.util.Thunk;
 import com.android.launcher3.widget.WidgetsContainerView;
 
+import dev.dworks.apps.alauncher.Settings;
+
 /**
  * TODO: figure out what kind of tests we can write for this
  *
@@ -334,7 +336,7 @@ public class LauncherStateTransitionAnimation {
             toView.post(new StartAnimRunnable(animation, toView));
             mCurrentAnimation = animation;
         } else if (animType == PULLUP) {
-            if (!FeatureFlags.LAUNCHER3_PHYSICS) {
+            if (!FeatureFlags.LAUNCHER3_PHYSICS && Settings.isPhysicalAnimationEnabled(mLauncher.getApplicationContext())) {
                 // We are animating the content view alpha, so ensure we have a layer for it.
                 layerViews.addView(contentView);
             }

@@ -149,6 +149,8 @@ import java.util.Set;
 import java.util.concurrent.Executor;
 
 import androidx.annotation.Nullable;
+import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.helpers.Utils;
 
 import static com.android.launcher3.util.RunnableWithId.RUNNABLE_ID_BIND_APPS;
 import static com.android.launcher3.util.RunnableWithId.RUNNABLE_ID_BIND_WIDGETS;
@@ -497,7 +499,11 @@ public class Launcher extends BaseActivity
 
     protected void overrideTheme(boolean isDark, boolean supportsDarkText, boolean isTransparent) {
         if (isDark) {
-            setTheme(R.style.LauncherThemeDark);
+            if (Settings.shouldUseBlackColors(this)) {
+                setTheme(R.style.LauncherThemeBlack);
+            } else {
+                setTheme(R.style.LauncherThemeDark);
+            }
         } else if (supportsDarkText) {
             setTheme(R.style.LauncherThemeDarkText);
         } else if (isTransparent) {
@@ -1198,7 +1204,10 @@ public class Launcher extends BaseActivity
                 // If there are multiple keystrokes before the search dialog takes focus,
                 // onSearchRequested() will be called for every keystroke,
                 // but it is idempotent, so it's fine.
-                return onSearchRequested();
+                // ...
+                // lets do quicksearch instead
+                Utils.startQuickSearch(this);
+                return true;
             }
         }
 
@@ -2499,9 +2508,10 @@ public class Launcher extends BaseActivity
      * on the home screen.
      */
     public void onClickAddWidgetButton(View view) {
-        if (LOGD) Log.d(TAG, "onClickAddWidgetButton");
         if (mIsSafeModeEnabled) {
             Toast.makeText(this, R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
+        } else if (Settings.isDesktopLocked(this)) {
+            Toast.makeText(this, R.string.desktop_is_locked, Toast.LENGTH_SHORT).show();
         } else {
             showWidgetsView(true /* animated */, true /* resetPageToZero */);
         }
@@ -2802,6 +2812,13 @@ public class Launcher extends BaseActivity
                 }
             }
         }
+        if ((v instanceof PageIndicator) || (v == mAllAppsButton && mAllAppsButton != null)) {
+            if (Settings.shouldOpenAppSearchOnCaretLongPress(this)) {
+                Utils.openAppSearch(this);
+                return true;
+            }
+        }
+
         return true;
     }
 
@@ -2947,6 +2964,17 @@ public class Launcher extends BaseActivity
             tryAndUpdatePredictedApps();
         }
         showAppsOrWidgets(State.APPS, animated, focusSearchBar);
+    }
+
+    /**
+     * Shows the apps view with search opened at the end.
+     */
+    public void showAppsViewWithSearch(boolean animated, boolean updatePredictedApps) {
+        markAppsViewShown();
+        if (updatePredictedApps) {
+            tryAndUpdatePredictedApps();
+        }
+        showAppsOrWidgets(State.APPS, animated, true);
     }
 
     /**
@@ -4062,6 +4090,32 @@ public class Launcher extends BaseActivity
                 // Recreate the activity so that it initializes the rotation preference again.
                 recreate();
             }
+        }
+    }
+
+    private void handleHomeAction() {
+        switch(Settings.getHomeAction(this)) {
+            case "nothing":
+                // ignore
+                break;
+            case "quicksearch":
+                Utils.startQuickSearch(this);
+                break;
+            case "voicesearch":
+                Utils.startVoiceSearch(this);
+                break;
+            case "appdrawer":
+                Utils.openAppDrawer(this);
+                break;
+            case "appsearch":
+                Utils.openAppSearch(this);
+                break;
+            case "overview":
+                Utils.openOverview(this);
+                break;
+            default:
+                // ignore
+                break;
         }
     }
 }

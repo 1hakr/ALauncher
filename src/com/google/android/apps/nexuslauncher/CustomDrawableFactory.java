@@ -84,7 +84,7 @@ public class CustomDrawableFactory extends DynamicDrawableFactory implements Run
         }
     }
 
-    synchronized void ensureInitialLoadComplete() {
+    public synchronized void ensureInitialLoadComplete() {
         if (waiter != null) {
             waiter.acquireUninterruptibly();
             waiter.release();

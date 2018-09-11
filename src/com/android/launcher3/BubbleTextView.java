@@ -28,7 +28,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.Property;
 import android.util.TypedValue;
@@ -53,6 +52,9 @@ import com.android.launcher3.graphics.PreloadIconDrawable;
 import com.android.launcher3.model.PackageItemInfo;
 
 import java.text.NumberFormat;
+
+import androidx.core.graphics.ColorUtils;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * TextView that draws a bubble behind the text. We cannot use a LineBackgroundSpan
@@ -174,6 +176,14 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver {
 
         mOutlineHelper = HolographicOutlineHelper.getInstance(getContext());
         setAccessibilityDelegate(mLauncher.getAccessibilityDelegate());
+
+        if (Settings.shouldAllowTwoLineLabels(getContext())) {
+            setSingleLine(false);
+            setLines(2);
+        } else {
+            setSingleLine(true);
+            setLines(1);
+        }
 
     }
 
@@ -441,9 +451,31 @@ public class BubbleTextView extends TextView implements ItemInfoUpdateReceiver {
 
     public boolean shouldTextBeVisible() {
         // Text should be visible everywhere but the hotseat.
+        // ... not in ALauncher
         Object tag = getParent() instanceof FolderIcon ? ((View) getParent()).getTag() : getTag();
         ItemInfo info = tag instanceof ItemInfo ? (ItemInfo) tag : null;
-        return info == null || info.container != LauncherSettings.Favorites.CONTAINER_HOTSEAT;
+
+        boolean visible;
+        if (info == null) {
+            // we don't know what item is it, show label
+            visible = true;
+        } else if (info.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
+            // hotseat does not have labels
+            visible = false;
+        } else if (info.container == LauncherSettings.Favorites.CONTAINER_DESKTOP) {
+            // desktop item label visibility is depending on user setting
+            visible = !Settings.isLabelHiddenOnDesktop(getContext());
+        } else if(info.container == ItemInfo.NO_ID) {
+            // app drawer label visibility is depending on user setting
+            visible = !Settings.isLabelHiddenOnAllApps(getContext());
+        } else if (info.container != ItemInfo.NO_ID) {
+            // this should be a folder, which is only possible on desktop
+            visible = !Settings.isLabelHiddenOnDesktop(getContext());
+        } else {
+            // fallback is visible labels, this should never actually happen
+            visible = true;
+        }
+        return visible;
     }
 
     public void setTextVisibility(boolean visible) {

@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Property;
 import android.util.SparseIntArray;
@@ -42,6 +41,9 @@ import com.android.launcher3.userevent.nano.LauncherLogProto.ContainerType;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * A RecyclerView with custom fast scroll support for the all apps view.
@@ -104,7 +106,7 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
     }
 
     public void setSpringAnimationHandler(SpringAnimationHandler springAnimationHandler) {
-        if (FeatureFlags.LAUNCHER3_PHYSICS) {
+        if (FeatureFlags.LAUNCHER3_PHYSICS && Settings.isPhysicalAnimationEnabled(getContext())) {
             mSpringAnimationHandler = springAnimationHandler;
             addOnScrollListener(new SpringMotionOnScrollListener());
         }
@@ -113,7 +115,8 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         mPullDetector.onTouchEvent(e);
-        if (FeatureFlags.LAUNCHER3_PHYSICS && mSpringAnimationHandler != null) {
+        if (FeatureFlags.LAUNCHER3_PHYSICS && mSpringAnimationHandler != null
+                && Settings.isPhysicalAnimationEnabled(getContext())) {
             mSpringAnimationHandler.addMovement(e);
         }
         return super.onTouchEvent(e);
@@ -587,7 +590,8 @@ public class AllAppsRecyclerView extends BaseRecyclerView implements LogContaine
         private void reset(boolean shouldSpring) {
             float y = getContentTranslationY();
             if (Float.compare(y, 0) != 0) {
-                if (FeatureFlags.LAUNCHER3_PHYSICS && shouldSpring) {
+                if (FeatureFlags.LAUNCHER3_PHYSICS && shouldSpring
+                        && Settings.isPhysicalAnimationEnabled(getContext())) {
                     // We calculate our own velocity to give the springs the desired effect.
                     float velocity = y / getDampedOverScroll(getHeight()) * MAX_RELEASE_VELOCITY;
                     // We want to negate the velocity because we are moving to 0 from -1 due to the

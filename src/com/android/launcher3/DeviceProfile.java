@@ -36,6 +36,8 @@ import com.android.launcher3.badge.BadgeRenderer;
 
 import java.util.ArrayList;
 
+import dev.dworks.apps.alauncher.Settings;
+
 public class DeviceProfile {
 
     public interface LauncherLayoutChangeListener {
@@ -216,10 +218,17 @@ public class DeviceProfile {
 
         workspaceCellPaddingXPx = res.getDimensionPixelSize(R.dimen.dynamic_grid_cell_padding_x);
 
-        hotseatBarTopPaddingPx =
-                res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding);
-        hotseatBarBottomPaddingPx =
-                res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding);
+        hotseatBarTopPaddingPx = Settings.isBottomSearchBarVisible(context)
+                ? res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding)
+                : res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding_hidden_bottom_qsb);
+        hotseatBarBottomPaddingPx = Settings.isBottomSearchBarVisible(context)
+                ? res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding)
+                : res.getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding_hidden_bottom_qsb);
+
+        if (Settings.shouldExtraBottomPaddingForBottomSearchBar(context)) {
+            hotseatBarBottomPaddingPx += context.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_extra_bottom_padding_for_visible_bottom_qsb);
+        }
+
         hotseatBarLeftNavBarRightPaddingPx = res.getDimensionPixelSize(
                 R.dimen.dynamic_grid_hotseat_land_left_nav_bar_right_padding);
         hotseatBarRightNavBarRightPaddingPx = res.getDimensionPixelSize(
@@ -652,6 +661,23 @@ public class DeviceProfile {
         float workspaceCellWidth = (float) getCurrentWidth() / inv.numColumns;
         float hotseatCellWidth = (float) getCurrentWidth() / inv.numHotseatIcons;
         int hotseatAdjustment = Math.round((workspaceCellWidth - hotseatCellWidth) / 2);
+
+//        hotseatBarTopPaddingPx = Settings.isBottomSearchBarVisible(launcher)
+//                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding)
+//                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding_hidden_bottom_qsb);
+//        hotseatBarBottomPaddingPx = Settings.isBottomSearchBarVisible(launcher)
+//                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding)
+//                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding_hidden_bottom_qsb);
+        if (Settings.shouldExtraBottomPaddingForBottomSearchBar(launcher)) {
+            hotseatBarBottomPaddingPx += launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_extra_bottom_padding_for_visible_bottom_qsb);
+        }
+
+        hotseatBarSizePx = isVerticalBarLayout()
+                ? Utilities.pxFromDp(inv.iconSize, launcher.getResources().getDisplayMetrics())
+                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_size)
+                + hotseatBarTopPaddingPx + hotseatBarBottomPaddingPx;
+
+
         if (hasVerticalBarLayout) {
             // Vertical hotseat -- The hotseat is fixed in the layout to be on the right of the
             //                     screen regardless of RTL

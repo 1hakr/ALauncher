@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Property;
@@ -24,6 +23,9 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.dynamicui.ExtractedColors;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
+
+import androidx.core.graphics.ColorUtils;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * A PageIndicator that briefly shows a fraction of a line when moving between pages.
@@ -72,7 +74,7 @@ public class PageIndicatorLineCaret extends PageIndicator {
 
         @Override
         public void set(PageIndicatorLineCaret obj, Integer alpha) {
-            obj.mLinePaint.setAlpha(alpha);
+            obj.mLinePaint.setAlpha(Settings.isPageIndicatorVisible(obj.mLauncher) ? alpha : 0);
             obj.invalidate();
         }
     };

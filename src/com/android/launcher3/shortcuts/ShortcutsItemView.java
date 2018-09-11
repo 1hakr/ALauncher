@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import dev.dworks.apps.alauncher.Settings;
+
 /**
  * A {@link PopupItemView} that contains all of the {@link DeepShortcutView}s for an app,
  * as well as the system shortcuts such as Widgets and App Info.
@@ -104,6 +106,7 @@ public class ShortcutsItemView extends PopupItemView implements View.OnLongClick
 
     @Override
     public boolean onLongClick(View v) {
+        if(Settings.isDesktopLocked(v.getContext())) return false;
         // Return early if not the correct view
         if (!(v.getParent() instanceof DeepShortcutView)) return false;
         // Return early if global dragging is not enabled

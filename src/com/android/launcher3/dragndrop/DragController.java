@@ -43,6 +43,8 @@ import com.android.launcher3.util.TouchController;
 
 import java.util.ArrayList;
 
+import dev.dworks.apps.alauncher.Settings;
+
 /**
  * Class for initiating a drag within a view or across multiple views.
  */
@@ -211,6 +213,9 @@ public class DragController implements DragDriver.EventListener, TouchController
     }
 
     private void callOnDragStart() {
+        if (Settings.isDesktopLocked(mLauncher.getApplicationContext())) {
+            return;
+        }
         if (mOptions.preDragCondition != null) {
             mOptions.preDragCondition.onPreDragEnd(mDragObject, true /* dragStarted*/);
         }
@@ -392,6 +397,11 @@ public class DragController implements DragDriver.EventListener, TouchController
      * Call this from a drag source view.
      */
     public boolean onControllerInterceptTouchEvent(MotionEvent ev) {
+        if (Settings.isDesktopLocked(mLauncher.getApplicationContext())) {
+            cancelDrag();
+            return false;
+        }
+
         if (mOptions != null && mOptions.isAccessibleDrag) {
             return false;
         }

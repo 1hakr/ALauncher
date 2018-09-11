@@ -14,6 +14,9 @@ import android.content.res.XmlResourceParser;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.UserHandle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.util.Pair;
 
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
@@ -27,16 +30,17 @@ import com.google.android.apps.nexuslauncher.clock.CustomClock;
 import com.google.android.apps.nexuslauncher.clock.DynamicClock;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import dev.dworks.apps.alauncher.Settings;
+
 public class CustomIconProvider extends DynamicIconProvider {
+    private static final String TAG = "CustomIconProvider";
     public final static String DISABLE_PACK_PREF = "all_apps_disable_pack";
 
     private final Context mContext;
@@ -92,31 +96,58 @@ public class CustomIconProvider extends DynamicIconProvider {
         String packageName = launcherActivityInfo.getApplicationInfo().packageName;
         ComponentName component = launcherActivityInfo.getComponentName();
         Drawable drawable = null;
-        if (CustomIconUtils.usingValidPack(mContext) && isEnabledForApp(mContext, new ComponentKey(component, launcherActivityInfo.getUser()))) {
-            PackageManager pm = mContext.getPackageManager();
-            if (mFactory.packCalendars.containsKey(component)) {
-                try {
-                    Resources res = pm.getResourcesForApplication(mFactory.iconPack);
-                    int drawableId = res.getIdentifier(mFactory.packCalendars.get(component)
-                            + Calendar.getInstance().get(Calendar.DAY_OF_MONTH), "drawable", mFactory.iconPack);
-                    if (drawableId != 0) {
-                        drawable = pm.getDrawable(mFactory.iconPack, drawableId, null);
+        Pair<String, Integer> pair = Settings.getCustomIcon(mContext, component);
+        if (!(TextUtils.equals(Settings.SYSTEM_DEFAULT_ICON_PACK, pair.first)
+                && Settings.SYSTEM_DEFAULT_ICON_RES_ID == pair.second)) {
+            drawable = getCustomIcon(pair);
+            if (drawable == null) {
+                if (CustomIconUtils.usingValidPack(mContext)
+                        && isEnabledForApp(mContext, new ComponentKey(component, launcherActivityInfo.getUser()))) {
+                    PackageManager pm = mContext.getPackageManager();
+                    if (mFactory.packCalendars.containsKey(component)) {
+                        try {
+                            Resources res = pm.getResourcesForApplication(mFactory.iconPack);
+                            int drawableId =
+                                    res.getIdentifier(mFactory.packCalendars.get(component)
+                                    + Calendar.getInstance().get(Calendar.DAY_OF_MONTH),
+                                            "drawable", mFactory.iconPack);
+                            if (drawableId != 0) {
+                                drawable = pm.getDrawable(mFactory.iconPack, drawableId, null);
+                            }
+                        } catch (PackageManager.NameNotFoundException ignored) {
+                        }
+                    } else if (mFactory.packComponents.containsKey(component)) {
+                        int drawableId = mFactory.packComponents.get(component);
+                        drawable = pm.getDrawable(mFactory.iconPack,
+                                mFactory.packComponents.get(component), null);
+                        if (Utilities.ATLEAST_OREO && mFactory.packClocks.containsKey(drawableId)) {
+                            drawable = CustomClock.getClock(mContext, drawable,
+                                    mFactory.packClocks.get(drawableId), iconDpi);
+                        }
                     }
-                } catch (PackageManager.NameNotFoundException ignored) {
                 }
-            } else if (mFactory.packComponents.containsKey(component)) {
-                int drawableId = mFactory.packComponents.get(component);
-                drawable = pm.getDrawable(mFactory.iconPack, mFactory.packComponents.get(component), null);
-                if (Utilities.ATLEAST_OREO && mFactory.packClocks.containsKey(drawableId)) {
-                    drawable = CustomClock.getClock(mContext, drawable, mFactory.packClocks.get(drawableId), iconDpi);
+
+                if (drawable == null && !DynamicIconProvider.GOOGLE_CALENDAR.equals(packageName)
+                        && !DynamicClock.DESK_CLOCK.equals(component)) {
+                    drawable = getRoundIcon(component, iconDpi);
                 }
             }
         }
-
-        if (drawable == null && !DynamicIconProvider.GOOGLE_CALENDAR.equals(packageName) && !DynamicClock.DESK_CLOCK.equals(component)) {
-            drawable = getRoundIcon(component, iconDpi);
-        }
         return drawable == null ? super.getIcon(launcherActivityInfo, iconDpi, flattenDrawable) : drawable.mutate();
+    }
+
+    private Drawable getCustomIcon(Pair<String, Integer> pair) {
+        if (pair == null || pair.first == null || pair.second == 0) {
+            return null;
+        }
+
+        Drawable drawable = null;
+        try {
+            drawable = mContext.getPackageManager().getDrawable(pair.first, pair.second, null);
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to load custom icon", t);
+        }
+        return drawable;
     }
 
     private Drawable getRoundIcon(ComponentName component, int iconDpi) {

@@ -18,13 +18,6 @@ package com.android.launcher3.allapps;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import androidx.dynamicanimation.animation.DynamicAnimation;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.core.view.accessibility.AccessibilityEventCompat;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import androidx.core.view.accessibility.AccessibilityRecordCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +40,15 @@ import com.android.launcher3.discovery.AppDiscoveryItemView;
 import com.android.launcher3.util.PackageManagerHelper;
 
 import java.util.List;
+
+import androidx.core.view.accessibility.AccessibilityEventCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityRecordCompat;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * The grid view adapter of all the apps.
@@ -220,7 +222,7 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
         mLayoutInflater = LayoutInflater.from(launcher);
         mIconClickListener = iconClickListener;
         mIconLongClickListener = iconLongClickListener;
-        if (FeatureFlags.LAUNCHER3_PHYSICS) {
+        if (FeatureFlags.LAUNCHER3_PHYSICS && Settings.isPhysicalAnimationEnabled(mLauncher.getApplicationContext())) {
             mSpringAnimationHandler = new SpringAnimationHandler<>(
                     SpringAnimationHandler.Y_DIRECTION, new AllAppsSpringAnimationFactory());
         }
@@ -376,7 +378,8 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
     @Override
     public void onViewAttachedToWindow(ViewHolder holder) {
         int type = holder.getItemViewType();
-        if (FeatureFlags.LAUNCHER3_PHYSICS && isViewType(type, VIEW_TYPE_MASK_HAS_SPRINGS)) {
+        if (FeatureFlags.LAUNCHER3_PHYSICS && isViewType(type, VIEW_TYPE_MASK_HAS_SPRINGS)
+                && Settings.isPhysicalAnimationEnabled(mLauncher.getApplicationContext())) {
             mSpringAnimationHandler.add(holder.itemView, holder);
         }
     }
@@ -384,7 +387,8 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
         int type = holder.getItemViewType();
-        if (FeatureFlags.LAUNCHER3_PHYSICS && isViewType(type, VIEW_TYPE_MASK_HAS_SPRINGS)) {
+        if (FeatureFlags.LAUNCHER3_PHYSICS && isViewType(type, VIEW_TYPE_MASK_HAS_SPRINGS)
+                && Settings.isPhysicalAnimationEnabled(mLauncher.getApplicationContext())) {
             mSpringAnimationHandler.remove(holder.itemView);
         }
     }

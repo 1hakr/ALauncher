@@ -14,6 +14,8 @@ import com.android.launcher3.util.ComponentKey;
 import java.util.HashSet;
 import java.util.Set;
 
+import dev.dworks.apps.alauncher.helpers.Utils;
+
 public class CustomAppFilter extends NexusAppFilter {
     public final static String HIDE_APPS_PREF = "all_apps_hide";
     private final Context mContext;
@@ -48,9 +50,13 @@ public class CustomAppFilter extends NexusAppFilter {
         }
         setHiddenApps(context, hiddenApps);
 
-        LauncherModel model = Launcher.getLauncher(context).getModel();
-        for (UserHandle user : UserManagerCompat.getInstance(context).getUserProfiles()) {
-            model.onPackagesReload(user);
+        try {
+            LauncherModel model = Launcher.getLauncher(context).getModel();
+            for (UserHandle user : UserManagerCompat.getInstance(context).getUserProfiles()) {
+                model.onPackagesReload(user);
+            }
+        } catch (Throwable t) {
+            Utils.reload(context);
         }
     }
 

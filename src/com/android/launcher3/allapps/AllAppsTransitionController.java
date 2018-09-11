@@ -9,9 +9,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.core.graphics.ColorUtils;
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -37,6 +34,11 @@ import com.android.launcher3.util.Themes;
 import com.android.launcher3.util.TouchController;
 
 import java.lang.reflect.InvocationTargetException;
+
+import androidx.core.graphics.ColorUtils;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * Handles AllApps view transition.
@@ -112,6 +114,8 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
 
     private final static float NOTIFICATION_OPEN_VELOCITY = 2.25f;
     private final static float NOTIFICATION_CLOSE_VELOCITY = -0.35f;
+    private int pointerCount;
+
     enum NotificationState {
         Locked,
         Free,
@@ -182,6 +186,9 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
 
     @Override
     public boolean onControllerTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_MOVE) {
+            pointerCount = ev.getPointerCount();
+        }
         if (hasSpringAnimationHandler()) {
             mSpringAnimationHandler.addMovement(ev);
         }
@@ -224,9 +231,19 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
                 //Disable code when access to the hidden APIs returns an error
                 if (velocity > NOTIFICATION_OPEN_VELOCITY &&
                         (mNotificationState == NotificationState.Free || mNotificationState == NotificationState.Closed)) {
-                    mNotificationState = openNotifications() ?
-                            NotificationState.Opened :
-                            NotificationState.Locked;
+                    if (pointerCount == 1) {
+                        if (Settings.isOneFingerDownEnabled(mLauncher)) {
+                            mNotificationState = openNotifications() ?
+                                    NotificationState.Opened :
+                                    NotificationState.Locked;
+                        }
+                    } else if (pointerCount == 2) {
+                        if (Settings.isTwoFingerDownEnabled(mLauncher)) {
+                            mNotificationState = openSettings() ?
+                                    NotificationState.Opened :
+                                    NotificationState.Locked;
+                        }
+                    }
                 } else if (velocity < NOTIFICATION_CLOSE_VELOCITY &&
                         mNotificationState == NotificationState.Opened) {
                     mNotificationState = closeNotifications() ?
@@ -266,6 +283,18 @@ public class AllAppsTransitionController implements TouchController, SwipeDetect
         try {
             Class.forName("android.app.StatusBarManager")
                     .getMethod("collapsePanels")
+                    .invoke(mLauncher.getSystemService("statusbar"));
+            return true;
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {
+            return false;
+        }
+    }
+
+    @SuppressLint({"WrongConstant", "PrivateApi"})
+    private boolean openSettings() {
+        try {
+            Class.forName("android.app.StatusBarManager")
+                    .getMethod("expandSettingsPanel")
                     .invoke(mLauncher.getSystemService("statusbar"));
             return true;
         } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ex) {

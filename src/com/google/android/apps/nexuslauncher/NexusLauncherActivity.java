@@ -14,7 +14,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +34,7 @@ import java.io.File;
 import java.util.List;
 
 import androidx.core.content.FileProvider;
+import dev.dworks.apps.alauncher.Settings;
 
 public class NexusLauncherActivity extends Launcher {
     private final static int REQUEST_EXTERNAL_STORAGE = 100;
@@ -122,12 +122,17 @@ public class NexusLauncherActivity extends Launcher {
 
     @Override
     public void overrideTheme(boolean isDark, boolean supportsDarkText, boolean isTransparent) {
+        isDark = Settings.isDark(this, isDark);
         int flags = Utilities.getDevicePrefs(this).getInt(NexusLauncherOverlay.PREF_PERSIST_FLAGS, 0);
         int orientFlag = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 16 : 8;
         boolean useGoogleInOrientation = (orientFlag & flags) != 0;
         supportsDarkText &= Utilities.ATLEAST_NOUGAT;
         if (useGoogleInOrientation && isDark) {
-            setTheme(R.style.GoogleSearchLauncherThemeDark);
+            if (Settings.shouldUseBlackColors(this)) {
+                setTheme(R.style.GoogleSearchLauncherThemeBlack);
+            } else {
+                setTheme(R.style.GoogleSearchLauncherThemeDark);
+            }
         } else if (useGoogleInOrientation && supportsDarkText) {
             setTheme(R.style.GoogleSearchLauncherThemeDarkText);
         } else if (useGoogleInOrientation && isTransparent) {

@@ -25,7 +25,6 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import androidx.core.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -37,6 +36,9 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.Themes;
+
+import androidx.core.graphics.ColorUtils;
+import dev.dworks.apps.alauncher.Settings;
 
 /**
  * Draws a translucent radial gradient background from an initial state with progress 0.0 to a
@@ -76,7 +78,8 @@ public class GradientView extends View implements WallpaperColorInfo.OnChangeLis
         this.mMaskHeight = Utilities.pxFromDp(ALPHA_MASK_HEIGHT_DP, dm);
         this.mMaskWidth = Utilities.pxFromDp(ALPHA_MASK_WIDTH_DP, dm);
         Launcher launcher = Launcher.getLauncher(context);
-        this.mAlphaStart = launcher.getDeviceProfile().isVerticalBarLayout() ? 0 : 100;
+        this.mAlphaStart = launcher.getDeviceProfile().isVerticalBarLayout()
+                ? 0 : Settings.getHotseatBackgroundAlpha(context);
         this.mScrimColor = Themes.getAttrColor(context, R.attr.allAppsScrimColor);
         this.mWallpaperColorInfo = WallpaperColorInfo.getInstance(launcher);
         mAlphaColors = getResources().getInteger(R.integer.extracted_color_gradient_alpha);
