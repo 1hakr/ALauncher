@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="companion_app_permission_label" translatable="false">ALauncher companion permission</string>
     <string name="companion_app_permission_description" translatable="false">Permission to enforce signature protection for companion apps.</string>
 
@@ -339,7 +339,6 @@
 
     <string name="show_page_indicator_title">Show page indicator</string>
     <string name="show_page_indicator_summary">Using horizontal lines</string>
-    <string name="settingsApplicationId" translatable="false">package:com.google.android.apps.nexuslauncher</string>
-    <string name="xmlApplicationId" translatable="false">com.google.android.apps.nexuslauncher</string>
+    <string name="settingsApplicationId" translatable="false">package:dev.dworks.apps.alauncher</string>
     <string name="applicationId">dev.dworks.apps.alauncher</string>
 </resources>

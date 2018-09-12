@@ -280,14 +280,21 @@ public class Utils {
         launcher.showOverviewMode(true);
     }
 
-    public static void checkBridge(Activity context) {
+    public static boolean isBridgeInstalled(Context context) {
         PackageManager manager = context.getPackageManager();
         try {
             PackageInfo info = manager.getPackageInfo(LauncherClient.BRIDGE_PACKAGE, PackageManager.GET_SIGNATURES);
             if (info.versionName.equals(context.getString(R.string.bridge_download_version))) {
-                return;
+                return true;
             }
         } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return false;
+    }
+
+    public static void checkBridge(Activity context) {
+        if(isBridgeInstalled(context)){
+            return;
         }
 
         FragmentManager fm = context.getFragmentManager();

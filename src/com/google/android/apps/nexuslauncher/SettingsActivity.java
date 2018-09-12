@@ -22,14 +22,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.google.android.apps.nexuslauncher.smartspace.SmartspaceController;
@@ -70,7 +70,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
     public boolean onPreferenceStartFragment(PreferenceFragment preferenceFragment, Preference preference) {
         Fragment instantiate = Fragment.instantiate(this, preference.getFragment(), preference.getExtras());
         if (instantiate instanceof DialogFragment) {
-           ((DialogFragment) instantiate).show(getFragmentManager(), preference.getKey());
+            ((DialogFragment) instantiate).show(getFragmentManager(), preference.getKey());
         } else {
             getFragmentManager().beginTransaction().replace(android.R.id.content, instantiate).addToBackStack(preference.getKey()).commit();
         }
@@ -140,7 +140,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         }, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
-    public static class MySettingsFragment extends com.android.launcher3.SettingsActivity.LauncherSettingsFragment
+    public static class MySettingsFragment extends LauncherSettingsFragment
             implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
         private CustomIconPreference mIconPackPref;
         private Context mContext;
@@ -152,6 +152,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             mContext = getActivity();
 
             findPreference(SHOW_PREDICTIONS_PREF).setOnPreferenceChangeListener(this);
+            findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceChangeListener(this);
             findPreference(ENABLE_MINUS_ONE_PREF).setTitle(getDisplayGoogleTitle());
 
             PackageManager packageManager = mContext.getPackageManager();
@@ -162,6 +163,24 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 Log.e("SettingsActivity", "Unable to load my own package info", ex);
             }
 
+            try {
+                ApplicationInfo applicationInfo = mContext.getPackageManager().getApplicationInfo(GOOGLE_APP, 0);
+                if (!applicationInfo.enabled) {
+                    throw new PackageManager.NameNotFoundException();
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {
+                getPreferenceScreen().removePreference(findPreference(SettingsActivity.ENABLE_MINUS_ONE_PREF));
+            }
+
+            mIconPackPref = (CustomIconPreference) findPreference(ICON_PACK_PREF);
+            mIconPackPref.setOnPreferenceChangeListener(this);
+
+            findPreference(SHOW_PREDICTIONS_PREF).setOnPreferenceChangeListener(this);
+
+            customPreferences();
+        }
+
+        private void customPreferences() {
             //findPreference(Settings.THEME_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.TOP_SEARCH_BAR_KEY).setOnPreferenceChangeListener(this);
@@ -221,36 +240,18 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(KEY_PREFERENCE).setOnPreferenceClickListener(this);
 
             if(App.isPurchased()) {
-                ((PreferenceScreen) getPreferenceScreen().findPreference("pref_main")).removePreference(findPreference(SUPPORT));
+                getPreferenceScreen().removePreference(findPreference(SUPPORT));
             }
+            if (!Utilities.ATLEAST_OREO) {
+                getPreferenceScreen().removePreference(findPreference(Settings.GENERATE_ADAPTIVE_ICONS));
+                getPreferenceScreen().removePreference(findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND));
+            }
+
             if (SmartspaceController.get(mContext).cY()) {
                 findPreference(SMARTSPACE_SETTINGS).setOnPreferenceClickListener(this);
             } else {
-                ((PreferenceScreen) getPreferenceScreen().findPreference("pref_smartspace_screen")).removePreference(findPreference(SMARTSPACE_SETTINGS));
+                getPreferenceScreen().removePreference(findPreference(SettingsActivity.SMARTSPACE_SETTINGS));
             }
-
-            try {
-                ApplicationInfo applicationInfo = mContext.getPackageManager().getApplicationInfo(GOOGLE_APP, 0);
-                if (!applicationInfo.enabled) {
-                    throw new PackageManager.NameNotFoundException();
-                }
-
-                if (!BuildConfig.DEBUG) {
-                    findPreference(ENABLE_MINUS_ONE_PREF).setEnabled(false);
-                }
-            } catch (PackageManager.NameNotFoundException ignored) {
-                ((PreferenceScreen) getPreferenceScreen().findPreference("pref_feed_screen")).removePreference(findPreference(SettingsActivity.ENABLE_MINUS_ONE_PREF));
-            }
-
-            if (!Utilities.ATLEAST_OREO) {
-                ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen().findPreference("pref_edit_apps_screen")).findPreference("pref_icons_category")).removePreference(findPreference(Settings.GENERATE_ADAPTIVE_ICONS));
-                ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen().findPreference("pref_edit_apps_screen")).findPreference("pref_icons_category")).removePreference(findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND));
-            }
-
-            mIconPackPref = (CustomIconPreference) findPreference(ICON_PACK_PREF);
-            mIconPackPref.setOnPreferenceChangeListener(this);
-
-            findPreference(SHOW_PREDICTIONS_PREF).setOnPreferenceChangeListener(this);
         }
 
         private String getDisplayGoogleTitle() {
@@ -261,8 +262,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 if (identifier != 0) {
                     charSequence = resourcesForApplication.getString(identifier);
                 }
-            } catch (PackageManager.NameNotFoundException ex) {
-            }
+            } catch (PackageManager.NameNotFoundException ex) { }
             if (TextUtils.isEmpty(charSequence)) {
                 charSequence = mContext.getString(R.string.title_google_app);
             }
@@ -273,6 +273,11 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         public void onResume() {
             super.onResume();
             mIconPackPref.reloadIconPacks();
+
+            SwitchPreference minusOne = (SwitchPreference) findPreference(ENABLE_MINUS_ONE_PREF);
+            if (minusOne != null && !Utils.isBridgeInstalled(getActivity())) {
+                minusOne.setChecked(false);
+            }
         }
 
         @Override
@@ -351,6 +356,11 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     }, 1000);
                     break;
 
+                case ENABLE_MINUS_ONE_PREF:
+                    if (Utils.isBridgeInstalled(getActivity())) {
+                        return true;
+                    }
+                    break;
                 case ICON_PACK_PREF:
                     if (!CustomIconUtils.getCurrentPack(mContext).equals(newValue)) {
                         final ProgressDialog applyingDialog = ProgressDialog.show(mContext,
@@ -374,7 +384,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     if ((boolean) newValue) {
                         return true;
                     }
-                    SettingsActivity.SuggestionConfirmationFragment confirmationFragment = new SettingsActivity.SuggestionConfirmationFragment();
+                    SuggestionConfirmationFragment confirmationFragment = new SuggestionConfirmationFragment();
                     confirmationFragment.setTargetFragment(this, 0);
                     confirmationFragment.show(getFragmentManager(), preference.getKey());
                     break;
@@ -401,6 +411,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     Utils.restart(mContext);
                     return true;
                 case ENABLE_MINUS_ONE_PREF:
+                    if (Utils.isBridgeInstalled(getActivity())) {
+                        return true;
+                    }
                     Utils.checkBridge(getActivity());
                     return true;
                 case Settings.BOTTOM_SEARCH_BAR_KEY:
@@ -435,6 +448,19 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     return true;
             }
             return false;
+        }
+    }
+
+    public static class OpenSourceLicensesFragment extends DialogFragment {
+        public Dialog onCreateDialog(Bundle bundle) {
+            WebView view = new WebView(getActivity());
+            view.setWebViewClient(new WebViewClient());
+            view.getSettings().setBuiltInZoomControls(true);
+            view.loadUrl("file:///android_asset/license.html");
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.pref_open_source_licenses_title)
+                    .setView(view)
+                    .create();
         }
     }
 
