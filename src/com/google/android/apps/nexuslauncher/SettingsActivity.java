@@ -40,6 +40,8 @@ import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.helpers.Utils;
 
+import static com.android.launcher3.Utilities.THEME_OVERRIDE_KEY;
+import static com.android.launcher3.graphics.IconShapeOverride.KEY_PREFERENCE;
 import static dev.dworks.apps.alauncher.Settings.SUPPORT;
 
 public class SettingsActivity extends com.android.launcher3.SettingsActivity implements PreferenceFragment.OnPreferenceStartFragmentCallback {
@@ -68,7 +70,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
     public boolean onPreferenceStartFragment(PreferenceFragment preferenceFragment, Preference preference) {
         Fragment instantiate = Fragment.instantiate(this, preference.getFragment(), preference.getExtras());
         if (instantiate instanceof DialogFragment) {
-            ((DialogFragment) instantiate).show(getFragmentManager(), preference.getKey());
+           ((DialogFragment) instantiate).show(getFragmentManager(), preference.getKey());
         } else {
             getFragmentManager().beginTransaction().replace(android.R.id.content, instantiate).addToBackStack(preference.getKey()).commit();
         }
@@ -212,6 +214,11 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.HOTSEAT_ICONS).setOnPreferenceClickListener(this);
             findPreference(Settings.ICON_SIZE).setOnPreferenceClickListener(this);
             findPreference(Settings.ICON_TEXT_SIZE).setOnPreferenceClickListener(this);
+            findPreference(Settings.HOTSEAT_BACKGROUND).setOnPreferenceClickListener(this);
+            findPreference(Settings.DATE_FORMAT).setOnPreferenceClickListener(this);
+            findPreference(Settings.SEARCH_PROVIDER).setOnPreferenceClickListener(this);
+            findPreference(THEME_OVERRIDE_KEY).setOnPreferenceClickListener(this);
+            findPreference(KEY_PREFERENCE).setOnPreferenceClickListener(this);
 
             if(App.isPurchased()) {
                 ((PreferenceScreen) getPreferenceScreen().findPreference("pref_main")).removePreference(findPreference(SUPPORT));
@@ -288,6 +295,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.THEME_KEY:
                 case Settings.HOTSEAT_BACKGROUND:
                 case Settings.DATE_FORMAT:
+                    if(!App.isPurchased()) {
+                        break;
+                    }
                     if (preference instanceof ListPreference) {
                         ((ListPreference) preference).setValue((String) newValue);
                     }
@@ -414,6 +424,11 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.HOTSEAT_ICONS:
                 case Settings.ICON_SIZE:
                 case Settings.ICON_TEXT_SIZE:
+                case Settings.HOTSEAT_BACKGROUND:
+                case Settings.DATE_FORMAT:
+                case Settings.SEARCH_PROVIDER:
+                case THEME_OVERRIDE_KEY:
+                case KEY_PREFERENCE:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
                     }

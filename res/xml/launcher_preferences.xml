@@ -57,7 +57,7 @@
                 android:summary="@string/smartspace_preferences_in_settings_desc"
                 android:title="@string/smartspace_preferences_in_settings" />
 
-            <ListPreference
+            <dev.dworks.apps.alauncher.view.ListPreference
                 android:defaultValue="@string/date_format_normal"
                 android:entries="@array/date_format_names"
                 android:entryValues="@array/date_format_values"
@@ -104,7 +104,7 @@
                     android:summary="@string/bottom_search_bar_summary"
                     android:title="@string/bottom_search_bar_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="https://www.google.com"
                     android:dependency="pref_bottom_search_bar"
                     android:entries="@array/search_provider_names"
@@ -175,7 +175,7 @@
                 android:key="pref_color_category"
                 android:title="@string/color_category">
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue=""
                     android:entries="@array/theme_override_names"
                     android:entryValues="@array/theme_override_values"
@@ -205,7 +205,7 @@
                     android:summary="@string/top_search_bar_summary"
                     android:title="@string/dark_top_search_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="100"
                     android:entries="@array/hotseat_background_names"
                     android:entryValues="@array/hotseat_background_values"
@@ -220,7 +220,7 @@
                 android:key="pref_sizes_category"
                 android:title="@string/sizes_category">
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="default"
                     android:entries="@array/grid_names"
                     android:entryValues="@array/grid_values"
@@ -229,7 +229,7 @@
                     android:summary="%s"
                     android:title="@string/number_of_columns_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="default"
                     android:entries="@array/grid_names"
                     android:entryValues="@array/grid_values"
@@ -238,7 +238,7 @@
                     android:summary="%s"
                     android:title="@string/number_of_rows_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="default"
                     android:entries="@array/grid_names"
                     android:entryValues="@array/grid_values"
@@ -247,7 +247,7 @@
                     android:summary="%s"
                     android:title="@string/number_of_hotseat_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="average"
                     android:entries="@array/icon_size_names"
                     android:entryValues="@array/icon_size_values"
@@ -256,7 +256,7 @@
                     android:summary="%s"
                     android:title="@string/icon_size_title" />
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue="average"
                     android:entries="@array/icon_size_names"
                     android:entryValues="@array/icon_size_values"
@@ -334,7 +334,7 @@
                 android:key="pref_icons_category"
                 android:title="@string/icons_category">
 
-                <ListPreference
+                <dev.dworks.apps.alauncher.view.ListPreference
                     android:defaultValue=""
                     android:entries="@array/icon_shape_override_paths_names"
                     android:entryValues="@array/icon_shape_override_paths_values"
