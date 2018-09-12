@@ -1,5 +1,8 @@
 package dev.dworks.apps.alauncher;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.android.launcher3.BuildConfig;
 
 import dev.dworks.apps.alauncher.helpers.AnalyticsHelper;
@@ -20,5 +23,9 @@ public class App extends AppFlavour {
 
     public static synchronized App getInstance() {
         return sInstance;
+    }
+
+    public static void openPurchaseActivity(Context context){
+        context.startActivity(new Intent(context, PurchaseActivity.class));
     }
 }

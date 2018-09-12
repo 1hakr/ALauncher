@@ -341,4 +341,5 @@
     <string name="show_page_indicator_summary">Using horizontal lines</string>
     <string name="settingsApplicationId" translatable="false">package:dev.dworks.apps.alauncher</string>
     <string name="applicationId">dev.dworks.apps.alauncher</string>
+    <string name="store_url">http://play.google.com/store/apps/details?id=dev.dworks.apps.alauncher</string>
 </resources>

@@ -324,4 +324,35 @@ public class Utils {
         context.startActivity(install);
     }
 
+    public static boolean isGoogleBuild(){
+        return BuildConfig.FLAVOR.contains("google");
+    }
+
+    public static boolean isAmazonBuild(){
+        return BuildConfig.FLAVOR.contains("amazon");
+    }
+
+    public static Uri getAppUri(){
+        if(isAmazonBuild()){
+            return Uri.parse("amzn://apps/android?p=" + BuildConfig.APPLICATION_ID);
+        }
+
+        return Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID);
+    }
+
+    public static Uri getAppShareUri(){
+        if(isAmazonBuild()){
+            return Uri.parse("https://www.amazon.com/gp/mas/dl/android?p=" + BuildConfig.APPLICATION_ID);
+        }
+
+        return Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+    }
+
+    public static Uri getAppStoreUri(){
+        if(isAmazonBuild()){
+            return Uri.parse("http://www.amazon.com/gp/mas/dl/android?p=" + BuildConfig.APPLICATION_ID + "&showAll=1");
+        }
+        return Uri.parse("https://play.google.com/store/apps/dev?id=8683545855643814241");
+    }
+
 }

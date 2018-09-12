@@ -1347,6 +1347,9 @@ public class Launcher extends BaseActivity
 
         // Bind widget button actions
         mWidgetsButton = findViewById(R.id.widget_button);
+        if(Utils.isAmazonBuild()) {
+            mWidgetsButton.setVisibility(View.GONE);
+        }
         new OverviewButtonClickListener(ControlType.WIDGETS_BUTTON) {
             @Override
             public void handleViewClick(View view) {

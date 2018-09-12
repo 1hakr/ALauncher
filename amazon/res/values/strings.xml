@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [ <!ENTITY appid "dev.dworks.apps.alauncher"> ]>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="store_url">https://www.amazon.com/gp/mas/dl/android?p=&appid;</string>
+    <string name="market_search_intent" translatable="false">amzn://apps/android?s=apps</string>
+    <string name="app_pro_content">Unlocks extra features, such as the Shortcuts, Gestures, Edit apps
+        Theme customizations and removes ads. \n\nThe source code of ALauncher is available on GitHub.
+        You are welcome to compile the pro version yourself for free.
+        \n\nHowever if you like what I do and love ALauncher and want us to survive,
+        please support the development and receive updates through the App Store, consider purchasing
+        ALauncher Pro.
+        \n\nThank you,\nHari</string>
+    <string name="support_summary">Support the development and receive updates through the app store</string>
+    <string name="rate_summary">If you like ALauncher, leave a positive rating on app store </string>
+</resources>

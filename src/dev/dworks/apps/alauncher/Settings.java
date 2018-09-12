@@ -9,6 +9,8 @@ import android.util.Pair;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 
+import dev.dworks.apps.alauncher.helpers.Utils;
+
 import static com.google.android.apps.nexuslauncher.SettingsActivity.ENABLE_MINUS_ONE_PREF;
 
 public class Settings {
@@ -293,7 +295,7 @@ public class Settings {
     }
 
     public static boolean isQsbVoiceIconVisible(Context context) {
-        return prefs(context).getBoolean(QSB_VOICE_ICON, QSB_VOICE_ICON_DEFAULT);
+        return prefs(context).getBoolean(QSB_VOICE_ICON, !Utils.isAmazonBuild() && QSB_VOICE_ICON_DEFAULT);
     }
 
     public static String getHomeAction(Context context) {

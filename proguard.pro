@@ -130,3 +130,10 @@
 -keep class com.google.android.apps.nexuslauncher.SettingsActivity$OpenSourceLicensesFragment {
   *;
 }
+
+# Amazoon
+-dontwarn com.amazon.**
+-keep class com.amazon.** {*;}
+
+-dontwarn com.amazon.android.framework.**
+-keep class com.amazon.android.framework.** {*;}

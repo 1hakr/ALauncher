@@ -67,7 +67,7 @@ public class PurchaseActivity extends Activity {
         Needle.onBackgroundThread().execute(new UiRelatedTask<Boolean>(){
             @Override
             protected Boolean doWork() {
-                App.getInstance().loadOwnedPurchasesFromGoogle();
+                App.getInstance().loadOwnedPurchases();
                 App.getInstance().onPurchaseHistoryRestored();
                 return true;
             }
@@ -107,7 +107,7 @@ public class PurchaseActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        App.getInstance().releaseBillingProcessor();
+        //App.getInstance().releaseBillingProcessor();
         super.onDestroy();
     }
 }

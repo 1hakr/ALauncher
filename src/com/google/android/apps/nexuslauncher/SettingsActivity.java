@@ -22,7 +22,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
@@ -239,18 +241,23 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(THEME_OVERRIDE_KEY).setOnPreferenceClickListener(this);
             findPreference(KEY_PREFERENCE).setOnPreferenceClickListener(this);
 
-            if(App.isPurchased()) {
-                getPreferenceScreen().removePreference(findPreference(SUPPORT));
-            }
             if (!Utilities.ATLEAST_OREO) {
-                getPreferenceScreen().removePreference(findPreference(Settings.GENERATE_ADAPTIVE_ICONS));
-                getPreferenceScreen().removePreference(findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND));
+                ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen()
+                        .findPreference("pref_edit_apps_screen"))
+                        .findPreference("pref_icons_category"))
+                        .removePreference(findPreference(Settings.GENERATE_ADAPTIVE_ICONS));
+                ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen()
+                        .findPreference("pref_edit_apps_screen"))
+                        .findPreference("pref_icons_category"))
+                        .removePreference(findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND));
             }
 
-            if (SmartspaceController.get(mContext).cY()) {
+            if (SmartspaceController.get(mContext).cY() && !Utils.isAmazonBuild()) {
                 findPreference(SMARTSPACE_SETTINGS).setOnPreferenceClickListener(this);
             } else {
-                getPreferenceScreen().removePreference(findPreference(SettingsActivity.SMARTSPACE_SETTINGS));
+                ((PreferenceScreen) getPreferenceScreen()
+                        .findPreference("pref_smartspace_screen"))
+                        .removePreference(findPreference(SMARTSPACE_SETTINGS));
             }
         }
 
@@ -273,6 +280,10 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         public void onResume() {
             super.onResume();
             mIconPackPref.reloadIconPacks();
+
+            if(App.isPurchased()) {
+                getPreferenceScreen().removePreference(findPreference(SUPPORT));
+            }
 
             SwitchPreference minusOne = (SwitchPreference) findPreference(ENABLE_MINUS_ONE_PREF);
             if (minusOne != null && !Utils.isBridgeInstalled(getActivity())) {
@@ -329,7 +340,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     if (preference instanceof TwoStatePreference) {
                         ((TwoStatePreference) preference).setChecked((boolean) newValue);
                     }
-                    Utils.reloadTheme(mContext);
+                    if(!Utils.isAmazonBuild()) {
+                        Utils.reloadTheme(mContext);
+                    }
                     break;
 
                 case Settings.GENERATE_ADAPTIVE_ICONS:

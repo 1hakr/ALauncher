@@ -52,10 +52,11 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 
 	@Override
 	public void onBillingInitialized() {
-		loadOwnedPurchasesFromGoogle();
+		loadOwnedPurchases();
 		reloadPurchase();
 	}
-	public void loadOwnedPurchasesFromGoogle() {
+
+	public void loadOwnedPurchases() {
 		if(!isBillingSupported() || null == bp
 				|| (bp != null && !bp.isInitialized())){
 			return;
@@ -172,10 +173,5 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 		} else {
 			Toast.makeText(activity, "Billing not supported", Toast.LENGTH_SHORT).show();
 		}
-	}
-
-	public static void openPurchaseActivity(Context context){
-		context.startActivity(new Intent(context, PurchaseActivity.class));
-
 	}
 }
