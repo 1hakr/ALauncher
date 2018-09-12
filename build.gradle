@@ -102,11 +102,6 @@ android {
             manifest.srcFile "AndroidManifest.xml"
         }
 
-        amazon {
-            java.srcDirs = ['amazon/src']
-            manifest.srcFile "amazon/AndroidManifest.xml"
-        }
-
         androidTestAosp {
             manifest.srcFile "tests/AndroidManifest.xml"
         }
@@ -121,6 +116,15 @@ android {
 
         androidTestL3go {
             manifest.srcFile "tests/AndroidManifest.xml"
+        }
+
+        amazon {
+            java.srcDirs = ['amazon/src']
+            manifest.srcFile "amazon/AndroidManifest.xml"
+        }
+
+        debug {
+            res.srcDirs = ['debug/res']
         }
     }
     packagingOptions {

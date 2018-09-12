@@ -24,7 +24,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="dev.dworks.apps.alauncher.PurchaseActivity"
-            android:targetPackage="dev.dworks.apps.alauncher.debug" />
+            android:targetPackage="@string/applicationId" />
 
     </Preference>
     <PreferenceCategory
