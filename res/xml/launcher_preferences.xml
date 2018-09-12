@@ -558,32 +558,59 @@
             android:title="@string/lock_desktop_title" />
 
     </PreferenceScreen>
-
-    <PreferenceScreen
-        android:icon="@drawable/ic_info_outline_no_shadow"
-        android:key="pref_about_screen"
-        android:summary="@string/about_summary"
-        android:title="@string/about">
-
+    <PreferenceCategory
+        android:key="pref_basic_category"
+        android:title="Support">
         <Preference
-            android:key="about_app_version"
-            android:persistent="false"
-            android:title="@string/about_app_version" />
+            android:icon="@drawable/ic_star"
+            android:key="pref_rate"
+            android:summary="@string/rate_summary"
+            android:title="@string/rate_title">
 
-        <Preference
-            android:key="app_info"
-            android:persistent="false"
-            android:title="@string/app_info_drop_target_label">
             <intent
-                android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
-                android:data="@string/settingsApplicationId" />
+                android:action="android.intent.action.VIEW"
+                android:data="http://play.google.com/store/apps/details?id=dev.dworks.apps.alauncher" />
+
         </Preference>
-
         <Preference
-            android:key="restart_alauncher"
-            android:summary="@string/restart_launcher_summary"
-            android:title="@string/restart_launcher_title" />
+            android:icon="@drawable/ic_feedback"
+            android:key="pref_feedback"
+            android:summary="@string/feedback_summary"
+            android:title="@string/feedback_title">
+            <intent android:action="android.intent.action.VIEW"
+                android:data="mailto:support@dworks.io">
+                <!--<extra android:name="android.intent.extra.TEXT"-->
+                    <!--android:value="Pre-filled email body." />-->
+                <extra android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback for ALauncher" />
+            </intent>
+        </Preference>
+        <PreferenceScreen
+            android:icon="@drawable/ic_info_outline_no_shadow"
+            android:key="pref_about_screen"
+            android:summary="@string/about_summary"
+            android:title="@string/about">
 
-    </PreferenceScreen>
+            <Preference
+                android:key="about_app_version"
+                android:persistent="false"
+                android:title="@string/about_app_version" />
+
+            <Preference
+                android:key="app_info"
+                android:persistent="false"
+                android:title="@string/app_info_drop_target_label">
+                <intent
+                    android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+                    android:data="@string/settingsApplicationId" />
+            </Preference>
+
+            <Preference
+                android:key="restart_alauncher"
+                android:summary="@string/restart_launcher_summary"
+                android:title="@string/restart_launcher_title" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
 
 </PreferenceScreen>

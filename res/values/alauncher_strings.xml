@@ -18,7 +18,7 @@
     //PRO
     <string name="app_pro">ALauncher Pro</string>
     <string name="app_pro_content">Unlocks extra features, such as the Shortcuts, Gestures, Edit apps
-        Theme customisations and removes ads. \n\nThe source code of ALauncher is available on GitHub.
+        Theme customizations and removes ads. \n\nThe source code of ALauncher is available on GitHub.
         You are welcome to compile the pro version yourself for free.
         \n\nHowever if you like what I do and love ALauncher and want us to survive,
         please support the development and receive updates through the Play Store, consider purchasing
@@ -33,7 +33,11 @@
     <string name="restored_previous_purchase_please_restart">Restored previous purchase.</string>
 
     <string name="support_title">Support ALauncher</string>
-    <string name="support_summary">Support the development and receive updates through the Play Store</string>
+    <string name="support_summary">Support the development and receive updates through the play store</string>
+    <string name="rate_title">Rate ALauncher</string>
+    <string name="rate_summary">If you like ALauncher, leave a positive rating on play store </string>
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_summary">Feed us back your comments / suggestions</string>
 
     <string name="at_a_glance_category">At A Glance</string>
     <string name="other_category">Other</string>

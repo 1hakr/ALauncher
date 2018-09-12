@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="@string/purchase"
-                    android:textColor="@color/md_amber_500"/>
+                    android:textColor="@color/accent_amber"/>
 
             </LinearLayout>
 
