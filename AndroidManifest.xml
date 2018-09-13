@@ -216,6 +216,12 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="dev.dworks.apps.alauncher.hide.HideAppsActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/hide_apps_title"
+            android:theme="@style/SettingsTheme" />
+
         <!-- Bridge -->
         <provider
             android:name="androidx.core.content.FileProvider"

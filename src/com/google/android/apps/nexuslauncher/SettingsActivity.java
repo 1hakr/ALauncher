@@ -198,8 +198,8 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.HOTSEAT_BACKGROUND).setOnPreferenceChangeListener(this);
             findPreference(Settings.DARK_BOTTOM_SEARCH_BAR).setOnPreferenceChangeListener(this);
             findPreference(Settings.DARK_TOP_SEARCH_BAR).setOnPreferenceChangeListener(this);
-            //findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceChangeListener(this);
-            //findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceChangeListener(this);
+            findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceChangeListener(this);
+            findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceChangeListener(this);
             findPreference(Settings.QSB_VOICE_ICON).setOnPreferenceChangeListener(this);
             findPreference(Settings.BLACK_COLORS).setOnPreferenceChangeListener(this);
             findPreference(Settings.SHOW_CARET).setOnPreferenceChangeListener(this);
@@ -213,9 +213,9 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.SHORTCUT_LOCKED_UNINSTALL).setOnPreferenceChangeListener(this);
             findPreference(Settings.SHORTCUT_LOCKED_EDIT).setOnPreferenceChangeListener(this);
 
-            //findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
-            //findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
-            //findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
             findPreference(RESTART_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceClickListener(this);
 
@@ -236,8 +236,8 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.FORCE_COLORED_G_ICON).setOnPreferenceClickListener(this);
             findPreference(Settings.DARK_BOTTOM_SEARCH_BAR).setOnPreferenceClickListener(this);
             findPreference(Settings.DARK_TOP_SEARCH_BAR).setOnPreferenceClickListener(this);
-            //findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceClickListener(this);
-            //findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceClickListener(this);
+            findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceClickListener(this);
+            findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceClickListener(this);
             findPreference(Settings.QSB_VOICE_ICON).setOnPreferenceClickListener(this);
             findPreference(Settings.BLACK_COLORS).setOnPreferenceClickListener(this);
             findPreference(Settings.ALLOW_TWO_LINE_LABELS).setOnPreferenceClickListener(this);
@@ -463,13 +463,25 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     SmartspaceController.get(mContext).cZ();
                     return true;
                 case Settings.RESET_APP_NAMES:
-                    new ResetAppNamesDialog().show(getFragmentManager(), preference.getKey());
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        new ResetAppNamesDialog().show(getFragmentManager(), preference.getKey());
+                    }
                     return true;
                 case Settings.RESET_APP_VISIBILITY:
-                    new ResetAppVisibilityDialog().show(getFragmentManager(), preference.getKey());
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        new ResetAppVisibilityDialog().show(getFragmentManager(), preference.getKey());
+                    }
                     return true;
                 case Settings.RESET_APP_ICONS:
-                    new ResetAppIconsDialog().show(getFragmentManager(), preference.getKey());
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        new ResetAppIconsDialog().show(getFragmentManager(), preference.getKey());
+                    }
                     return true;
                 case RESTART_PREFERENCE:
                     Utils.restart(mContext);

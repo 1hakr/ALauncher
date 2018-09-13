@@ -31,16 +31,17 @@ public class CustomAppFilter extends NexusAppFilter {
         if (componentName.getPackageName().equals(BuildConfig.APPLICATION_ID)) {
             return false;
         }
-        if (CustomIconUtils.usingValidPack(mContext)) {
-            return !isHiddenApp(mContext, new ComponentKey(componentName, user));
-        }
-        return super.shouldShowApp(componentName, user);
+        return !isHiddenApp(mContext, new ComponentKey(componentName, user));
     }
 
-    static void resetAppFilter(Context context) {
+    public static void resetAppFilter(Context context) {
         SharedPreferences.Editor editor = Utilities.getPrefs(context).edit();
         editor.putStringSet(HIDE_APPS_PREF, new HashSet<String>());
         editor.apply();
+    }
+
+    public static void hideComponent(Context context, ComponentKey componentKey, boolean hide) {
+        setComponentNameState(context, componentKey, hide);
     }
 
     static void setComponentNameState(Context context, ComponentKey key, boolean hidden) {
@@ -62,6 +63,10 @@ public class CustomAppFilter extends NexusAppFilter {
         } catch (Throwable t) {
             Utils.reload(context);
         }
+    }
+
+    public static boolean isHidden(Context context, ComponentKey componentKey) {
+        return isHiddenApp(context, componentKey);
     }
 
     static boolean isHiddenApp(Context context, ComponentKey key) {

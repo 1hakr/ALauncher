@@ -31,7 +31,7 @@ public class LockTimeoutActivity extends Activity {
         overridePendingTransition(0, 0);
         disableTouches();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lean_activity_timeout);
+        setContentView(R.layout.activity_lock_timeout);
         if (savedInstanceState == null) {
             originalTimeout = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_OFF_TIMEOUT, TIMEOUT_FALLBACK);
             originalStayOnWhilePluggedIn = Settings.System.getInt(getContentResolver(), Settings.Global.STAY_ON_WHILE_PLUGGED_IN, 0);

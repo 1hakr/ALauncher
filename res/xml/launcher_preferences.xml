@@ -298,37 +298,37 @@
             android:summary="@string/edit_apps_summary"
             android:title="@string/edit_apps_category">
 
-            <!--<PreferenceCategory-->
-            <!--android:key="pref_visibility_category"-->
-            <!--android:title="@string/visibility_category">-->
+            <PreferenceCategory
+                android:key="pref_visibility_category"
+                android:title="@string/visibility_category">
 
-            <!--<Preference-->
-            <!--android:key="pref_hide_apps"-->
-            <!--android:summary="@string/hide_apps_summary"-->
-            <!--android:title="@string/hide_apps_title">-->
+                <Preference
+                    android:key="pref_hide_apps"
+                    android:summary="@string/hide_apps_summary"
+                    android:title="@string/hide_apps_title">
 
-            <!--<intent-->
-            <!--android:action="android.intent.action.VIEW"-->
-            <!--android:targetClass="HideAppsActivity"-->
-            <!--android:targetPackage="@string/xmlApplicationId" />-->
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:targetClass="dev.dworks.apps.alauncher.hide.HideAppsActivity"
+                        android:targetPackage="@string/applicationId" />
 
-            <!--</Preference>-->
+                </Preference>
 
-            <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="pref_label_hidden_on_desktop"-->
-            <!--android:persistent="true"-->
-            <!--android:summary="@string/hide_app_label_on_desktop_summary"-->
-            <!--android:title="@string/hide_app_label_title" />-->
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="pref_label_hidden_on_desktop"
+                    android:persistent="true"
+                    android:summary="@string/hide_app_label_on_desktop_summary"
+                    android:title="@string/hide_app_label_title" />
 
-            <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="pref_label_hidden_on_all_apps"-->
-            <!--android:persistent="true"-->
-            <!--android:summary="@string/hide_app_label_on_all_apps_summary"-->
-            <!--android:title="@string/hide_app_label_title" />-->
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="pref_label_hidden_on_all_apps"
+                    android:persistent="true"
+                    android:summary="@string/hide_app_label_on_all_apps_summary"
+                    android:title="@string/hide_app_label_title" />
 
-            <!--</PreferenceCategory>-->
+            </PreferenceCategory>
 
             <PreferenceCategory
                 android:key="pref_icons_category"
@@ -366,26 +366,26 @@
 
             </PreferenceCategory>
 
-            <!--<PreferenceCategory-->
-            <!--android:key="pref_reset_category"-->
-            <!--android:title="@string/reset_category">-->
+            <PreferenceCategory
+                android:key="pref_reset_category"
+                android:title="@string/reset_category">
 
-            <!--<Preference-->
-            <!--android:key="pref_reset_app_names"-->
-            <!--android:summary="@string/reset_app_names_summary"-->
-            <!--android:title="@string/reset_app_names_title" />-->
+                <Preference
+                    android:key="pref_reset_app_names"
+                    android:summary="@string/reset_app_names_summary"
+                    android:title="@string/reset_app_names_title" />
 
-            <!--<Preference-->
-            <!--android:key="pref_reset_app_visibility"-->
-            <!--android:summary="@string/reset_app_visibility_summary"-->
-            <!--android:title="@string/reset_app_visibility_title" />-->
+                <Preference
+                    android:key="pref_reset_app_visibility"
+                    android:summary="@string/reset_app_visibility_summary"
+                    android:title="@string/reset_app_visibility_title" />
 
-            <!--<Preference-->
-            <!--android:key="pref_reset_app_icons"-->
-            <!--android:summary="@string/reset_app_icons_summary"-->
-            <!--android:title="@string/reset_app_icons_title" />-->
+                <Preference
+                    android:key="pref_reset_app_icons"
+                    android:summary="@string/reset_app_icons_summary"
+                    android:title="@string/reset_app_icons_title" />
 
-            <!--</PreferenceCategory>-->
+            </PreferenceCategory>
 
             <PreferenceCategory
                 android:key="pref_other_category"

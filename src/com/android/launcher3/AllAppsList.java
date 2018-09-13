@@ -22,8 +22,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
 import android.os.Process;
 import android.os.UserHandle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.launcher3.compat.LauncherAppsCompat;
@@ -35,6 +33,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 
 /**
  * Stores the list of all applications for the all apps view.
@@ -44,6 +45,7 @@ public class AllAppsList {
 
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
 
+    public final ArrayList<AppInfo> unfilteredData = new ArrayList<>();
     /** The list off all apps. */
     public final ArrayList<AppInfo> data = new ArrayList<>(DEFAULT_APPLICATIONS_NUMBER);
     /** The list of apps that have been added since the last notify() call. */
@@ -72,6 +74,10 @@ public class AllAppsList {
      * If the app is already in the list, doesn't add it.
      */
     public void add(AppInfo info, LauncherActivityInfo activityInfo) {
+        mIconCache.getTitleAndIcon(info, activityInfo, true /* useLowResIcon */);
+        if (findUnfilteredAppInfo(info.componentName, info.user) == null) {
+            unfilteredData.add(info);
+        }
         if (!mAppFilter.shouldShowApp(info.componentName, info.user)) {
             return;
         }
@@ -92,6 +98,7 @@ public class AllAppsList {
         if (applicationInfo == null) {
             PromiseAppInfo info = new PromiseAppInfo(installInfo);
             mIconCache.getTitleAndIcon(info, info.usingLowResIcon);
+            unfilteredData.add(info);
             data.add(info);
             added.add(info);
         }
@@ -101,9 +108,11 @@ public class AllAppsList {
         // the <em>removed</em> list is handled by the caller
         // so not adding it here
         data.remove(appInfo);
+        unfilteredData.remove(appInfo);
     }
 
     public void clear() {
+        unfilteredData.clear();
         data.clear();
         // TODO: do we clear these too?
         added.clear();
@@ -142,6 +151,7 @@ public class AllAppsList {
             if (info.user.equals(user) && packageName.equals(info.componentName.getPackageName())) {
                 removed.add(info);
                 data.remove(i);
+                unfilteredData.clear();
             }
         }
     }
@@ -258,6 +268,15 @@ public class AllAppsList {
     private @Nullable AppInfo findAppInfo(@NonNull ComponentName componentName,
                                           @NonNull UserHandle user) {
         for (AppInfo info: data) {
+            if (componentName.equals(info.componentName) && user.equals(info.user)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+    private @Nullable AppInfo findUnfilteredAppInfo(@NonNull ComponentName componentName, @NonNull UserHandle user) {
+        for (AppInfo info: unfilteredData) {
             if (componentName.equals(info.componentName) && user.equals(info.user)) {
                 return info;
             }
