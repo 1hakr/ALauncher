@@ -1702,6 +1702,12 @@ public class Launcher extends BaseActivity
         }
         super.onNewIntent(intent);
 
+        boolean wasInWidgetResize = false;
+        boolean wasTopOpenView = false;
+        boolean workspaceChanged = false;
+        boolean wasOnDefaultPage = mWorkspace.isOnDefaultPage();
+        boolean wasInSpringMode = false;
+
         boolean alreadyOnHome = mHasFocus && ((intent.getFlags() &
                 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
                 != Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -1722,9 +1728,11 @@ public class Launcher extends BaseActivity
             UserEventDispatcher ued = getUserEventDispatcher();
 
             // TODO: Log this case.
+            wasInWidgetResize = mWorkspace.isInWidgetResize();
             mWorkspace.exitWidgetResizeMode();
 
             AbstractFloatingView topOpenView = AbstractFloatingView.getTopOpenView(this);
+            wasTopOpenView = topOpenView != null;
             if (topOpenView instanceof PopupContainerWithArrow) {
                 ued.logActionCommand(Action.Command.HOME_INTENT,
                         topOpenView.getExtendedTouchView(), ContainerType.DEEPSHORTCUTS);
@@ -1738,13 +1746,13 @@ public class Launcher extends BaseActivity
 
             // In all these cases, only animate if we're already on home
             AbstractFloatingView.closeAllOpenViews(this, alreadyOnHome);
-            exitSpringLoadedDragMode();
+            wasInSpringMode = exitSpringLoadedDragMode();
 
             // If we are already on home, then just animate back to the workspace,
             // otherwise, just wait until onResume to set the state back to Workspace
             if (alreadyOnHome) {
                 if (!mAllAppsController.isDragging()) {
-                    showWorkspace(true);
+                    workspaceChanged = showWorkspace(true);
                 }
             } else {
                 mOnResumeState = State.WORKSPACE;
@@ -1771,7 +1779,7 @@ public class Launcher extends BaseActivity
                 mLauncherCallbacks.onHomeIntent();
             }
         }
-        PinItemDragListener.handleDragRequest(this, intent);
+        boolean dragHandled = PinItemDragListener.handleDragRequest(this, intent);
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onNewIntent(intent);
@@ -1780,6 +1788,7 @@ public class Launcher extends BaseActivity
         // Defer moving to the default screen until after we callback to the LauncherCallbacks
         // as slow logic in the callbacks eat into the time the scroller expects for the snapToPage
         // animation.
+        boolean movedToDefaultScreen = false;
         if (isActionMain) {
             boolean callbackAllowsMoveToDefaultScreen =
                 mLauncherCallbacks == null || mLauncherCallbacks
@@ -1790,6 +1799,9 @@ public class Launcher extends BaseActivity
                 // We use this flag to suppress noisy callbacks above custom content state
                 // from onResume.
                 mMoveToDefaultScreenFromNewIntent = true;
+                if (mWorkspace != null) {
+                    movedToDefaultScreen = true;
+                }
                 mWorkspace.post(new Runnable() {
                     @Override
                     public void run() {
@@ -1799,6 +1811,20 @@ public class Launcher extends BaseActivity
                     }
                 });
             }
+        }
+
+        if(mState == State.WORKSPACE
+                && alreadyOnHome
+                && shouldMoveToDefaultScreen
+                && isActionMain
+                && !wasInWidgetResize
+                && !wasTopOpenView
+                && !dragHandled
+                && movedToDefaultScreen
+                && !workspaceChanged
+                && wasOnDefaultPage
+                && !wasInSpringMode) {
+            handleHomeAction();
         }
 
         if (DEBUG_RESUME_TIME) {
@@ -3094,15 +3120,20 @@ public class Launcher extends BaseActivity
                 || mState == State.WIDGETS_SPRING_LOADED;
     }
 
-    public void exitSpringLoadedDragMode() {
+    public boolean exitSpringLoadedDragMode() {
+        boolean handled = false;
         if (mState == State.APPS_SPRING_LOADED) {
             showAppsView(true /* animated */,
                     false /* updatePredictedApps */, false /* focusSearchBar */);
+            handled = true;
         } else if (mState == State.WIDGETS_SPRING_LOADED) {
             showWidgetsView(true, false);
+            handled = true;
         } else if (mState == State.WORKSPACE_SPRING_LOADED) {
             showWorkspace(true);
+            handled = true;
         }
+        return handled;
     }
 
     /**

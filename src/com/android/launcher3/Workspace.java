@@ -528,6 +528,10 @@ public class Workspace extends PagedView
         return numCustomPages();
     }
 
+    public boolean isOnDefaultPage() {
+        return mState == State.NORMAL && mCurrentPage == getDefaultPage();
+    }
+
     private void setupLayoutTransition() {
         // We want to show layout transitions when pages are deleted, to close the gap.
         mLayoutTransition = new LayoutTransition();
@@ -536,6 +540,10 @@ public class Workspace extends PagedView
         mLayoutTransition.disableTransitionType(LayoutTransition.APPEARING);
         mLayoutTransition.disableTransitionType(LayoutTransition.CHANGE_APPEARING);
         setLayoutTransition(mLayoutTransition);
+    }
+
+    public boolean isInWidgetResize() {
+        return mLauncher.getDragLayer().isInWidgetResize();
     }
 
     void enableLayoutTransitions() {

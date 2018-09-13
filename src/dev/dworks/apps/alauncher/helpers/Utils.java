@@ -7,6 +7,7 @@ import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.UiModeManager;
+import android.app.admin.DevicePolicyManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -29,6 +30,7 @@ import android.os.Process;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.Toast;
 
 import com.android.launcher3.BuildConfig;
@@ -50,12 +52,16 @@ import java.util.Locale;
 import androidx.core.content.FileProvider;
 import androidx.palette.graphics.Palette;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.lock.DoubleTapToLockRegistry;
+import dev.dworks.apps.alauncher.lock.LockDeviceAdmin;
+import dev.dworks.apps.alauncher.lock.LockTimeoutActivity;
 
 import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
 
 public class Utils {
 
     private static final long WAIT_BEFORE_RESTART = 250;
+    private static final DoubleTapToLockRegistry REGISTRY = new DoubleTapToLockRegistry();
     private static final String GOOGLE_QSB = "com.google.android.googlequicksearchbox";
     private static final int WHITE = 0xffffffff;
     public static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
@@ -322,6 +328,49 @@ public class Utils {
         }
 
         context.startActivity(install);
+    }
+
+    public static void handleWorkspaceTouchEvent(Launcher launcher, MotionEvent ev) {
+        REGISTRY.add(ev);
+        if (Settings.isDoubleTapToLockEnabled(launcher) && REGISTRY.shouldLock()) {
+            if (Settings.isDoubleTapToLockSecure(launcher)) {
+                secureLock(launcher);
+            } else {
+                timeoutLock(launcher);
+            }
+        }
+    }
+
+    private static void secureLock(Context context) {
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        if (devicePolicyManager != null) {
+            if (devicePolicyManager.isAdminActive(adminComponent(context))) {
+                devicePolicyManager.lockNow();
+            } else {
+                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent(context));
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, context.getString(R.string.double_tap_to_lock_hint));
+                context.startActivity(intent);
+            }
+        }
+    }
+
+    private static void timeoutLock(final Launcher launcher) {
+        if (Utilities.ATLEAST_MARSHMALLOW) {
+            if (android.provider.Settings.System.canWrite(launcher)) {
+                LockTimeoutActivity.startTimeout(launcher);
+            } else {
+                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + launcher.getPackageName()));
+                launcher.startActivity(intent);
+            }
+        } else {
+            LockTimeoutActivity.startTimeout(launcher);
+        }
+    }
+
+    private static ComponentName adminComponent(Context context) {
+        return new ComponentName(context, LockDeviceAdmin.class);
     }
 
     public static boolean isGoogleBuild(){

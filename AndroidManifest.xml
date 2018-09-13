@@ -197,6 +197,25 @@
         <activity
             android:name="dev.dworks.apps.alauncher.PurchaseActivity"
             android:theme="@style/DefaultTheme"/>
+
+        <!-- Lock -->
+        <activity
+            android:name="dev.dworks.apps.alauncher.lock.LockTimeoutActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/TimeoutTheme" />
+
+        <receiver
+            android:name="dev.dworks.apps.alauncher.lock.LockDeviceAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/lock_admin_policy" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Bridge -->
         <provider
             android:name="androidx.core.content.FileProvider"

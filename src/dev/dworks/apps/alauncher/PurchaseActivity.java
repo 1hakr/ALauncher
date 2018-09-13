@@ -107,7 +107,7 @@ public class PurchaseActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        //App.getInstance().releaseBillingProcessor();
+        App.getInstance().releaseBillingProcessor();
         super.onDestroy();
     }
 }

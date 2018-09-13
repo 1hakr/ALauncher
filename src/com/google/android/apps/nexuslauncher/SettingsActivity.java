@@ -207,12 +207,25 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.GENERATED_ADAPTIVE_BACKGROUND).setOnPreferenceChangeListener(this);
             findPreference(Settings.ALLOW_TWO_LINE_LABELS).setOnPreferenceChangeListener(this);
             findPreference(Settings.DATE_FORMAT).setOnPreferenceChangeListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_WIDGETS).setOnPreferenceChangeListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_UNINSTALL).setOnPreferenceChangeListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_EDIT).setOnPreferenceChangeListener(this);
+            findPreference(Settings.SHORTCUT_LOCKED_UNINSTALL).setOnPreferenceChangeListener(this);
+            findPreference(Settings.SHORTCUT_LOCKED_EDIT).setOnPreferenceChangeListener(this);
 
             //findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
             //findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
             //findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
             findPreference(RESTART_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceClickListener(this);
+
+            findPreference(Settings.ONE_FINGER_DOWN).setOnPreferenceChangeListener(this);
+            findPreference(Settings.TWO_FINGER_DOWN).setOnPreferenceChangeListener(this);
+            findPreference(Settings.DOUBLE_TAP_TO_LOCK).setOnPreferenceChangeListener(this);
+            findPreference(Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE).setOnPreferenceChangeListener(this);
+            findPreference(Settings.HOME_ACTION).setOnPreferenceChangeListener(this);
+            findPreference(Settings.CARET_LONG_PRESS).setOnPreferenceChangeListener(this);
+            findPreference(Settings.LOCK_DESKTOP_KEY).setOnPreferenceChangeListener(this);
 
             //PRO
             findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceClickListener(this);
@@ -240,6 +253,18 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.SEARCH_PROVIDER).setOnPreferenceClickListener(this);
             findPreference(THEME_OVERRIDE_KEY).setOnPreferenceClickListener(this);
             findPreference(KEY_PREFERENCE).setOnPreferenceClickListener(this);
+            findPreference(Settings.ONE_FINGER_DOWN).setOnPreferenceClickListener(this);
+            findPreference(Settings.TWO_FINGER_DOWN).setOnPreferenceClickListener(this);
+            findPreference(Settings.DOUBLE_TAP_TO_LOCK).setOnPreferenceClickListener(this);
+            findPreference(Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE).setOnPreferenceClickListener(this);
+            findPreference(Settings.HOME_ACTION).setOnPreferenceClickListener(this);
+            findPreference(Settings.CARET_LONG_PRESS).setOnPreferenceClickListener(this);
+            findPreference(Settings.LOCK_DESKTOP_KEY).setOnPreferenceClickListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_WIDGETS).setOnPreferenceClickListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_UNINSTALL).setOnPreferenceClickListener(this);
+            findPreference(Settings.SHORTCUT_UNLOCKED_EDIT).setOnPreferenceClickListener(this);
+            findPreference(Settings.SHORTCUT_LOCKED_UNINSTALL).setOnPreferenceClickListener(this);
+            findPreference(Settings.SHORTCUT_LOCKED_EDIT).setOnPreferenceClickListener(this);
 
             if (!Utilities.ATLEAST_OREO) {
                 ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen()
@@ -282,7 +307,10 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             mIconPackPref.reloadIconPacks();
 
             if(App.isPurchased()) {
-                getPreferenceScreen().removePreference(findPreference(SUPPORT));
+                Preference preference = findPreference(SUPPORT);
+                if(null != preference) {
+                    getPreferenceScreen().removePreference(preference);
+                }
             }
 
             SwitchPreference minusOne = (SwitchPreference) findPreference(ENABLE_MINUS_ONE_PREF);
@@ -401,6 +429,29 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     confirmationFragment.setTargetFragment(this, 0);
                     confirmationFragment.show(getFragmentManager(), preference.getKey());
                     break;
+
+                case Settings.ONE_FINGER_DOWN:
+                case Settings.TWO_FINGER_DOWN:
+                case Settings.DOUBLE_TAP_TO_LOCK:
+                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
+                case Settings.HOME_ACTION:
+                case Settings.CARET_LONG_PRESS:
+                case Settings.LOCK_DESKTOP_KEY:
+                case Settings.SHORTCUT_UNLOCKED_WIDGETS:
+                case Settings.SHORTCUT_UNLOCKED_EDIT:
+                case Settings.SHORTCUT_UNLOCKED_UNINSTALL:
+                case Settings.SHORTCUT_LOCKED_EDIT:
+                case Settings.SHORTCUT_LOCKED_UNINSTALL:
+                    if(!App.isPurchased()) {
+                        break;
+                    }
+                    if (preference instanceof TwoStatePreference) {
+                        ((TwoStatePreference) preference).setChecked((boolean) newValue);
+                    }
+                    if(!Utils.isAmazonBuild()) {
+                        Utils.reloadTheme(mContext);
+                    }
+                    break;
             }
             return false;
         }
@@ -455,6 +506,18 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.SEARCH_PROVIDER:
                 case THEME_OVERRIDE_KEY:
                 case KEY_PREFERENCE:
+                case Settings.ONE_FINGER_DOWN:
+                case Settings.TWO_FINGER_DOWN:
+                case Settings.DOUBLE_TAP_TO_LOCK:
+                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
+                case Settings.HOME_ACTION:
+                case Settings.CARET_LONG_PRESS:
+                case Settings.LOCK_DESKTOP_KEY:
+                case Settings.SHORTCUT_UNLOCKED_WIDGETS:
+                case Settings.SHORTCUT_UNLOCKED_EDIT:
+                case Settings.SHORTCUT_UNLOCKED_UNINSTALL:
+                case Settings.SHORTCUT_LOCKED_EDIT:
+                case Settings.SHORTCUT_LOCKED_UNINSTALL:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
                     }

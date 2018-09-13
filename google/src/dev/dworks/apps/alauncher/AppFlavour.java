@@ -2,7 +2,6 @@ package dev.dworks.apps.alauncher;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.Toast;

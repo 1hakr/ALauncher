@@ -1,11 +1,11 @@
-package dev.dworks.apps.alauncher.helpers;
+package dev.dworks.apps.alauncher.lock;
 
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeanDoubleTapToLockRegistry {
+public class DoubleTapToLockRegistry {
 
     private static final long TIMEOUT_THRESHOLD = 350L;
     private List<TouchRecord> history = new ArrayList<>();
@@ -31,7 +31,7 @@ public class LeanDoubleTapToLockRegistry {
                 && history.get(0).timestamp - history.get(3).timestamp < TIMEOUT_THRESHOLD;
     }
 
-    static class TouchRecord {
+    public static class TouchRecord {
         int action;
         long timestamp;
 

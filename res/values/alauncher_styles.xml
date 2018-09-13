@@ -21,4 +21,6 @@
     <style name="ToolbarTheme" parent="@android:style/Theme.Material.Light">
         <item name="android:colorControlNormal">@android:color/white</item>
     </style>
+
+    <style name="TimeoutTheme" parent="@android:style/Theme.Material.NoActionBar" />
 </resources>

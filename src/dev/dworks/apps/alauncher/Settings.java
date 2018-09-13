@@ -65,7 +65,7 @@ public class Settings {
     private static final String THEME_DEFAULT = "wallpaper";
     private static final boolean BOTTOM_SEARCH_BAR_DEFAULT = true;
     private static final boolean TOP_SEARCH_BAR_DEFAULT = true;
-    private static final boolean PHYSICAL_ANIMATION_DEFAULT = true;
+    private static final boolean PHYSICAL_ANIMATION_DEFAULT = false;
     private static final boolean TRANSPARENT_NAVIGATION_BAR_DEFAULT = false;
     private static final boolean EXTRA_BOTTOM_PADDING_DEFAULT = false;
     private static final String GRID_COLUMNS_DEFAULT = "default";
@@ -82,21 +82,21 @@ public class Settings {
     private static final boolean DARK_TOP_SEARCH_BAR_DEFAULT = false;
     private static final boolean LABEL_HIDDEN_ON_DESKTOP_DEFAULT = false;
     private static final boolean LABEL_HIDDEN_ON_ALL_APPS_DEFAULT = false;
-    private static final boolean QSB_VOICE_ICON_DEFAULT = true;
+    private static final boolean QSB_VOICE_ICON_DEFAULT = false;
     private static final boolean DOUBLE_TAP_TO_LOCK_IS_SECURE_DEFAULT = false;
-    private static final boolean ONE_FINGER_DOWN_DEFAULT = true;
-    private static final boolean TWO_FINGER_DOWN_DEFAULT = true;
+    private static final boolean ONE_FINGER_DOWN_DEFAULT = false;
+    private static final boolean TWO_FINGER_DOWN_DEFAULT = false;
     private static final boolean BLACK_COLORS_DEFAULT = false;
     private static final boolean SHOW_CARET_DEFAULT = true;
     private static final boolean GENERATE_ADAPTIVE_ICONS_DEFAULT = false;
     private static final boolean GENERATED_ADAPTIVE_BACKGROUND_DEFAULT = false;
     private static final boolean ALLOW_TWO_LINE_LABELS_DEFAULT = false;
-    private static final boolean SHORTCUT_UNLOCKED_WIDGETS_DEFAULT = true;
-    private static final boolean SHORTCUT_UNLOCKED_UNINSTALL_DEFAULT = true;
-    private static final boolean SHORTCUT_UNLOCKED_EDIT_DEFAULT = true;
+    private static final boolean SHORTCUT_UNLOCKED_WIDGETS_DEFAULT = false;
+    private static final boolean SHORTCUT_UNLOCKED_UNINSTALL_DEFAULT = false;
+    private static final boolean SHORTCUT_UNLOCKED_EDIT_DEFAULT = false;
     private static final boolean SHORTCUT_LOCKED_UNINSTALL_DEFAULT = false;
     private static final boolean SHORTCUT_LOCKED_EDIT_DEFAULT = false;
-    private static final boolean CARET_LONG_PRESS_DEFAULT = true;
+    private static final boolean CARET_LONG_PRESS_DEFAULT = false;
     private static final int DATE_FORMAT_DEFAULT = R.string.date_format_normal;
     private static final boolean PAGE_INDICATOR_DEFAULT = true;
     private static final boolean ENABLE_MINUS_ONE_DEFAULT = false;
@@ -169,10 +169,6 @@ public class Settings {
 
     public static boolean isColoredGIconForced(Context context) {
         return prefs(context).getBoolean(FORCE_COLORED_G_ICON, FORCE_COLORED_G_ICON_DEFAULT);
-    }
-
-    public static boolean isDoubleTapToLockEnabled(Context context) {
-        return prefs(context).getBoolean(DOUBLE_TAP_TO_LOCK, DOUBLE_TAP_TO_LOCK_DEFAULT);
     }
 
     public static int getGridColumns(Context context, int fallback) {
@@ -300,6 +296,10 @@ public class Settings {
 
     public static String getHomeAction(Context context) {
         return prefs(context).getString(HOME_ACTION, "");
+    }
+
+    public static boolean isDoubleTapToLockEnabled(Context context) {
+        return prefs(context).getBoolean(DOUBLE_TAP_TO_LOCK, DOUBLE_TAP_TO_LOCK_DEFAULT);
     }
 
     public static boolean isDoubleTapToLockSecure(Context context) {
