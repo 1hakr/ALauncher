@@ -49,21 +49,20 @@
     <uses-permission android:name="${applicationId}.permission.READ_SETTINGS" />
     <uses-permission android:name="${applicationId}.permission.WRITE_SETTINGS" />
 
-    <!-- Pixel -->
-    <permission
-        android:name="${applicationId}.permission.QSB"
-        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="signatureOrSystem"/>
-    <uses-permission android:name="${applicationId}.permission.QSB" />
-
     <!-- Custom -->
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
     <!--Bridge-->
-    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
+    <!--Extras-->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="com.huawei.wallpaperservcie.permission.SET_WALLPAPER_OFFSET" />
 
     <uses-feature

@@ -432,8 +432,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
                 case Settings.ONE_FINGER_DOWN:
                 case Settings.TWO_FINGER_DOWN:
-                case Settings.DOUBLE_TAP_TO_LOCK:
-                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
                 case Settings.HOME_ACTION:
                 case Settings.CARET_LONG_PRESS:
                 case Settings.LOCK_DESKTOP_KEY:
@@ -450,6 +448,22 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     }
                     if(!Utils.isAmazonBuild()) {
                         Utils.reloadTheme(mContext);
+                    }
+                    break;
+                case Settings.DOUBLE_TAP_TO_LOCK:
+                    if(!App.isPurchased() || !Utils.isTimeoutLockEnabled(mContext)) {
+                        break;
+                    }
+                    if (preference instanceof TwoStatePreference) {
+                        ((TwoStatePreference) preference).setChecked((boolean) newValue);
+                    }
+                    break;
+                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
+                    if(!App.isPurchased() || !Utils.isSecureLockEnabled(mContext)) {
+                        break;
+                    }
+                    if (preference instanceof TwoStatePreference) {
+                        ((TwoStatePreference) preference).setChecked((boolean) newValue);
                     }
                     break;
             }
@@ -520,8 +534,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case KEY_PREFERENCE:
                 case Settings.ONE_FINGER_DOWN:
                 case Settings.TWO_FINGER_DOWN:
-                case Settings.DOUBLE_TAP_TO_LOCK:
-                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
                 case Settings.HOME_ACTION:
                 case Settings.CARET_LONG_PRESS:
                 case Settings.LOCK_DESKTOP_KEY:
@@ -533,6 +545,18 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
                     }
+                    return true;
+                case Settings.DOUBLE_TAP_TO_LOCK:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    }
+                    Utils.enableTimeoutLock(mContext);
+                    return true;
+                case Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    }
+                    Utils.enableSecureLock(mContext);
                     return true;
             }
             return false;

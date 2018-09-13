@@ -46,7 +46,7 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 	}
 
 	public static boolean isPurchased() {
-		return PreferenceUtils.getBooleanPrefs(PURCHASED);
+		return BuildConfig.DEBUG || PreferenceUtils.getBooleanPrefs(PURCHASED);
 	}
 
 	@Override

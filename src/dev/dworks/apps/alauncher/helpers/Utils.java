@@ -342,30 +342,47 @@ public class Utils {
     }
 
     private static void secureLock(Context context) {
-        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        if (devicePolicyManager != null) {
-            if (devicePolicyManager.isAdminActive(adminComponent(context))) {
+        if(isSecureLockEnabled(context)) {
+            DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (devicePolicyManager != null && devicePolicyManager.isAdminActive(adminComponent(context))) {
                 devicePolicyManager.lockNow();
-            } else {
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent(context));
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, context.getString(R.string.double_tap_to_lock_hint));
-                context.startActivity(intent);
             }
+        } else {
+            enableSecureLock(context);
         }
     }
 
     private static void timeoutLock(final Launcher launcher) {
-        if (Utilities.ATLEAST_MARSHMALLOW) {
-            if (android.provider.Settings.System.canWrite(launcher)) {
-                LockTimeoutActivity.startTimeout(launcher);
-            } else {
-                Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + launcher.getPackageName()));
-                launcher.startActivity(intent);
-            }
-        } else {
+        if(isTimeoutLockEnabled(launcher)){
             LockTimeoutActivity.startTimeout(launcher);
+        } else {
+            enableTimeoutLock(launcher);
+        }
+    }
+
+    public static boolean isTimeoutLockEnabled(Context context){
+        return !Utilities.ATLEAST_MARSHMALLOW || android.provider.Settings.System.canWrite(context);
+    }
+
+    public static boolean isSecureLockEnabled(Context context){
+        DevicePolicyManager devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        return devicePolicyManager != null && devicePolicyManager.isAdminActive(adminComponent(context));
+    }
+
+    public static void enableTimeoutLock(Context context){
+        if (!isTimeoutLockEnabled(context)) {
+            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            intent.setData(Uri.parse("package:" + context.getPackageName()));
+            context.startActivity(intent);
+        }
+    }
+
+    public static void enableSecureLock(Context context){
+        if (!isSecureLockEnabled(context)) {
+            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponent(context));
+            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, context.getString(R.string.double_tap_to_lock_hint));
+            context.startActivity(intent);
         }
     }
 
