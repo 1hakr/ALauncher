@@ -35,4 +35,17 @@
         android:contentDescription="@string/label_voice_search"
         android:scaleType="center"
         android:src="?micIcon" />
+
+    <ImageView
+        android:id="@+id/assistant_icon"
+        android:layout_width="48.0dip"
+        android:layout_height="fill_parent"
+        android:layout_gravity="end|center"
+        android:layout_marginBottom="-6.0dip"
+        android:layout_marginTop="-6.0dip"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:contentDescription="@string/label_assistant"
+        android:scaleType="center"
+        android:src="?aIcon" />
 </merge>

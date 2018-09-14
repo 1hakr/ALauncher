@@ -224,10 +224,12 @@
     <style name="HotseatQsbTheme">
         <item name="gIcon">@drawable/ic_super_g_shadow</item>
         <item name="micIcon">@drawable/ic_mic_shadow</item>
+        <item name="aIcon">@drawable/ic_assistant_shadow</item>
     </style>
     <style name="HotseatQsbTheme.Colored" parent="@style/HotseatQsbTheme">
         <item name="gIcon">@drawable/ic_super_g_color</item>
         <item name="micIcon">@drawable/ic_mic_color</item>
+        <item name="aIcon">@drawable/ic_assistant_color</item>
     </style>
     <style name="SettingsTheme" parent="@android:style/Theme.Material.Settings">
         <item name="android:actionBarTheme">@style/SettingsTheme.ActionBar</item>

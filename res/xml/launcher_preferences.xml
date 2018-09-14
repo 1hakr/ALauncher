@@ -130,6 +130,12 @@
                     android:summary="@string/force_colored_g_icon_summary"
                     android:title="@string/force_colored_g_icon_title" />
 
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="pref_qsb_assistant_icon"
+                    android:summary="@string/qsb_assistant_icon_summary"
+                    android:title="@string/qsb_assistant_icon_title" />
+
             </PreferenceCategory>
 
             <PreferenceCategory
@@ -156,7 +162,7 @@
                 android:title="@string/other_category">
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_qsb_voice_icon"
                     android:summary="@string/qsb_voice_icon_summary"
                     android:title="@string/qsb_voice_icon_title" />
@@ -414,14 +420,14 @@
                 android:title="@string/gestures_category">
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_one_finger_down"
                     android:persistent="true"
                     android:summary="@string/one_finger_down_summary"
                     android:title="@string/one_finger_down_title" />
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_two_finger_down"
                     android:persistent="true"
                     android:summary="@string/two_finger_down_summary"
@@ -458,7 +464,7 @@
                     android:title="@string/home_action_title" />
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_caret_long_press"
                     android:persistent="true"
                     android:summary="@string/search_apps_caret_summary"
@@ -479,19 +485,19 @@
                 android:title="@string/when_desktop_is_unlocked">
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_shortcut_unlocked_widgets"
                     android:persistent="true"
                     android:title="@string/shortcut_widgets_title" />
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_shortcut_unlocked_uninstall"
                     android:persistent="true"
                     android:title="@string/shortcut_uninstall_title" />
 
                 <SwitchPreference
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="pref_shortcut_unlocked_edit"
                     android:persistent="true"
                     android:title="@string/shortcut_edit_title" />

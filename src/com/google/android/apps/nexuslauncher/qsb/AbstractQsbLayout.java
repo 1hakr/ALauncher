@@ -29,12 +29,14 @@ import com.android.launcher3.graphics.ShadowGenerator.Builder;
 import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
 
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.helpers.Utils;
 
 public abstract class AbstractQsbLayout extends FrameLayout implements LauncherLayoutChangeListener, OnClickListener, OnSharedPreferenceChangeListener {
     protected final static String GOOGLE_QSB = "com.google.android.googlequicksearchbox";
     protected final NexusLauncherActivity mActivity;
     protected int mColor;
     protected View mMicIconView;
+    protected View mAssistantIconView;
     private final RectF mDestRect;
     private final Rect mSrcRect;
     protected Bitmap mShadowBitmap;
@@ -71,6 +73,10 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
     protected SharedPreferences loadAndGetPreferences() {
         mMicIconView = findViewById(R.id.mic_icon);
         mMicIconView.setOnClickListener(this);
+        mAssistantIconView = findViewById(R.id.assistant_icon);
+        if(null != mAssistantIconView) {
+            mAssistantIconView.setOnClickListener(this);
+        }
         SharedPreferences devicePrefs = Utilities.getDevicePrefs(getContext());
         loadPreferences(devicePrefs);
         return devicePrefs;
@@ -175,8 +181,13 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
     }
 
     public void onClick(View view) {
-        if (view == mMicIconView) {
-            fallbackSearch("android.intent.action.VOICE_ASSIST");
+        switch (view.getId()){
+            case R.id.mic_icon:
+                Utils.startVoiceSearch(Launcher.getLauncher(getContext()));
+                break;
+            case R.id.assistant_icon:
+                Utils.startAssistant(Launcher.getLauncher(getContext()));
+                break;
         }
     }
 
@@ -200,7 +211,11 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
     }
 
     private void loadPreferences(SharedPreferences sharedPreferences) {
-        mMicIconView.setVisibility(Settings.isQsbVoiceIconVisible(getContext()) ? View.VISIBLE : View.GONE);
+        boolean showAssistant = null != mAssistantIconView && Settings.isQsbAssistantIconVisible(getContext());
+        mMicIconView.setVisibility(Settings.isQsbVoiceIconVisible(getContext()) && !showAssistant ? View.VISIBLE : View.GONE);
+        if(null != mAssistantIconView) {
+            mAssistantIconView.setVisibility(showAssistant ? View.VISIBLE : View.GONE);
+        }
         requestLayout();
     }
 }

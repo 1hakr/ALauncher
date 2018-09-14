@@ -4138,6 +4138,9 @@ public class Launcher extends BaseActivity
             case "voicesearch":
                 Utils.startVoiceSearch(this);
                 break;
+            case "assistant":
+                Utils.startAssistant(this);
+                break;
             case "appdrawer":
                 Utils.openAppDrawer(this);
                 break;

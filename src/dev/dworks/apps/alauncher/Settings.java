@@ -42,6 +42,7 @@ public class Settings {
     public static final String RESET_APP_VISIBILITY = "pref_reset_app_visibility";
     public static final String RESET_APP_ICONS = "pref_reset_app_icons";
     public static final String QSB_VOICE_ICON = "pref_qsb_voice_icon";
+    public static final String QSB_ASSISTANT_ICON = "pref_qsb_assistant_icon";
     public static final String HOME_ACTION = "pref_home_action";
     public static final String DOUBLE_TAP_TO_LOCK_IS_SECURE = "pref_double_tap_to_lock_is_secure";
     public static final String ONE_FINGER_DOWN = "pref_one_finger_down";
@@ -87,6 +88,7 @@ public class Settings {
     private static final boolean LABEL_HIDDEN_ON_DESKTOP_DEFAULT = false;
     private static final boolean LABEL_HIDDEN_ON_ALL_APPS_DEFAULT = false;
     private static final boolean QSB_VOICE_ICON_DEFAULT = false;
+    private static final boolean QSB_ASSISTANT_ICON_DEFAULT = false;
     private static final boolean DOUBLE_TAP_TO_LOCK_IS_SECURE_DEFAULT = false;
     private static final boolean ONE_FINGER_DOWN_DEFAULT = false;
     private static final boolean TWO_FINGER_DOWN_DEFAULT = false;
@@ -285,6 +287,10 @@ public class Settings {
 
     public static boolean isQsbVoiceIconVisible(Context context) {
         return prefs(context).getBoolean(QSB_VOICE_ICON, !Utils.isAmazonBuild() && QSB_VOICE_ICON_DEFAULT);
+    }
+
+    public static boolean isQsbAssistantIconVisible(Context context) {
+        return prefs(context).getBoolean(QSB_ASSISTANT_ICON, !Utils.isAmazonBuild() && QSB_ASSISTANT_ICON_DEFAULT);
     }
 
     public static String getHomeAction(Context context) {

@@ -192,6 +192,21 @@ public class Utils {
         }
     }
 
+    public static void startAssistant(Launcher launcher) {
+        try {
+            launcher.startActivity(new Intent(Intent.ACTION_VOICE_COMMAND)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    .setPackage(GOOGLE_QSB));
+        } catch (ActivityNotFoundException e) {
+            try {
+                launcher.getPackageManager().getPackageInfo(GOOGLE_QSB, 0);
+                LauncherAppsCompat.getInstance(launcher).showAppDetailsForProfile(new ComponentName(GOOGLE_QSB, "com.google.android.apps.gsa.staticplugins.opa.OpaActivity"), Process.myUserHandle());
+            } catch (PackageManager.NameNotFoundException ignored) {
+                launcher.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://google.com")));
+            }
+        }
+    }
+
     public static String formatDateTime(Context context, long timeInMillis) {
         try {
             String format = Settings.getDateFormat(context);

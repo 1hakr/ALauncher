@@ -199,6 +199,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceChangeListener(this);
             findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceChangeListener(this);
             findPreference(Settings.QSB_VOICE_ICON).setOnPreferenceChangeListener(this);
+            findPreference(Settings.QSB_ASSISTANT_ICON).setOnPreferenceChangeListener(this);
             findPreference(Settings.BLACK_COLORS).setOnPreferenceChangeListener(this);
             findPreference(Settings.SHOW_CARET).setOnPreferenceChangeListener(this);
             findPreference(Settings.GENERATE_ADAPTIVE_ICONS).setOnPreferenceChangeListener(this);
@@ -222,7 +223,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.TWO_FINGER_DOWN).setOnPreferenceChangeListener(this);
             findPreference(Settings.DOUBLE_TAP_TO_LOCK).setOnPreferenceChangeListener(this);
             findPreference(Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE).setOnPreferenceChangeListener(this);
-            findPreference(Settings.HOME_ACTION).setOnPreferenceChangeListener(this);
             findPreference(Settings.CARET_LONG_PRESS).setOnPreferenceChangeListener(this);
             findPreference(Settings.LOCK_DESKTOP_KEY).setOnPreferenceChangeListener(this);
 
@@ -238,6 +238,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.LABEL_HIDDEN_ON_DESKTOP).setOnPreferenceClickListener(this);
             findPreference(Settings.LABEL_HIDDEN_ON_ALL_APPS).setOnPreferenceClickListener(this);
             findPreference(Settings.QSB_VOICE_ICON).setOnPreferenceClickListener(this);
+            findPreference(Settings.QSB_ASSISTANT_ICON).setOnPreferenceClickListener(this);
             findPreference(Settings.BLACK_COLORS).setOnPreferenceClickListener(this);
             findPreference(Settings.ALLOW_TWO_LINE_LABELS).setOnPreferenceClickListener(this);
             findPreference(Settings.GENERATE_ADAPTIVE_ICONS).setOnPreferenceClickListener(this);
@@ -358,6 +359,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.LABEL_HIDDEN_ON_DESKTOP:
                 case Settings.LABEL_HIDDEN_ON_ALL_APPS:
                 case Settings.QSB_VOICE_ICON:
+                case Settings.QSB_ASSISTANT_ICON:
                 case Settings.BLACK_COLORS:
                 case Settings.SHOW_CARET:
                 case Settings.ALLOW_TWO_LINE_LABELS:
@@ -431,7 +433,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
                 case Settings.ONE_FINGER_DOWN:
                 case Settings.TWO_FINGER_DOWN:
-                case Settings.HOME_ACTION:
                 case Settings.CARET_LONG_PRESS:
                 case Settings.LOCK_DESKTOP_KEY:
                 case Settings.SHORTCUT_UNLOCKED_WIDGETS:
@@ -519,6 +520,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.LABEL_HIDDEN_ON_DESKTOP:
                 case Settings.LABEL_HIDDEN_ON_ALL_APPS:
                 case Settings.QSB_VOICE_ICON:
+                case Settings.QSB_ASSISTANT_ICON:
                 case Settings.BLACK_COLORS:
                 case Settings.SHOW_CARET:
                 case Settings.ALLOW_TWO_LINE_LABELS:

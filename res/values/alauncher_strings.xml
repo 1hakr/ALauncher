@@ -209,6 +209,7 @@
     <string name="home_action_nothing">Nothing</string>
     <string name="home_action_quick_search">Quick search</string>
     <string name="home_action_voice_search">Voice search</string>
+    <string name="home_action_assistant">Google Assistant</string>
     <string name="home_action_app_drawer">Open app drawer</string>
     <string name="home_action_app_search">Open app search</string>
     <string name="home_action_overview">Enter overview</string>
@@ -217,6 +218,7 @@
         <item>@string/home_action_nothing</item>
         <item>@string/home_action_quick_search</item>
         <item>@string/home_action_voice_search</item>
+        <item>@string/home_action_assistant</item>
         <item>@string/home_action_app_drawer</item>
         <item>@string/home_action_app_search</item>
         <item>@string/home_action_overview</item>
@@ -226,6 +228,7 @@
         <item>nothing</item>
         <item>quicksearch</item>
         <item>voicesearch</item>
+        <item>assistant</item>
         <item>appdrawer</item>
         <item>appsearch</item>
         <item>overview</item>
@@ -351,4 +354,8 @@
     <string name="change_default_home_dialog_proceed">Settings</string>
     <string name="change_launcher_title">Set ALauncher as Home</string>
     <string name="change_launcher_summary">Change default launcher</string>
+
+    <string name="qsb_assistant_icon_title">Google Assistant shortcut</string>
+    <string name="qsb_assistant_icon_summary">On the bottom search bars</string>
+    <string name="label_assistant">Google Assistant</string>
 </resources>
