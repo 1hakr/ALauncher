@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.util.Themes;
+import com.android.launcher3.widget.PendingAddShortcutInfo;
 
 public class InfoDropTarget extends UninstallDropTarget {
 
@@ -100,7 +101,8 @@ public class InfoDropTarget extends UninstallDropTarget {
 
     @Override
     protected boolean supportsDrop(DragSource source, ItemInfo info) {
-        return source.supportsAppInfoDropTarget() && supportsDrop(getContext(), info);
+        return info instanceof PendingAddShortcutInfo ||
+                (source.supportsAppInfoDropTarget() && supportsDrop(getContext(), info));
     }
 
     public static boolean supportsDrop(Context context, ItemInfo info) {

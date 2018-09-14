@@ -15,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.launcher3.compat.LauncherAppsCompat;
+import com.android.launcher3.widget.PendingAddShortcutInfo;
 
 import java.net.URISyntaxException;
 
@@ -65,7 +66,7 @@ public class UninstallDropTarget extends ButtonDropTarget {
                 return (appInfo.isSystemApp & AppInfo.FLAG_SYSTEM_NO) != 0;
             }
         }
-        return getUninstallTarget(context, info) != null;
+        return getUninstallTarget(context, info) != null || info instanceof PendingAddShortcutInfo;
     }
 
     /**
