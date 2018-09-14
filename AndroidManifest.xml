@@ -201,7 +201,6 @@
         <activity
             android:name="dev.dworks.apps.alauncher.lock.LockTimeoutActivity"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait"
             android:theme="@style/TimeoutTheme" />
 
         <receiver
