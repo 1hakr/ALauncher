@@ -19,6 +19,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
@@ -265,28 +266,32 @@ public class Utils {
     public static int extractAdaptiveBackgroundFromBitmap(Bitmap bitmap) {
         int background;
         try {
-            Palette palette = Palette.from(bitmap).generate();
-            if (palette.getLightMutedSwatch() != null) {
-                background = palette.getLightMutedSwatch().getRgb();
-            } else if (palette.getMutedSwatch() != null) {
-                background = palette.getMutedSwatch().getRgb();
-            } else if (palette.getLightVibrantSwatch() != null) {
-                background = palette.getLightVibrantSwatch().getRgb();
-            } else if (palette.getVibrantSwatch() != null) {
-                background = palette.getVibrantSwatch().getRgb();
-            } else if (palette.getDarkVibrantSwatch() != null) {
-                background = palette.getDarkVibrantSwatch().getRgb();
-            } else if (palette.getDarkMutedSwatch() != null) {
-                background = palette.getDarkMutedSwatch().getRgb();
-            } else if (palette.getDominantSwatch() != null) {
-                background = palette.getDominantSwatch().getRgb();
-            } else {
-                background = WHITE;
-            }
+            Palette palette = Palette.from(bitmap).maximumColorCount(4).generate();
+            background = palette.getLightVibrantSwatch().getRgb();
         } catch (Throwable t) {
             background = WHITE;
         }
+        if(background != WHITE){
+            background = manipulateColor(background, 0.6f);
+        }
         return background;
+    }
+
+    /**
+     * https://stackoverflow.com/questions/33072365/how-to-darken-a-given-color-int
+     * @param color color provided
+     * @param factor factor to make color darker
+     * @return int as darker color
+     */
+    public static int manipulateColor(int color, float factor) {
+        int a = Color.alpha(color);
+        int r = Math.round(Color.red(color) * factor);
+        int g = Math.round(Color.green(color) * factor);
+        int b = Math.round(Color.blue(color) * factor);
+        return Color.argb(a,
+                Math.min(r, 255),
+                Math.min(g, 255),
+                Math.min(b, 255));
     }
 
     public static void openAppDrawer(Launcher launcher) {
