@@ -61,6 +61,8 @@ public class Settings {
     public static final String DATE_FORMAT = "pref_date_format";
     public static final String PAGE_INDICATOR = "pref_page_indicator";
     public static final String SUPPORT = "pref_support";
+    public static final String TOP_SEARCH_APPS_KEY = "pref_top_search_apps";
+
 
     public static final String RESTART_PREFERENCE = "restart_launcher";
     public static final String CHANGE_DEFAULT_PREFERENCE = "change_default_launcher";
@@ -106,6 +108,7 @@ public class Settings {
     private static final int DATE_FORMAT_DEFAULT = R.string.date_format_normal;
     private static final boolean PAGE_INDICATOR_DEFAULT = true;
     private static final boolean ENABLE_MINUS_ONE_DEFAULT = false;
+    private static final boolean TOP_SEARCH_APPS_KEY_DEFAULT = false;
 
     private static final String THEME_WALLPAPER = "wallpaper";
     private static final String THEME_LIGHT = "light";
@@ -148,6 +151,10 @@ public class Settings {
 
     public static boolean isTopSearchBarVisible(Context context) {
         return prefs(context).getBoolean(TOP_SEARCH_BAR_KEY, TOP_SEARCH_BAR_DEFAULT);
+    }
+
+    public static boolean isTopSearchApps(Context context) {
+        return prefs(context).getBoolean(TOP_SEARCH_APPS_KEY, TOP_SEARCH_APPS_KEY_DEFAULT);
     }
 
     public static boolean isPhysicalAnimationEnabled(Context context) {

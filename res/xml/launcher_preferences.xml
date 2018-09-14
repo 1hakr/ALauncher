@@ -155,6 +155,12 @@
                     android:summary="@string/summary_app_suggestions"
                     android:title="@string/title_app_suggestions" />
 
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="pref_top_search_apps"
+                    android:summary="@string/top_search_apps_summary"
+                    android:title="@string/top_search_apps_title" />
+
             </PreferenceCategory>
 
             <PreferenceCategory

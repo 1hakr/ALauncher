@@ -225,6 +225,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.DOUBLE_TAP_TO_LOCK_IS_SECURE).setOnPreferenceChangeListener(this);
             findPreference(Settings.CARET_LONG_PRESS).setOnPreferenceChangeListener(this);
             findPreference(Settings.LOCK_DESKTOP_KEY).setOnPreferenceChangeListener(this);
+            findPreference(Settings.TOP_SEARCH_APPS_KEY).setOnPreferenceChangeListener(this);
 
             //PRO
             findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceClickListener(this);
@@ -265,6 +266,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.SHORTCUT_UNLOCKED_EDIT).setOnPreferenceClickListener(this);
             findPreference(Settings.SHORTCUT_LOCKED_UNINSTALL).setOnPreferenceClickListener(this);
             findPreference(Settings.SHORTCUT_LOCKED_EDIT).setOnPreferenceClickListener(this);
+            findPreference(Settings.TOP_SEARCH_APPS_KEY).setOnPreferenceClickListener(this);
 
             if (!Utilities.ATLEAST_OREO) {
                 ((PreferenceCategory) ((PreferenceScreen) getPreferenceScreen()
@@ -440,6 +442,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.SHORTCUT_UNLOCKED_UNINSTALL:
                 case Settings.SHORTCUT_LOCKED_EDIT:
                 case Settings.SHORTCUT_LOCKED_UNINSTALL:
+                case Settings.TOP_SEARCH_APPS_KEY:
                     if(!App.isPurchased()) {
                         break;
                     }
@@ -546,6 +549,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 case Settings.SHORTCUT_UNLOCKED_UNINSTALL:
                 case Settings.SHORTCUT_LOCKED_EDIT:
                 case Settings.SHORTCUT_LOCKED_UNINSTALL:
+                case Settings.TOP_SEARCH_APPS_KEY:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
                     }

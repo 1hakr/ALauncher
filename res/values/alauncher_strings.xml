@@ -358,4 +358,7 @@
     <string name="qsb_assistant_icon_title">Google Assistant shortcut</string>
     <string name="qsb_assistant_icon_summary">On the bottom search bars</string>
     <string name="label_assistant">Google Assistant</string>
+
+    <string name="top_search_apps_title">Search only apps</string>
+    <string name="top_search_apps_summary">At the top of your app drawer</string>
 </resources>

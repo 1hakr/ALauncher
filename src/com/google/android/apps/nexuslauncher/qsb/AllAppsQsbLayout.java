@@ -156,7 +156,7 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
     public void onClick(final View view) {
         super.onClick(view);
         if (view == this && (mFallback == null || mFallback.getVisibility() == View.GONE)) {
-            if (Utilities.ATLEAST_OREO) {
+            if (Utilities.ATLEAST_OREO && !Settings.isTopSearchApps(getContext())) {
                 final ConfigBuilder config = new ConfigBuilder(this, true);
                 if (mActivity.getGoogleNow().startSearch(config.build(), config.getExtras())) {
                     return;
