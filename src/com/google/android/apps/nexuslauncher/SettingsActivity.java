@@ -56,8 +56,6 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
     private static final String SMARTSPACE_SETTINGS = "pref_smartspace_settings";
 
-    private static final String RESTART_PREFERENCE = "restart_alauncher";
-
     private final static int REQUEST_EXTERNAL_STORAGE = 100;
 
     @Override
@@ -216,7 +214,8 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
-            findPreference(RESTART_PREFERENCE).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESTART_PREFERENCE).setOnPreferenceClickListener(this);
+            findPreference(Settings.CHANGE_DEFAULT_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(ENABLE_MINUS_ONE_PREF).setOnPreferenceClickListener(this);
 
             findPreference(Settings.ONE_FINGER_DOWN).setOnPreferenceChangeListener(this);
@@ -497,8 +496,11 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                         new ResetAppIconsDialog().show(getFragmentManager(), preference.getKey());
                     }
                     return true;
-                case RESTART_PREFERENCE:
+                case Settings.RESTART_PREFERENCE:
                     Utils.restart(mContext);
+                    return true;
+                case Settings.CHANGE_DEFAULT_PREFERENCE:
+                    Utils.setDefaultLauncher(getActivity());
                     return true;
                 case ENABLE_MINUS_ONE_PREF:
                     if (Utils.isBridgeInstalled(getActivity())) {

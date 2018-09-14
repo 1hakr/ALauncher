@@ -558,9 +558,19 @@
             android:summary="@string/lock_desktop_summary"
             android:title="@string/lock_desktop_title" />
 
+        <Preference
+            android:key="change_default_launcher"
+            android:summary="@string/change_launcher_summary"
+            android:title="@string/change_launcher_title" />
+
+        <Preference
+            android:key="restart_launcher"
+            android:summary="@string/restart_launcher_summary"
+            android:title="@string/restart_launcher_title" />
+
     </PreferenceScreen>
     <PreferenceCategory
-        android:key="pref_basic_category"
+        android:key="pref_support_category"
         android:title="Support">
         <Preference
             android:icon="@drawable/ic_star"
@@ -613,11 +623,6 @@
                 android:key="open_source_licenses"
                 android:persistent="false"
                 android:title="@string/pref_open_source_licenses_title" />
-
-            <Preference
-                android:key="restart_alauncher"
-                android:summary="@string/restart_launcher_summary"
-                android:title="@string/restart_launcher_title" />
 
         </PreferenceScreen>
     </PreferenceCategory>

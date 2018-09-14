@@ -61,6 +61,9 @@ public class Settings {
     public static final String PAGE_INDICATOR = "pref_page_indicator";
     public static final String SUPPORT = "pref_support";
 
+    public static final String RESTART_PREFERENCE = "restart_launcher";
+    public static final String CHANGE_DEFAULT_PREFERENCE = "change_default_launcher";
+
     private static final boolean SETTINGS_DIRTY_DEFAULT = false;
     private static final boolean LOCK_DESKTOP_DEFAULT = false;
     private static final String THEME_DEFAULT = "wallpaper";

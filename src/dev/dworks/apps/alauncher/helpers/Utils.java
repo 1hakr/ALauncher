@@ -421,4 +421,8 @@ public class Utils {
         return Uri.parse("https://play.google.com/store/apps/dev?id=8683545855643814241");
     }
 
+    public static void setDefaultLauncher(Activity activity){
+        new DefaultLauncher(activity).launchHomeOrClearDefaultsDialog();
+    }
+
 }

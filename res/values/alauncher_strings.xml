@@ -261,7 +261,7 @@
     <string name="show_caret_summary">Above the Hotseat</string>
 
     <string name="restart_launcher_title">Restart  ALauncher</string>
-    <string name="restart_launcher_summary">For debug purposes</string>
+    <string name="restart_launcher_summary">For fixing icons and theme</string>
 
     <string name="generate_adaptive_icons_title">Generate adaptive icons</string>
     <string name="generate_adaptive_icons_summary">For apps without adaptive icons</string>
@@ -342,4 +342,13 @@
     <string name="settingsApplicationId" translatable="false">package:dev.dworks.apps.alauncher</string>
     <string name="applicationId">dev.dworks.apps.alauncher</string>
     <string name="store_url">http://play.google.com/store/apps/details?id=dev.dworks.apps.alauncher</string>
+
+    <string name="launcher_is_already_default">ALauncher is already your default launcher</string>
+    <string name="change_default_home_dialog_body">%s is currently your default launcher. To try the ALauncher, go to Settings, tap Clear Defaults, and press the Home button.</string>
+    <string name="change_default_home_dialog_body_settings">%s is currently your default launcher. To try the ALauncher, select it from Settings > Home.</string>
+    <string name="change_default_home_dialog_body_settings_tts">%s is currently your default launcher. To try the ALauncher, select Settings, then select Home.</string>
+    <string name="change_default_home_dialog_cancel">Cancel</string>
+    <string name="change_default_home_dialog_proceed">Settings</string>
+    <string name="change_launcher_title">Set ALauncher as Home</string>
+    <string name="change_launcher_summary">Change default launcher</string>
 </resources>
