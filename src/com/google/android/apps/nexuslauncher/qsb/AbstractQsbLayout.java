@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DeviceProfile.LauncherLayoutChangeListener;
@@ -41,6 +42,7 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
     private final Rect mSrcRect;
     protected Bitmap mShadowBitmap;
     protected final Paint mShadowPaint;
+    protected ImageView mGIconView;
 
     protected abstract int getWidth(int i);
 
@@ -77,6 +79,7 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
         if(null != mAssistantIconView) {
             mAssistantIconView.setOnClickListener(this);
         }
+        mGIconView = findViewById(R.id.g_icon);
         SharedPreferences devicePrefs = Utilities.getDevicePrefs(getContext());
         loadPreferences(devicePrefs);
         return devicePrefs;
@@ -215,6 +218,12 @@ public abstract class AbstractQsbLayout extends FrameLayout implements LauncherL
         mMicIconView.setVisibility(Settings.isQsbVoiceIconVisible(getContext()) && !showAssistant ? View.VISIBLE : View.GONE);
         if(null != mAssistantIconView) {
             mAssistantIconView.setVisibility(showAssistant ? View.VISIBLE : View.GONE);
+        }
+        if (this instanceof AllAppsQsbLayout && Settings.isTopSearchApps(getContext())) {
+            if(null != mGIconView){
+                mGIconView.setImageResource(R.drawable.ic_allapps_search);
+                mMicIconView.setVisibility(View.GONE);
+            }
         }
         requestLayout();
     }

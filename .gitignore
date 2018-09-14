@@ -17,3 +17,4 @@ gradlew*
 keystore.properties
 *.DS_Store
 google-services.json
+captures/

@@ -75,7 +75,10 @@ public class HotseatQsbWidget extends AbstractQsbLayout {
 
     private void setColors() {
         View.inflate(new ContextThemeWrapper(getContext(), Settings.isColoredGIconForced(getContext()) || mIsDefaultLiveWallpaper ? R.style.HotseatQsbTheme_Colored : R.style.HotseatQsbTheme), R.layout.qsb_hotseat_content, this);
-        int color = Settings.isBottomSearchBarDark(getContext()) ? R.color.qsb_dark_color : mIsDefaultLiveWallpaper ? R.color.qsb_background_hotseat_white : R.color.qsb_background_hotseat_white;
+        int color = Settings.isBottomSearchBarDark(getContext())
+                ? R.color.qsb_dark_color
+                : (mIsDefaultLiveWallpaper || Settings.isColoredGIconForced(getContext()))
+                    ? R.color.qsb_background_hotseat_white : R.color.qsb_background_hotseat_default;
         bz(ContextCompat.getColor(mActivity, color));
     }
 
