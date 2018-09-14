@@ -7,6 +7,7 @@ import com.android.launcher3.BuildConfig;
 
 import dev.dworks.apps.alauncher.helpers.AnalyticsHelper;
 import dev.dworks.apps.alauncher.helpers.CrashHelper;
+import dev.dworks.apps.alauncher.pro.PurchaseActivity;
 
 public class App extends AppFlavour {
     private static App sInstance;

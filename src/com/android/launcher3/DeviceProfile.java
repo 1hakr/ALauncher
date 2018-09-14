@@ -662,21 +662,26 @@ public class DeviceProfile {
         float hotseatCellWidth = (float) getCurrentWidth() / inv.numHotseatIcons;
         int hotseatAdjustment = Math.round((workspaceCellWidth - hotseatCellWidth) / 2);
 
-//        hotseatBarTopPaddingPx = Settings.isBottomSearchBarVisible(launcher)
-//                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding)
-//                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding_hidden_bottom_qsb);
-//        hotseatBarBottomPaddingPx = Settings.isBottomSearchBarVisible(launcher)
-//                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding)
-//                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding_hidden_bottom_qsb);
+        hotseatBarTopPaddingPx = Settings.isBottomSearchBarVisible(launcher)
+                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding)
+                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_top_padding_hidden_bottom_qsb);
+        hotseatBarBottomPaddingPx = Settings.isBottomSearchBarVisible(launcher)
+                ? launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding)
+                : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_bottom_padding_hidden_bottom_qsb);
+
         if (Settings.shouldExtraBottomPaddingForBottomSearchBar(launcher)) {
             hotseatBarBottomPaddingPx += launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_extra_bottom_padding_for_visible_bottom_qsb);
         }
 
-        hotseatBarSizePx = isVerticalBarLayout()
+        hotseatBarSizePx = hasVerticalBarLayout
                 ? Utilities.pxFromDp(inv.iconSize, launcher.getResources().getDisplayMetrics())
                 : launcher.getResources().getDimensionPixelSize(R.dimen.dynamic_grid_hotseat_size)
                 + hotseatBarTopPaddingPx + hotseatBarBottomPaddingPx;
 
+        if (!hasVerticalBarLayout) {
+            hotseatBarSizePx += mBottomMarginHw;
+            hotseatBarBottomPaddingPx += mBottomMarginHw;
+        }
 
         if (hasVerticalBarLayout) {
             // Vertical hotseat -- The hotseat is fixed in the layout to be on the right of the

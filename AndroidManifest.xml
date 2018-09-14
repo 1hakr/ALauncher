@@ -194,7 +194,7 @@
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
         <meta-data android:name="android.max_aspect" android:value="2.1" />
         <activity
-            android:name="dev.dworks.apps.alauncher.PurchaseActivity"
+            android:name="dev.dworks.apps.alauncher.pro.PurchaseActivity"
             android:theme="@style/DefaultTheme"/>
 
         <!-- Lock -->

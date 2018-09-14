@@ -62,7 +62,7 @@
     <color name="qsb_dark_icon_tint">#ff757575</color>
 
     <color name="qsb_background_hotseat_default">#99fafafa</color>
-    <color name="qsb_background_hotseat_white">#ccffffff</color>
+    <color name="qsb_background_hotseat_white">#ffffffff</color>
     <color name="qsb_background_drawer_default">#ccffffff</color>
     <color name="qsb_background_drawer_dark">#ebffffff</color>
     <color name="qsb_drawer_text_color">#ff212121</color>

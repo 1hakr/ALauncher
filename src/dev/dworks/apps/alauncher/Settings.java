@@ -69,7 +69,6 @@ public class Settings {
 
     private static final boolean SETTINGS_DIRTY_DEFAULT = false;
     private static final boolean LOCK_DESKTOP_DEFAULT = false;
-    private static final String THEME_DEFAULT = "wallpaper";
     private static final boolean BOTTOM_SEARCH_BAR_DEFAULT = true;
     private static final boolean TOP_SEARCH_BAR_DEFAULT = true;
     private static final boolean PHYSICAL_ANIMATION_DEFAULT = false;
@@ -109,10 +108,6 @@ public class Settings {
     private static final boolean PAGE_INDICATOR_DEFAULT = true;
     private static final boolean ENABLE_MINUS_ONE_DEFAULT = false;
     private static final boolean TOP_SEARCH_APPS_KEY_DEFAULT = false;
-
-    private static final String THEME_WALLPAPER = "wallpaper";
-    private static final String THEME_LIGHT = "light";
-    private static final String THEME_DARK = "dark";
 
     public static final String SYSTEM_DEFAULT_ICON_KEY = "system_default_icon_key";
     public static final CharSequence SYSTEM_DEFAULT_ICON_VALUE = "system_default_icon_key";

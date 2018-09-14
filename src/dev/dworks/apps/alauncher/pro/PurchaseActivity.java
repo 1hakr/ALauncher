@@ -1,4 +1,4 @@
-package dev.dworks.apps.alauncher;
+package dev.dworks.apps.alauncher.pro;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.widget.Toolbar;
 import com.android.launcher3.R;
 
 import androidx.core.content.ContextCompat;
+import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.helpers.Utils;
 import needle.Needle;
 import needle.UiRelatedTask;

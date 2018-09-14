@@ -181,7 +181,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         }
 
         private void customPreferences() {
-            //findPreference(Settings.THEME_KEY).setOnPreferenceChangeListener(this);
+            //findPreference(THEME_OVERRIDE_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.TOP_SEARCH_BAR_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.PHYSICAL_ANIMATION_KEY).setOnPreferenceChangeListener(this);
@@ -338,7 +338,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                     Settings.setSettingsDirty(mContext);
                     break;
 
-                case Settings.THEME_KEY:
+                case THEME_OVERRIDE_KEY:
                 case Settings.HOTSEAT_BACKGROUND:
                 case Settings.DATE_FORMAT:
                     if(!App.isPurchased()) {
