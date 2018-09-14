@@ -8,6 +8,7 @@ import android.util.Pair;
 
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
+import com.google.android.apps.nexuslauncher.SettingsActivity;
 
 import dev.dworks.apps.alauncher.helpers.Utils;
 
@@ -128,23 +129,12 @@ public class Settings {
         return prefs(context).getBoolean(LOCK_DESKTOP_KEY, LOCK_DESKTOP_DEFAULT);
     }
 
-    public static boolean isDark(Context context, boolean originalIsDark) {
-        boolean isDark;
-        String theme = getTheme(context);
-        if (theme.equals(THEME_WALLPAPER)) {
-            isDark = originalIsDark;
-        } else if (theme.equals(THEME_LIGHT)) {
-            isDark = false;
-        } else if (theme.equals(THEME_DARK)) {
-            isDark = true;
-        } else {
-            isDark = originalIsDark;
-        }
-        return isDark;
+    public static boolean showSmartspace(Context context) {
+        return prefs(context).getBoolean(SettingsActivity.SMARTSPACE_PREF, true);
     }
 
-    private static String getTheme(Context context) {
-        return prefs(context).getString(THEME_KEY, THEME_DEFAULT);
+    public static String getThemeHints(Context context) {
+        return prefs(context).getString(Utilities.THEME_OVERRIDE_KEY, "");
     }
 
     public static boolean isBottomSearchBarVisible(Context context) {

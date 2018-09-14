@@ -67,6 +67,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import dev.dworks.apps.alauncher.Settings;
+
 /**
  * Various utilities shared amongst the Launcher's classes.
  */
@@ -131,7 +133,7 @@ public final class Utilities {
     public static final String THEME_OVERRIDE_KEY = "pref_override_theme";
 
     public static int getThemeHints(Context context, int wallpaperHints) {
-        String hints = getPrefs(context).getString(THEME_OVERRIDE_KEY, "");
+        String hints = Settings.getThemeHints(context);
         if (TextUtils.isEmpty(hints)) {
             return wallpaperHints;
         }

@@ -93,16 +93,15 @@ public class NexusLauncherActivity extends Launcher {
     }
 
     private boolean showSmartspace() {
-        return Utilities.getPrefs(this).getBoolean(SettingsActivity.SMARTSPACE_PREF, true);
+        return Settings.showSmartspace(this);
     }
 
     private String themeHints() {
-        return Utilities.getPrefs(this).getString(Utilities.THEME_OVERRIDE_KEY, "");
+        return Settings.getThemeHints(this);
     }
 
     @Override
     public void overrideTheme(boolean isDark, boolean supportsDarkText, boolean isTransparent) {
-        isDark = Settings.isDark(this, isDark);
         int flags = Utilities.getDevicePrefs(this).getInt(NexusLauncherOverlay.PREF_PERSIST_FLAGS, 0);
         int orientFlag = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 16 : 8;
         boolean useGoogleInOrientation = (orientFlag & flags) != 0;
