@@ -11,8 +11,8 @@ import android.content.Intent;
 public class ServiceManager {
     private static Intent mServiceIntent;
 
-    private static boolean isMyServiceRunning(Class<?> serviceClass, Context c) {
-        ActivityManager manager = (ActivityManager) c.getSystemService(Context.ACTIVITY_SERVICE);
+    private static boolean isMyServiceRunning(Class<?> serviceClass, Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
                 return true;
@@ -21,8 +21,8 @@ public class ServiceManager {
         return false;
     }
 
-    public static void StartSlow(final Context c) {
-        while (!Start(c)) {
+    public static void startSlow(final Context context) {
+        while (!start(context)) {
             try {
                 Thread.sleep(50);
             } catch (Exception e) {
@@ -30,18 +30,16 @@ public class ServiceManager {
         }
     }
 
-    public static boolean Start(Context c)
-    {
-        mServiceIntent = new Intent(c, HomeButtonService.class);
-        if (!isMyServiceRunning(HomeButtonService.class, c)) {
-            c.startService(mServiceIntent);
+    public static boolean start(Context context) {
+        mServiceIntent = new Intent(context, HomeButtonService.class);
+        if (!isMyServiceRunning(HomeButtonService.class, context)) {
+            context.startService(mServiceIntent);
             return true;
         }
         return false;
     }
 
-    public static void Stop(Context c)
-    {
-        c.stopService(mServiceIntent);
+    public static void stop(Context context) {
+        context.stopService(mServiceIntent);
     }
 }

@@ -27,6 +27,7 @@ import android.graphics.drawable.Drawable;
 import android.icu.text.DateFormat;
 import android.icu.text.DisplayContext;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Process;
 import android.os.SystemClock;
 import android.text.format.DateUtils;
@@ -66,6 +67,7 @@ public class Utils {
     private static final String GOOGLE_QSB = "com.google.android.googlequicksearchbox";
     private static final int WHITE = 0xffffffff;
     public static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
+    static final  String AMAZON = "Amazon";
     /**
      * Returns true when running Android TV
      *
@@ -89,8 +91,13 @@ public class Utils {
                 return "";
         }
     }
+
     public static boolean isTablet(Context context) {
         return context.getResources().getConfiguration().smallestScreenWidthDp >= 600;
+    }
+
+    public static boolean isAmazonDevice(){
+        return Build.MANUFACTURER.equals(AMAZON);
     }
 
     public static boolean isIntentAvailable(Context context, Intent intent) {
@@ -343,7 +350,7 @@ public class Utils {
             Uri apkUri = Uri.fromFile(file);
 
             install = new Intent(Intent.ACTION_VIEW);
-            install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            install.setDataAndType(apkUri, MIME_TYPE_APK);
             install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
 

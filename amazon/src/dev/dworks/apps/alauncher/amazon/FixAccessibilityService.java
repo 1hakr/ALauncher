@@ -11,7 +11,7 @@ public class FixAccessibilityService extends AccessibilityService {
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if(event.getPackageName().equals(FIRE_LAUNCHER))
-            HomeUtils.Perform(getApplicationContext());
+            HomeUtils.openHome(getApplicationContext());
     }
 
     @Override
@@ -22,14 +22,14 @@ public class FixAccessibilityService extends AccessibilityService {
     protected void onServiceConnected() {
         super.onServiceConnected();
 
-        ServiceManager.Start(getApplicationContext());;
+        ServiceManager.start(getApplicationContext());;
         AccessibilityServiceInfo info = new AccessibilityServiceInfo();
         info.flags = AccessibilityServiceInfo.DEFAULT;
         info.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
         info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         info.packageNames = new String[]{ FIRE_LAUNCHER };
         setServiceInfo(info);
-        HomeUtils.Perform(getApplicationContext());
+        HomeUtils.openHome(getApplicationContext());
     }
 
 }

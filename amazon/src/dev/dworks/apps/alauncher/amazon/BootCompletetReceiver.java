@@ -8,7 +8,7 @@ public class BootCompletetReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ServiceManager.Start(context);
+        ServiceManager.start(context);
     }
 }
 

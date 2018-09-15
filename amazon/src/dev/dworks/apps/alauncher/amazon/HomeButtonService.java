@@ -9,9 +9,11 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import dev.dworks.apps.alauncher.helpers.Utils;
+
 public class HomeButtonService extends Service {
     private LinearLayout layout;
-    private WindowManager wm;
+    private WindowManager windowManager;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -22,11 +24,16 @@ public class HomeButtonService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        if(!Utils.isAmazonDevice()){
+            ServiceManager.stop(getApplicationContext());
+            return;
+        }
         layout =  new LinearLayout(getApplicationContext()) {
             //home or recent button
             public void onCloseSystemDialogs(String reason) {
-                if (reason.contains("homekey"))
-                    HomeUtils.Perform(getApplicationContext());
+                if (reason.contains("homekey")) {
+                    HomeUtils.openHome(getApplicationContext());
+                }
             }
 
             @Override
@@ -37,7 +44,7 @@ public class HomeButtonService extends Service {
 
         layout.setFocusable(false);
 
-        wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 0,
                 0,
@@ -47,7 +54,7 @@ public class HomeButtonService extends Service {
                         | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
                 PixelFormat.TRANSLUCENT);
         params.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
-        wm.addView(layout, params);
+        windowManager.addView(layout, params);
     }
 
     @Override
@@ -59,9 +66,11 @@ public class HomeButtonService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        wm.removeView(layout);;
+        if(null != windowManager){
+            windowManager.removeView(layout);;
+        }
 
-        ServiceManager.Stop(getApplicationContext());
-        ServiceManager.StartSlow(getApplicationContext());
+        ServiceManager.stop(getApplicationContext());
+        ServiceManager.startSlow(getApplicationContext());
     }
 }

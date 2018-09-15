@@ -11,7 +11,8 @@ import com.android.launcher3.BuildConfig;
  */
 
 public class HomeUtils {
-    public static Intent GetDesiredIntent(Context c) {
+
+    public static Intent getHomeIntent(Context context) {
         String launcherPackage = BuildConfig.APPLICATION_ID;
         return new Intent(Intent.ACTION_MAIN)
                 .addCategory(Intent.CATEGORY_HOME)
@@ -22,9 +23,9 @@ public class HomeUtils {
                         | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
     }
 
-    public static void Perform(Context c) {
-        Intent i = GetDesiredIntent(c);
-        PendingIntent pendingIntent = PendingIntent.getActivity(c, 0, i, 0);
+    public static void openHome(Context context) {
+        Intent i = getHomeIntent(context);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
         try {
             pendingIntent.send();
         } catch (PendingIntent.CanceledException e) {
