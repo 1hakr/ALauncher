@@ -62,14 +62,16 @@ public class SmartspaceCard {
                         BitmapFactory.decodeByteArray(iVar.dd, 0, iVar.dd.length, null);
 
                 if (bitmap != null) {
-                    bitmap = ShadowGenerator.getInstance(context).recreateIcon(
+                    ShadowGenerator shadowGenerator = new ShadowGenerator(context);
+                    Canvas canvas = new Canvas();
+                    shadowGenerator.recreateIcon(
                             bitmap,
-                            false,
                             new BlurMaskFilter(
                                     (float) Utilities.pxFromDp(3.0f, context.getResources().getDisplayMetrics()),
                                     BlurMaskFilter.Blur.NORMAL),
                             20,
-                            55);
+                            55,
+                            canvas);
                 }
 
                 return new SmartspaceCard(context, iVar.de, parseUri, z, bitmap, iVar.dc, iVar.df, iVar.dh, iVar.dg);

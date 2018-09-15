@@ -22,8 +22,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
 import android.os.Process;
 import android.os.UserHandle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.launcher3.compat.LauncherAppsCompat;
@@ -34,6 +32,9 @@ import com.android.launcher3.util.ItemInfoMatcher;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 
 /**
@@ -154,7 +155,7 @@ public class AllAppsList {
         for (int i = data.size() - 1; i >= 0; i--) {
             AppInfo info = data.get(i);
             if (matcher.matches(info, info.componentName)) {
-                info.isDisabled = op.apply(info.isDisabled);
+                info.runtimeStatusFlags = op.apply(info.runtimeStatusFlags);
                 modified.add(info);
             }
         }
@@ -217,25 +218,6 @@ public class AllAppsList {
         }
     }
 
-    /**
-     * Add and remove icons for this package, depending on visibility.
-     */
-    public void reloadPackages(Context context, UserHandle user) {
-        for (final LauncherActivityInfo info : LauncherAppsCompat.getInstance(context).getActivityList(null, user)) {
-            AppInfo applicationInfo = findAppInfo(info.getComponentName(), user);
-            if (applicationInfo == null) {
-                add(new AppInfo(context, info, user), info);
-            }
-        }
-
-        for (int i = data.size() - 1; i >= 0; i--) {
-            final AppInfo applicationInfo = data.get(i);
-            if (user.equals(applicationInfo.user) && !mAppFilter.shouldShowApp(applicationInfo.componentName, applicationInfo.user)) {
-                removed.add(applicationInfo);
-                data.remove(i);
-            }
-        }
-    }
 
     /**
      * Returns whether <em>apps</em> contains <em>component</em>.

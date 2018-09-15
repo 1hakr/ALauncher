@@ -49,7 +49,8 @@ public class NewCardInfo {
             if (TextUtils.isEmpty(fVar.cW)) {
                 if (!TextUtils.isEmpty(fVar.cX)) {
                     Resources resourcesForApplication = context.getPackageManager().getResourcesForApplication("com.google.android.googlequicksearchbox");
-                    return LauncherIcons.createIconBitmap(resourcesForApplication.getDrawableForDensity(resourcesForApplication.getIdentifier(fVar.cX, null, null), LauncherAppState.getIDP(context).fillResIconDpi), context);
+                    LauncherIcons li = LauncherIcons.obtain(context);
+                    return li.createIconBitmap(resourcesForApplication.getDrawableForDensity(resourcesForApplication.getIdentifier(fVar.cX, null, null), LauncherAppState.getIDP(context).fillResIconDpi));
                 }
                 return null;
             }

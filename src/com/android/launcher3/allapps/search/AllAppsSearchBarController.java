@@ -15,16 +15,11 @@
  */
 package com.android.launcher3.allapps.search;
 
-import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -38,6 +33,9 @@ import com.android.launcher3.util.PackageManagerHelper;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * An interface to a search box that AllApps can command.
  */
@@ -50,7 +48,6 @@ public class AllAppsSearchBarController
     protected String mQuery;
 
     protected SearchAlgorithm mSearchAlgorithm;
-    protected InputMethodManager mInputMethodManager;
 
     public void setVisibility(int visibility) {
         mInput.setVisibility(visibility);
@@ -68,10 +65,6 @@ public class AllAppsSearchBarController
         mInput.addTextChangedListener(this);
         mInput.setOnEditorActionListener(this);
         mInput.setOnBackKeyListener(this);
-
-        mInputMethodManager = (InputMethodManager)
-                mInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-
         mSearchAlgorithm = searchAlgorithm;
     }
 
@@ -116,8 +109,6 @@ public class AllAppsSearchBarController
         // Skip if the query is empty
         String query = v.getText().toString();
         if (query.isEmpty()) {
-            ((InputMethodManager) mLauncher.getSystemService(Context.INPUT_METHOD_SERVICE))
-                    .hideSoftInputFromWindow(v.getWindowToken(), 0);
             return false;
         }
         return mLauncher.startActivitySafely(v,
@@ -139,22 +130,9 @@ public class AllAppsSearchBarController
      * Resets the search bar state.
      */
     public void reset() {
-        unfocusSearchField();
         mCb.clearSearchResult();
-        mInput.setText("");
+        mInput.reset();
         mQuery = null;
-        hideKeyboard();
-    }
-
-    protected void hideKeyboard() {
-        mInputMethodManager.hideSoftInputFromWindow(mInput.getWindowToken(), 0);
-    }
-
-    protected void unfocusSearchField() {
-        View nextFocus = mInput.focusSearch(View.FOCUS_DOWN);
-        if (nextFocus != null) {
-            nextFocus.requestFocus();
-        }
     }
 
     /**
@@ -198,7 +176,7 @@ public class AllAppsSearchBarController
          * @param app the update state, START, UPDATE or END
          */
         void onAppDiscoverySearchUpdate(@Nullable AppDiscoveryItem app,
-                @NonNull AppDiscoveryUpdateState state);
+                                        @NonNull AppDiscoveryUpdateState state);
     }
 
 }

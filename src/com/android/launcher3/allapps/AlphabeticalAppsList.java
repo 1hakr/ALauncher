@@ -17,16 +17,15 @@ package com.android.launcher3.allapps;
 
 import android.content.Context;
 import android.content.pm.LauncherActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Process;
-import android.os.UserHandle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.Log;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.IconCache;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.AlphabeticIndexCompat;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.compat.UserManagerCompat;
@@ -34,8 +33,10 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.discovery.AppDiscoveryAppInfo;
 import com.android.launcher3.discovery.AppDiscoveryItem;
 import com.android.launcher3.discovery.AppDiscoveryUpdateState;
+import com.android.launcher3.shortcuts.DeepShortcutManager;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.ComponentKeyMapper;
+import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.LabelComparator;
 
 import java.util.ArrayList;
@@ -46,10 +47,13 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * The alphabetically sorted list of applications.
  */
-public class AlphabeticalAppsList {
+public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
 
     public static final String TAG = "AlphabeticalAppsList";
     private static final boolean DEBUG = false;
@@ -165,12 +169,29 @@ public class AlphabeticalAppsList {
             item.position = pos;
             return item;
         }
+
+        public static AdapterItem asAllAppsDivider(int pos) {
+            AdapterItem item = new AdapterItem();
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_ALL_APPS_DIVIDER;
+            item.position = pos;
+            return item;
+        }
+
+        public static AdapterItem asWorkTabFooter(int pos) {
+            AdapterItem item = new AdapterItem();
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_WORK_TAB_FOOTER;
+            item.position = pos;
+            return item;
+        }
     }
 
     private final Launcher mLauncher;
 
-    // The set of apps from the system not including predictions
+    // The set of apps from the system
     private final List<AppInfo> mApps = new ArrayList<>();
+    private final AllAppsStore mAllAppsStore;
+
+    // The set of apps from the system not including predictions
     private final HashMap<ComponentKey, AppInfo> mComponentToAppMap = new HashMap<>();
 
     // The set of filtered apps with the current filter
@@ -184,6 +205,8 @@ public class AlphabeticalAppsList {
     // The set of predicted apps resolved from the component names and the current set of apps
     private final List<AppInfo> mPredictedApps = new ArrayList<>();
     private final List<AppDiscoveryAppInfo> mDiscoveredApps = new ArrayList<>();
+    // Is it the work profile app list.
+    private final boolean mIsWork;
 
     // The of ordered component names as a result of a search query
     private ArrayList<ComponentKey> mSearchResults;
@@ -194,11 +217,21 @@ public class AlphabeticalAppsList {
     private int mNumAppsPerRow;
     private int mNumPredictedAppsPerRow;
     private int mNumAppRowsInAdapter;
+    private ItemInfoMatcher mItemFilter;
 
-    public AlphabeticalAppsList(Context context) {
+    public AlphabeticalAppsList(Context context, AllAppsStore appsStore, boolean isWork) {
+        mAllAppsStore = appsStore;
         mLauncher = Launcher.getLauncher(context);
         mIndexer = new AlphabeticIndexCompat(context);
         mAppNameComparator = new AppInfoComparator(context);
+        mIsWork = isWork;
+        mNumAppsPerRow = mLauncher.getDeviceProfile().inv.numColumns;
+        mAllAppsStore.addUpdateListener(this);
+    }
+
+    public void updateItemFilter(ItemInfoMatcher itemFilter) {
+        this.mItemFilter = itemFilter;
+        onAppsUpdated();
     }
 
     /**
@@ -407,10 +440,16 @@ public class AlphabeticalAppsList {
     /**
      * Updates internals when the set of apps are updated.
      */
-    private void onAppsUpdated() {
+    public void onAppsUpdated() {
         // Sort the list of apps
         mApps.clear();
-        mApps.addAll(mComponentToAppMap.values());
+        // mApps.addAll(mComponentToAppMap.values());
+        for (AppInfo app : mAllAppsStore.getApps()) {
+            if (mItemFilter == null || mItemFilter.matches(app, null) || hasFilter()) {
+                mApps.add(app);
+            }
+        }
+
         Collections.sort(mApps, mAppNameComparator);
 
         // As a special case for some languages (currently only Simplified Chinese), we may need to
@@ -618,6 +657,18 @@ public class AlphabeticalAppsList {
                     break;
             }
         }
+
+        // Add the work profile footer if required.
+        if (shouldShowWorkFooter()) {
+            mAdapterItems.add(AdapterItem.asWorkTabFooter(position++));
+        }
+    }
+
+    private boolean shouldShowWorkFooter() {
+        return mIsWork && Utilities.ATLEAST_P &&
+                (DeepShortcutManager.getInstance(mLauncher).hasHostPermission()
+                        || mLauncher.checkSelfPermission("android.permission.MODIFY_QUIET_MODE")
+                        == PackageManager.PERMISSION_GRANTED);
     }
 
     public boolean isAppDiscoveryRunning() {

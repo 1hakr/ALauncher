@@ -22,8 +22,6 @@ import android.graphics.Paint.FontMetricsInt;
 import android.graphics.drawable.Drawable;
 import android.text.style.DynamicDrawableSpan;
 
-import com.android.launcher3.Utilities;
-
 /**
  * {@link DynamicDrawableSpan} which draws a drawable tinted with the current paint color.
  */
@@ -43,11 +41,7 @@ public class TintedDrawableSpan extends DynamicDrawableSpan {
     public int getSize(Paint paint, CharSequence text, int start, int end, FontMetricsInt fm) {
         fm = fm == null ? paint.getFontMetricsInt() : fm;
         int iconSize = fm.bottom - fm.top;
-        if (Utilities.ATLEAST_NOUGAT) {
-            mDrawable.setBounds(0, 0, iconSize, iconSize);
-        } else {
-            mDrawable.setBounds(0, -iconSize, iconSize, 0);
-        }
+        mDrawable.setBounds(0, 0, iconSize, iconSize);
         return super.getSize(paint, text, start, end, fm);
     }
 

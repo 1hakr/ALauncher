@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="28dp"
-    android:background="?android:attr/colorPrimary"
+    android:background="@drawable/top_round_rect_primary"
     android:elevation="@dimen/deep_shortcuts_elevation"
     android:layout_gravity="bottom"
     android:theme="?attr/widgetsTheme">
@@ -50,13 +50,5 @@
          android:layout_height="wrap_content"
          android:layout_marginTop="45dp"
          android:layout_marginBottom="40dp"/>
-
-    <View
-        android:id="@+id/nav_bar_bg"
-        android:background="?attr/bottomSheetNavBarColor"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="bottom"
-        android:focusable="false"  />
 
 </com.android.launcher3.widget.WidgetsBottomSheet>

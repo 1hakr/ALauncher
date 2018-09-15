@@ -14,7 +14,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
-import com.android.launcher3.compat.WallpaperManagerCompat;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.util.ComponentKeyMapper;
 import com.android.launcher3.util.ViewOnDrawExecutor;
@@ -76,7 +74,7 @@ public class NexusLauncherActivity extends Launcher {
 
         if (FeatureFlags.QSB_ON_FIRST_SCREEN != showSmartspace() || themeChanged) {
             if (themeChanged) {
-                WallpaperManagerCompat.getInstance(this).updateAllListeners();
+                // WallpaperManagerCompat.getInstance(this).updateAllListeners();
             }
             Utilities.getPrefs(this).edit().putBoolean(PREF_IS_RELOAD, true).apply();
             recreate();
@@ -196,20 +194,6 @@ public class NexusLauncherActivity extends Launcher {
         }
     }
 
-    /**
-     * Enforce signature check to prevent malicious edits or recompilations from being used as a bridge.
-     * @param signatures Extracted signatures from the bridge package.
-     * @return True if all signatures match the config, false if at least one does not match or the signatures array is empty.
-     */
-//    private boolean checkBridgeSignature(Signature[] signatures) {
-//        for (Signature signature : signatures) {
-//            if (signature.hashCode() != getResources().getInteger(R.integer.bridge_signature_hash)) {
-//                return false;
-//            }
-//        }
-//        return signatures.length > 0;
-//    }
-
     private void promptBridge() {
         if (Utilities.ATLEAST_MARSHMALLOW &&
                 checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -264,7 +248,7 @@ public class NexusLauncherActivity extends Launcher {
 
                         install = new Intent(Intent.ACTION_INSTALL_PACKAGE);
                         install.setData(apkUri);
-                        install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
                     } else {
                         Uri apkUri = Uri.fromFile(file);
 

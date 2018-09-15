@@ -3,11 +3,6 @@ package com.google.android.apps.nexuslauncher.qsb;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import androidx.dynamicanimation.animation.FloatPropertyCompat;
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -18,11 +13,18 @@ import com.android.launcher3.BaseRecyclerView;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
+import com.android.launcher3.allapps.AllAppsContainerView;
 import com.android.launcher3.allapps.AllAppsRecyclerView;
 import com.android.launcher3.allapps.AlphabeticalAppsList;
 import com.android.launcher3.allapps.SearchUiManager;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.Themes;
+
+import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
+import androidx.dynamicanimation.animation.FloatPropertyCompat;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManager, WallpaperColorInfo.OnChangeListener {
     private AllAppsRecyclerView mRecyclerView;
@@ -61,21 +63,21 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
         }, 0f);
     }
 
-    public void addOnScrollRangeChangeListener(final SearchUiManager.OnScrollRangeChangeListener onScrollRangeChangeListener) {
-        mActivity.getHotseat().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (mActivity.getDeviceProfile().isVerticalBarLayout()) {
-                    onScrollRangeChangeListener.onScrollRangeChanged(bottom);
-                } else {
-                    onScrollRangeChangeListener.onScrollRangeChanged(bottom
-                            - HotseatQsbWidget.getBottomMargin(mActivity)
-                            - (((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin
-                            + (int) getTranslationY() + getResources().getDimensionPixelSize(R.dimen.qsb_widget_height)));
-                }
-            }
-        });
-    }
+//    public void addOnScrollRangeChangeListener(final SearchUiManager.OnScrollRangeChangeListener onScrollRangeChangeListener) {
+//        mActivity.getHotseat().addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            @Override
+//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                if (mActivity.getDeviceProfile().isVerticalBarLayout()) {
+//                    onScrollRangeChangeListener.onScrollRangeChanged(bottom);
+//                } else {
+//                    onScrollRangeChangeListener.onScrollRangeChanged(bottom
+//                            - HotseatQsbWidget.getBottomMargin(mActivity)
+//                            - (((ViewGroup.MarginLayoutParams) getLayoutParams()).topMargin
+//                            + (int) getTranslationY() + getResources().getDimensionPixelSize(R.dimen.qsb_widget_height)));
+//                }
+//            }
+//        });
+//    }
 
     void useAlpha(int newAlpha) {
         int normalizedAlpha = Utilities.boundToRange(newAlpha, 0, 255);
@@ -109,8 +111,10 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
         super.draw(canvas);
     }
 
-    public void initialize(AlphabeticalAppsList appsList, AllAppsRecyclerView recyclerView) {
-        mApps = appsList;
+    @Override
+    public void initialize(AllAppsContainerView containerView) {
+        mApps = containerView.getApps();
+        AllAppsRecyclerView recyclerView = containerView.getActiveRecyclerView();
 
         recyclerView.setPadding(recyclerView.getPaddingLeft(),
                 getLayoutParams().height / 2 + getResources().getDimensionPixelSize(R.dimen.all_apps_extra_search_padding),
@@ -127,6 +131,7 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
         recyclerView.setVerticalFadingEdgeEnabled(true);
 
         mRecyclerView = recyclerView;
+
     }
 
     @Override
@@ -198,7 +203,7 @@ public class AllAppsQsbLayout extends AbstractQsbLayout implements SearchUiManag
         }
     }
 
-    public void reset() {
+    public void resetSearch() {
         useAlpha(0);
         if (mFallback != null) {
             mFallback.clearSearchResult();

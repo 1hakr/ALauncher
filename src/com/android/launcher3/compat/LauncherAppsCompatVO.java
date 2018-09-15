@@ -28,7 +28,6 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.os.Process;
 import android.os.UserHandle;
-import androidx.annotation.Nullable;
 
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
@@ -41,6 +40,8 @@ import com.android.launcher3.util.PackageUserKey;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 @TargetApi(26)
 public class LauncherAppsCompatVO extends LauncherAppsCompatVL {
@@ -137,8 +138,9 @@ public class LauncherAppsCompatVO extends LauncherAppsCompatVL {
             ShortcutInfoCompat compat = new ShortcutInfoCompat(request.getShortcutInfo());
             ShortcutInfo info = new ShortcutInfo(compat, context);
             // Apply the unbadged icon and fetch the actual icon asynchronously.
-            info.iconBitmap = LauncherIcons
-                    .createShortcutIcon(compat, context, false /* badged */);
+            LauncherIcons li = LauncherIcons.obtain(context);
+            li.createShortcutIcon(compat, false /* badged */).applyTo(info);
+            li.recycle();
             LauncherAppState.getInstance(context).getModel()
                     .updateAndBindShortcutInfo(info, compat);
             return info;

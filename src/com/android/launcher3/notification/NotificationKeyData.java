@@ -23,8 +23,6 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.android.launcher3.Utilities;
-
 /**
  * The key data associated with the notification, used to determine what to include
  * in badges and dummy popup views before they are populated.
@@ -44,7 +42,7 @@ public class NotificationKeyData {
 
     public static NotificationKeyData fromNotification(StatusBarNotification sbn) {
         Notification notif = sbn.getNotification();
-        return new NotificationKeyData(sbn.getKey(), Utilities.ATLEAST_OREO ? notif.getShortcutId() : null, notif.number);
+        return new NotificationKeyData(sbn.getKey(), notif.getShortcutId(), notif.number);
     }
 
     public static List<String> extractKeysOnly(@NonNull List<NotificationKeyData> notificationKeys) {

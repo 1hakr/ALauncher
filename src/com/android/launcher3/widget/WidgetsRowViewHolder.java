@@ -15,13 +15,14 @@
  */
 package com.android.launcher3.widget;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.R;
 
-public class WidgetsRowViewHolder extends ViewHolder {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class WidgetsRowViewHolder extends RecyclerView.ViewHolder {
 
     public final ViewGroup cellContainer;
     public final BubbleTextView title;
@@ -29,7 +30,8 @@ public class WidgetsRowViewHolder extends ViewHolder {
     public WidgetsRowViewHolder(ViewGroup v) {
         super(v);
 
-        cellContainer = (ViewGroup) v.findViewById(R.id.widgets_cell_list);
-        title = (BubbleTextView) v.findViewById(R.id.section);
+        cellContainer = v.findViewById(R.id.widgets_cell_list);
+        title = v.findViewById(R.id.section);
+        title.setAccessibilityDelegate(null);
     }
 }

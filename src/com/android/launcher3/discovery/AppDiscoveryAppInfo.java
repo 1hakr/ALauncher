@@ -18,12 +18,13 @@ package com.android.launcher3.discovery;
 
 import android.content.ComponentName;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.ShortcutInfo;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class AppDiscoveryAppInfo extends AppInfo {
 
@@ -32,10 +33,14 @@ public class AppDiscoveryAppInfo extends AppInfo {
     public final boolean isRecent;
     public final float rating;
     public final long reviewCount;
-    public final @NonNull String publisher;
-    public final @NonNull Intent installIntent;
-    public final @NonNull Intent launchIntent;
-    public final @Nullable String priceFormatted;
+    public final @NonNull
+    String publisher;
+    public final @NonNull
+    Intent installIntent;
+    public final @NonNull
+    Intent launchIntent;
+    public final @Nullable
+    String priceFormatted;
 
     public AppDiscoveryAppInfo(AppDiscoveryItem item) {
         this.intent = item.isInstantApp ? item.launchIntent : item.installIntent;

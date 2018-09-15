@@ -58,7 +58,8 @@ public class CustomClock {
         layers.mDefaultMinute = metadata.DEFAULT_MINUTE;
         layers.mDefaultSecond = metadata.DEFAULT_SECOND;
         if (normalizeIcon) {
-            layers.scale = IconNormalizer.getInstance(context).getScale(layers.mDrawable, null, null, null);
+            IconNormalizer iconNormalizer = new IconNormalizer(context);
+            layers.scale = iconNormalizer.getScale(layers.mDrawable, null, null, null);
         }
 
         LayerDrawable layerDrawable = layers.getLayerDrawable();

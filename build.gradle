@@ -89,7 +89,7 @@ android {
         }
 
         aosp {
-            java.srcDirs = ['src_flags']
+            java.srcDirs = ['src_flags', 'src_ui_overrides']
             manifest.srcFile "AndroidManifest.xml"
         }
 
@@ -99,7 +99,7 @@ android {
 
         l3go {
             res.srcDirs = ['go/res']
-            java.srcDirs = ['go/src_flags']
+            java.srcDirs = ['go/src_flags', 'src_ui_overrides']
             // Note: we are using the Launcher3 manifest here because the gradle manifest-merger uses
             // different attributes than the build system.
             manifest.srcFile "AndroidManifest.xml"
@@ -120,6 +120,10 @@ android {
     }
     lintOptions {
         abortOnError false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

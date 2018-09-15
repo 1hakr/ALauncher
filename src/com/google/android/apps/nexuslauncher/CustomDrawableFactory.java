@@ -4,13 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Process;
 
 import com.android.launcher3.FastBitmapDrawable;
-import com.android.launcher3.ItemInfo;
+import com.android.launcher3.ItemInfoWithIcon;
 import com.android.launcher3.LauncherModel;
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.Utilities;
@@ -93,7 +92,7 @@ public class CustomDrawableFactory extends DynamicDrawableFactory implements Run
     }
 
     @Override
-    public FastBitmapDrawable newIcon(Bitmap icon, ItemInfo info) {
+    public FastBitmapDrawable newIcon(ItemInfoWithIcon info) {
         ensureInitialLoadComplete();
         ComponentName componentName = info.getTargetComponent();
         if (packComponents.containsKey(info.getTargetComponent()) &&
@@ -104,11 +103,11 @@ public class CustomDrawableFactory extends DynamicDrawableFactory implements Run
                 int drawableId = packComponents.get(componentName);
                 if (packClocks.containsKey(drawableId)) {
                     Drawable drawable = mContext.getPackageManager().getDrawable(iconPack, drawableId, null);
-                    return mCustomClockDrawer.drawIcon(icon, drawable, packClocks.get(drawableId));
+                    return mCustomClockDrawer.drawIcon(info.iconBitmap, drawable, packClocks.get(drawableId));
                 }
             }
-            return new FastBitmapDrawable(icon);
+            return new FastBitmapDrawable(info.iconBitmap);
         }
-        return super.newIcon(icon, info);
+        return super.newIcon(info);
     }
 }

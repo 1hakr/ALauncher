@@ -50,7 +50,14 @@ public class ComponentKey {
         int userDelimiterIndex = componentKeyStr.indexOf("#");
         if (userDelimiterIndex != -1) {
             String componentStr = componentKeyStr.substring(0, userDelimiterIndex);
-            Long componentUser = Long.valueOf(componentKeyStr.substring(userDelimiterIndex + 1));
+            String value;
+            if(componentKeyStr.contains("UserHandle")) {
+                int length = componentKeyStr.length();
+                value = componentKeyStr.substring(length - 2 , length - 1);
+            } else {
+                value = componentKeyStr.substring(userDelimiterIndex + 1);
+            }
+            Long componentUser = Long.valueOf(value);
             componentName = ComponentName.unflattenFromString(componentStr);
             user = UserManagerCompat.getInstance(context)
                     .getUserForSerialNumber(componentUser.longValue());
@@ -80,6 +87,6 @@ public class ComponentKey {
      */
     @Override
     public String toString() {
-        return componentName.flattenToString() + "#" + user.toString().replaceAll("\\D+","");
+        return componentName.flattenToString() + "#" + user;
     }
 }

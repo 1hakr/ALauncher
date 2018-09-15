@@ -16,11 +16,13 @@
 
 package com.android.launcher3;
 
+import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 
 import com.android.launcher3.compat.PackageInstallerCompat;
 import com.android.launcher3.util.PackageManagerHelper;
+
+import androidx.annotation.NonNull;
 
 public class PromiseAppInfo extends AppInfo {
 
@@ -46,7 +48,7 @@ public class PromiseAppInfo extends AppInfo {
         return shortcut;
     }
 
-    public Intent getMarketIntent() {
-        return PackageManagerHelper.getMarketIntent(componentName.getPackageName());
+    public Intent getMarketIntent(Context context) {
+        return new PackageManagerHelper(context).getMarketIntent(componentName.getPackageName());
     }
 }

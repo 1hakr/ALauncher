@@ -88,7 +88,8 @@ public class DynamicClock extends BroadcastReceiver
                     layers.mDefaultMinute = metaData.getInt("com.google.android.apps.nexuslauncher.DEFAULT_MINUTE", 0);
                     layers.mDefaultSecond = metaData.getInt("com.google.android.apps.nexuslauncher.DEFAULT_SECOND", 0);
                     if (normalizeIcon) {
-                        layers.scale = IconNormalizer.getInstance(context).getScale(layers.mDrawable, null, null, null);
+                        IconNormalizer iconNormalizer = new IconNormalizer(context);
+                        layers.scale = iconNormalizer.getScale(layers.mDrawable, null, null, null);
                     }
 
                     LayerDrawable layerDrawable = layers.getLayerDrawable();

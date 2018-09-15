@@ -22,15 +22,19 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.UserHandle;
-import androidx.annotation.Nullable;
 
+import com.android.launcher3.LauncherAppWidgetInfo;
 import com.android.launcher3.LauncherAppWidgetProviderInfo;
 import com.android.launcher3.Utilities;
+import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.PackageUserKey;
+import com.android.launcher3.widget.custom.CustomWidgetParser;
 
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public abstract class AppWidgetManagerCompat {
 
@@ -58,12 +62,13 @@ public abstract class AppWidgetManagerCompat {
         mAppWidgetManager = AppWidgetManager.getInstance(context);
     }
 
-    public AppWidgetProviderInfo getAppWidgetInfo(int appWidgetId) {
-        return mAppWidgetManager.getAppWidgetInfo(appWidgetId);
-    }
-
     public LauncherAppWidgetProviderInfo getLauncherAppWidgetInfo(int appWidgetId) {
-        AppWidgetProviderInfo info = getAppWidgetInfo(appWidgetId);
+        if (FeatureFlags.ENABLE_CUSTOM_WIDGETS
+                && appWidgetId <= LauncherAppWidgetInfo.CUSTOM_WIDGET_ID) {
+            return CustomWidgetParser.getWidgetProvider(mContext, appWidgetId);
+        }
+
+        AppWidgetProviderInfo info = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
         return info == null ? null : LauncherAppWidgetProviderInfo.fromProviderInfo(mContext, info);
     }
 

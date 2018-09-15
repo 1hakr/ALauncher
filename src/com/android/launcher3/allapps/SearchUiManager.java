@@ -15,8 +15,6 @@
  */
 package com.android.launcher3.allapps;
 
-import androidx.dynamicanimation.animation.SpringAnimation;
-import androidx.annotation.NonNull;
 import android.view.KeyEvent;
 
 /**
@@ -27,23 +25,12 @@ public interface SearchUiManager {
     /**
      * Initializes the search manager.
      */
-    void initialize(AlphabeticalAppsList appsList, AllAppsRecyclerView recyclerView);
-
-    /**
-     * A {@link SpringAnimation} that will be used when the user flings.
-     */
-    @NonNull SpringAnimation getSpringForFling();
-
-    /**
-     * Notifies the search manager that the apps-list has changed and the search UI should be
-     * updated accordingly.
-     */
-    void refreshSearchResult();
+    void initialize(AllAppsContainerView containerView);
 
     /**
      * Notifies the search manager to close any active search session.
      */
-    void reset();
+    void resetSearch();
 
     /**
      * Called before dispatching a key event, in case the search manager wants to initialize
@@ -56,13 +43,13 @@ public interface SearchUiManager {
      */
     void startAppsSearch();
 
-    void addOnScrollRangeChangeListener(OnScrollRangeChangeListener listener);
-
-    /**
-     * Callback for listening to changes in the vertical scroll range when opening all-apps.
-     */
-    interface OnScrollRangeChangeListener {
-
-        void onScrollRangeChanged(int scrollRange);
-    }
+//    void addOnScrollRangeChangeListener(OnScrollRangeChangeListener listener);
+//
+//    /**
+//     * Callback for listening to changes in the vertical scroll range when opening all-apps.
+//     */
+//    interface OnScrollRangeChangeListener {
+//
+//        void onScrollRangeChanged(int scrollRange);
+//    }
 }

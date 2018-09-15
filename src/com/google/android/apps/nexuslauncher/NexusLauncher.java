@@ -71,6 +71,11 @@ public class NexusLauncher {
             SmartspaceController.get(mLauncher).cX(s, printWriter);
         }
 
+        @Override
+        public void onHomeIntent(boolean internalStateHandled) {
+
+        }
+
         public void finishBindingItems(final boolean b) {
         }
 
