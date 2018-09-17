@@ -332,6 +332,10 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                         .findPreference("pref_smartspace_screen"))
                         .removePreference(findPreference(SMARTSPACE_SETTINGS));
             }
+
+            if(Utils.isAmazonBuild()){
+                getPreferenceScreen().removePreference(findPreference("pref_basic_category"));
+            }
         }
 
         private String getDisplayGoogleTitle() {

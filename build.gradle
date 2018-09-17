@@ -120,6 +120,7 @@ android {
 
         google {
             java.srcDirs = ['google/src']
+            manifest.srcFile "google/AndroidManifest.xml"
         }
 
         amazon {

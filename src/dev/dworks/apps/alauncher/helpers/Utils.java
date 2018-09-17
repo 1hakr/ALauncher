@@ -67,7 +67,7 @@ public class Utils {
     private static final String GOOGLE_QSB = "com.google.android.googlequicksearchbox";
     private static final int WHITE = 0xffffffff;
     public static final String MIME_TYPE_APK = "application/vnd.android.package-archive";
-    static final  String AMAZON = "Amazon";
+    static final String AMAZON = "Amazon";
     /**
      * Returns true when running Android TV
      *

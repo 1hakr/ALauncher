@@ -87,6 +87,10 @@
 
         </PreferenceScreen>
 
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_advanced_category"
+        android:title="Advanced">
         <PreferenceScreen
             android:icon="@drawable/ic_search_no_shadow"
             android:key="pref_search_screen"
@@ -177,10 +181,6 @@
 
         </PreferenceScreen>
 
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:key="pref_advanced_category"
-        android:title="Advanced">
         <PreferenceScreen
             android:icon="@drawable/ic_palette_no_shadow"
             android:key="pref_look_and_feel_screen"
