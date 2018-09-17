@@ -220,6 +220,19 @@
             android:label="@string/hide_apps_title"
             android:theme="@style/SettingsTheme" />
 
+        <activity
+            android:name="dev.dworks.apps.alauncher.icons.IconPickerActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/available_icon_packs"
+            android:theme="@style/SettingsTheme" />
+
+        <activity
+            android:name="dev.dworks.apps.alauncher.icons.IconPackListActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/override_app_icon"
+            android:theme="@style/SettingsTheme" />
+
+
         <!-- Bridge -->
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -3,4 +3,5 @@
     <color name="qsb_dark_color">#A0424242</color>
     <color name="accent_amber">#FFC107</color>
     <color name="accent_pink">#e91e63</color>
+    <color name="translucent_white">#c0ffffff</color>
 </resources>

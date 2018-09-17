@@ -242,7 +242,11 @@
         <item name="android:colorPrimary">@color/colorAccent</item>
         <item name="android:colorPrimaryDark">@color/colorAccent</item>
         <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:colorControlNormal">@color/colorAccent</item>
+        <item name="android:colorControlNormal">@android:color/white</item>
+    </style>
+    <style name="SettingsTheme.ActionBarStyle">
+        <item name="android:displayOptions">showTitle|homeAsUp</item>
+        <item name="android:background">?android:attr/colorPrimary</item>
     </style>
     <style name="DialogAlert" parent="@android:style/Theme.Material.Light.Dialog.Alert">
         <item name="android:textColorPrimary">@color/primary_text_material_light</item>

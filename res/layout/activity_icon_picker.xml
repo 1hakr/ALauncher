@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/icon_picker_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:id="@+id/icon_picker_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/icon_picker_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/custom_app_icon_margin"
+            android:hint="@string/custom_app_filter_hint" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.66dp"
+            android:background="?android:attr/colorAccent"
+            android:paddingTop="@dimen/custom_app_icon_margin" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/icon_picker_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayoutz
+        android:id="@+id/icon_picker_loading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/translucent_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/custom_app_icon_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/icon_pack_loading"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:layout_width="@dimen/custom_app_icon_margin"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayoutz>
+
+</FrameLayout>

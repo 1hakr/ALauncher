@@ -1,6 +1,7 @@
 package com.google.android.apps.nexuslauncher;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -29,8 +30,11 @@ import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
@@ -63,6 +67,12 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         super.onCreate(bundle);
         if (bundle == null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, new MySettingsFragment()).commit();
+        }
+
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 
@@ -178,6 +188,42 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             findPreference(SHOW_PREDICTIONS_PREF).setOnPreferenceChangeListener(this);
 
             customPreferences();
+        }
+
+        @Override
+        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+            if (preference instanceof PreferenceScreen) {
+                initializeActionBar((PreferenceScreen) preference);
+            }
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
+        }
+
+        public void initializeActionBar(PreferenceScreen preferenceScreen) {
+            final Dialog dialog = preferenceScreen.getDialog();
+
+            if (dialog != null) {
+                dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
+                dialog.getActionBar().setHomeButtonEnabled(true);
+                int titleId = getActivity().getResources().getIdentifier("action_bar", "id", "android");
+                ViewGroup root = dialog.findViewById(titleId);
+                View homeBtn = null;
+                for (int i = 0 ; i < root.getChildCount(); i++) {
+                    View child = root.getChildAt(i);
+                    if(child instanceof ImageView){
+                        homeBtn = child;
+                        break;
+                    }
+                }
+
+                if (homeBtn != null) {
+                    homeBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
         }
 
         private void customPreferences() {
