@@ -24,4 +24,5 @@
 
 <!-- DragController -->
     <dimen name="drag_flingToDeleteMinVelocity">-1000dp</dimen>
+    <dimen name="preference_padding">80dp</dimen>
 </resources>

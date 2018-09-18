@@ -72,7 +72,8 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_logo);
         }
     }
 

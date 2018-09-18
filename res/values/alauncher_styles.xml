@@ -23,4 +23,19 @@
     </style>
 
     <style name="TimeoutTheme" parent="@android:style/Theme.Material.NoActionBar" />
+
+    <style name="FullScreenDialogStyle" parent="@android:style/Theme.Material.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">?android:attr/windowBackground</item>
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
+    </style>
+
+    <style name="PreferenceCategoryTheme">
+        <item name="android:layout">@layout/preference_category_material</item>
+        <item name="android:shouldDisableView">false</item>
+        <item name="android:selectable">false</item>
+    </style>
 </resources>

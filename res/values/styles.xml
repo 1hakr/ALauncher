@@ -233,10 +233,12 @@
     </style>
     <style name="SettingsTheme" parent="@android:style/Theme.Material.Settings">
         <item name="android:actionBarTheme">@style/SettingsTheme.ActionBar</item>
+        <item name="android:actionBarStyle">@style/SettingsTheme.ActionBarStyle</item>
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorAccentSecondary</item>
+        <item name="android:preferenceCategoryStyle">@style/PreferenceCategoryTheme</item>
     </style>
     <style name="SettingsTheme.ActionBar">
         <item name="android:colorPrimary">@color/colorAccent</item>
