@@ -1,4 +1,4 @@
-package dev.dworks.apps.alauncher.hide;
+package dev.dworks.apps.alauncher.apps;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +9,20 @@ import android.widget.TextView;
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.R;
-import com.android.launcher3.util.ComponentKey;
-import com.google.android.apps.nexuslauncher.CustomAppFilter;
 
 import androidx.recyclerview.widget.RecyclerView;
 import dev.dworks.apps.alauncher.App;
 
-public class HideAppsViewHolder extends RecyclerView.ViewHolder {
+public abstract class AppsSelectionViewHolder extends RecyclerView.ViewHolder {
 
-    ViewGroup container;
-    ImageView launcherIcon;
-    TextView appName;
-    TextView className;
-    CheckBox isHidden;
+    protected ViewGroup container;
+    protected ImageView launcherIcon;
+    protected TextView appName;
+    protected TextView className;
+    protected CheckBox isHidden;
+    protected AppInfo appInfo;
 
-    AppInfo appInfo;
-
-    public HideAppsViewHolder(View itemView) {
+    public AppsSelectionViewHolder(View itemView) {
         super(itemView);
         container = (ViewGroup) itemView.findViewById(R.id.hide_app_container);
         launcherIcon = (ImageView) itemView.findViewById(R.id.hide_app_icon);
@@ -40,12 +37,12 @@ public class HideAppsViewHolder extends RecyclerView.ViewHolder {
                     App.openPurchaseActivity(v.getContext());
                     return;
                 }
-                toggleAppVisibility();
+                toggleSelection();
             }
         });
     }
 
-    public void setAppInfo(AppInfo appInfo) {
+    public void setAppInfo(AppInfo appInfo){
         this.appInfo = appInfo;
 
         if (appInfo.usingLowResIcon) {
@@ -54,12 +51,7 @@ public class HideAppsViewHolder extends RecyclerView.ViewHolder {
         launcherIcon.setImageBitmap(appInfo.iconBitmap);
         appName.setText(appInfo.title);
         className.setText(appInfo.componentName.getClassName());
-        isHidden.setChecked(CustomAppFilter.isHidden(itemView.getContext(), new ComponentKey(appInfo.componentName, appInfo.user)));
     }
 
-    private void toggleAppVisibility() {
-        boolean currentState = isHidden.isChecked();
-        CustomAppFilter.hideComponent(itemView.getContext(), new ComponentKey(appInfo.componentName, appInfo.user), !currentState);
-        isHidden.setChecked(!currentState);
-    }
+    public abstract void toggleSelection();
 }

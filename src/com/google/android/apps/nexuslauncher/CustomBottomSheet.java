@@ -40,6 +40,7 @@ import com.android.launcher3.widget.WidgetsBottomSheet;
 
 import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.apps.lock.AppLockHelper;
 import dev.dworks.apps.alauncher.helpers.Utils;
 import dev.dworks.apps.alauncher.icons.IconPackListActivity;
 
@@ -101,9 +102,11 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
         private static final String PREF_OVERRIDE_ICON = "pref_override_app_icon";
         private final static String PREF_PACK = "pref_app_icon_pack";
         private final static String PREF_HIDE = "pref_app_hide";
+        private final static String PREF_LOCK = "pref_app_lock";
         private Preference mPrefOverride;
         private SwitchPreference mPrefPack;
         private SwitchPreference mPrefHide;
+        private SwitchPreference mPrefLock;
 
         private ComponentKey mKey;
 
@@ -119,6 +122,7 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
             mPrefOverride = findPreference(PREF_OVERRIDE_ICON);
             mPrefPack = (SwitchPreference) findPreference(PREF_PACK);
             mPrefHide = (SwitchPreference) findPreference(PREF_HIDE);
+            mPrefLock = (SwitchPreference) findPreference(PREF_LOCK);
 
             Context context = getActivity();
             CustomDrawableFactory factory = (CustomDrawableFactory) DrawableFactory.get(context);
@@ -139,12 +143,15 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
             mPrefHide.setChecked(CustomAppFilter.isHiddenApp(context, mKey));
             mPrefPack.setOnPreferenceChangeListener(this);
             mPrefHide.setOnPreferenceChangeListener(this);
+            mPrefLock.setOnPreferenceChangeListener(this);
 
             mPrefPack.setOnPreferenceClickListener(this);
             mPrefHide.setOnPreferenceClickListener(this);
+            mPrefLock.setOnPreferenceClickListener(this);
             mPrefOverride.setOnPreferenceClickListener(this);
 
             getPreferenceScreen().removePreference(findPreference(PREF_PACK));
+            getPreferenceScreen().removePreference(findPreference(PREF_LOCK));
         }
 
         @Override
@@ -162,6 +169,9 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
                 case PREF_HIDE:
                     CustomAppFilter.setComponentNameState(launcher, mKey, enabled);
                     break;
+                case PREF_LOCK:
+                    AppLockHelper.setComponentNameState(launcher, mKey, enabled);
+                    break;
             }
             return true;
         }
@@ -176,6 +186,7 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
                     IconPackListActivity.openForComponent(getActivity(), mKey);
                     return true;
                 case PREF_HIDE:
+                case PREF_LOCK:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
                     }

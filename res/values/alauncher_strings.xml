@@ -78,8 +78,13 @@
     <string name="physical_animation_title">Physical animation</string>
     <string name="physical_animation_summary">Use spring effect</string>
 
+    <string name="apps_selection_title">Select Apps</string>
+
     <string name="hide_apps_title">Hide apps</string>
     <string name="hide_apps_summary">From the app drawer</string>
+
+    <string name="lock_apps_title">Lock apps</string>
+    <string name="lock_apps_summary">Open security when opening apps</string>
 
     <string name="transparent_navigation_bar_title">Transparent Navigation Bar</string>
     <string name="transparent_navigation_bar_summary">On the app drawer</string>
@@ -246,6 +251,7 @@
     <string name="sizes_category">Sizes</string>
 
     <string name="visibility_category">Visibility</string>
+    <string name="security_category">Security</string>
     <string name="icons_category">Icons</string>
 
     <string name="gestures_category">Gestures</string>
@@ -299,7 +305,7 @@
     <string name="feed_summary">Google Feed at a swipe</string>
     <string name="search_summary">App and Google search</string>
     <string name="look_and_feel_summary">Theme, grid sizes</string>
-    <string name="edit_apps_summary">App visibility, icons</string>
+    <string name="edit_apps_summary">App lock, visibility, icons</string>
     <string name="gestures_and_actions_summary">Swipe, double tap, etc</string>
     <string name="shortcuts_summary">App shortcut visibility</string>
     <string name="other_summary">General settings</string>
@@ -315,6 +321,9 @@
     <string name="reset_app_icons_title">Reset app icons</string>
     <string name="reset_app_icons_summary">To system default</string>
     <string name="reset_app_icons_description">This will reset all app icons to their system default.</string>
+    <string name="reset_app_security_title">Reset app security</string>
+    <string name="reset_app_security_summary">To default</string>
+    <string name="reset_app_security_description">This will remove security lock from all apps in your app drawer.</string>
 
     <string name="restarting">Restarting&#8230;</string>
 
@@ -361,4 +370,7 @@
 
     <string name="top_search_apps_title">Search only apps</string>
     <string name="top_search_apps_summary">At the top of your app drawer</string>
+
+    <string name="lock_app_sum">Shows lock before opening the app</string>
+    <string name="lock_app">Lock app</string>
 </resources>

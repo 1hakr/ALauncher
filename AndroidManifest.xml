@@ -178,9 +178,9 @@
         </receiver>
 
         <activity
-            android:name="dev.dworks.apps.alauncher.hide.HideAppsActivity"
+            android:name="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
             android:autoRemoveFromRecents="true"
-            android:label="@string/hide_apps_title"
+            android:label="@string/apps_selection_title"
             android:theme="@style/SettingsTheme" />
 
         <activity

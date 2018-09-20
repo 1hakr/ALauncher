@@ -337,6 +337,27 @@
             android:title="@string/edit_apps_category">
 
             <PreferenceCategory
+                android:key="pref_security_category"
+                android:title="@string/security_category">
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_lock_apps"
+                    android:summary="@string/lock_apps_summary"
+                    android:title="@string/lock_apps_title">
+
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:targetClass="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
+                        android:targetPackage="@string/applicationId" >
+                        <extra
+                            android:name="TYPE"
+                            android:value="1" />
+                    </intent>
+
+                </Preference>
+            </PreferenceCategory>
+
+            <PreferenceCategory
                 android:key="pref_visibility_category"
                 android:title="@string/visibility_category">
 
@@ -348,8 +369,12 @@
 
                     <intent
                         android:action="android.intent.action.VIEW"
-                        android:targetClass="dev.dworks.apps.alauncher.hide.HideAppsActivity"
-                        android:targetPackage="@string/applicationId" />
+                        android:targetClass="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
+                        android:targetPackage="@string/applicationId" >
+                        <extra
+                            android:name="TYPE"
+                            android:value="0" />
+                    </intent>
 
                 </Preference>
 
@@ -432,6 +457,12 @@
                     android:key="pref_reset_app_icons"
                     android:summary="@string/reset_app_icons_summary"
                     android:title="@string/reset_app_icons_title" />
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_reset_app_security"
+                    android:summary="@string/reset_app_security_summary"
+                    android:title="@string/reset_app_security_title" />
 
             </PreferenceCategory>
 

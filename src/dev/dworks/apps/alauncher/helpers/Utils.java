@@ -48,10 +48,15 @@ import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
 import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.graphics.ColorUtils;
 import androidx.palette.graphics.Palette;
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.lock.DoubleTapToLockRegistry;
@@ -301,6 +306,71 @@ public class Utils {
                 Math.min(b, 255));
     }
 
+    public static int extractAdaptiveBackgroundFromBitmap(Context context, Bitmap bitmap) {
+        return getDominantColor(context, bitmap, android.R.color.white);
+    }
+
+    public static int getBackgroundColor(Context context, Bitmap bitmap) {
+        return getDominantColor(context, bitmap, R.color.accent_amber);
+    }
+
+    public static int getDominantColor(Context context, Bitmap bitmap, int defaultColorId) {
+
+        Palette palette = Palette.from(bitmap).generate();
+        int defaultColor = ContextCompat.getColor(context, defaultColorId);
+        int color = palette.getDominantColor(defaultColor);
+
+        double luminance =  ColorUtils.calculateLuminance(color);
+        if(luminance  >= 0.5) {
+            int colorMissed = palette.getDarkVibrantColor(defaultColor);
+            if(colorMissed == defaultColor){
+                List<Palette.Swatch> swatchesTemp = palette.getSwatches();
+                List<Palette.Swatch> swatches = new ArrayList<Palette.Swatch>(swatchesTemp);
+                Collections.sort(swatches, new Comparator<Palette.Swatch>() {
+                    @Override
+                    public int compare(Palette.Swatch swatch1, Palette.Swatch swatch2) {
+                        return swatch2.getPopulation() - swatch1.getPopulation();
+                    }
+                });
+                color = swatches.size() > 0 ? swatches.get(3).getRgb() : defaultColor;
+            } else {
+                color = colorMissed;
+            }
+        }
+        return lighten(color, 0.3);
+    }
+
+    public static int lighten(int color, double fraction) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        red = lightenColor(red, fraction);
+        green = lightenColor(green, fraction);
+        blue = lightenColor(blue, fraction);
+        int alpha = Color.alpha(color);
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    public static int darken(int color, double fraction) {
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        red = darkenColor(red, fraction);
+        green = darkenColor(green, fraction);
+        blue = darkenColor(blue, fraction);
+        int alpha = Color.alpha(color);
+
+        return Color.argb(alpha, red, green, blue);
+    }
+
+    private static int darkenColor(int color, double fraction) {
+        return (int)Math.max(color - (color * fraction), 0);
+    }
+
+    private static int lightenColor(int color, double fraction) {
+        return (int) Math.min(color + (color * fraction), 255);
+    }
+
     public static void openAppDrawer(Launcher launcher) {
         launcher.showAppsView(true, false, false);
     }
@@ -451,5 +521,4 @@ public class Utils {
     public static void setDefaultLauncher(Activity activity){
         new DefaultLauncher(activity).launchHomeOrClearDefaultsDialog();
     }
-
 }

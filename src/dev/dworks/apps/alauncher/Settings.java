@@ -41,6 +41,7 @@ public class Settings {
     public static final String RESET_APP_NAMES = "pref_reset_app_names";
     public static final String RESET_APP_VISIBILITY = "pref_reset_app_visibility";
     public static final String RESET_APP_ICONS = "pref_reset_app_icons";
+    public static final String RESET_APP_LOCK = "pref_reset_app_security";
     public static final String QSB_VOICE_ICON = "pref_qsb_voice_icon";
     public static final String QSB_ASSISTANT_ICON = "pref_qsb_assistant_icon";
     public static final String HOME_ACTION = "pref_home_action";

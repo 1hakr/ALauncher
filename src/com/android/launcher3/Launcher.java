@@ -150,10 +150,13 @@ import java.util.concurrent.Executor;
 
 import androidx.annotation.Nullable;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.apps.lock.AppLockHelper;
+import dev.dworks.apps.alauncher.helpers.SecurityHelper;
 import dev.dworks.apps.alauncher.helpers.Utils;
 
 import static com.android.launcher3.util.RunnableWithId.RUNNABLE_ID_BIND_APPS;
 import static com.android.launcher3.util.RunnableWithId.RUNNABLE_ID_BIND_WIDGETS;
+import static dev.dworks.apps.alauncher.helpers.SecurityHelper.REQUEST_CONFIRM_CREDENTIALS;
 
 /**
  * Default launcher application.
@@ -339,6 +342,8 @@ public class Launcher extends BaseActivity
 
     public ViewGroupFocusHelper mFocusHandler;
     private boolean mRotationEnabled = false;
+
+    private ArrayList<ComponentName> mUnlockedAppsList = new ArrayList<>();
 
     @Thunk void setOrientation() {
         if (mRotationEnabled) {
@@ -809,6 +814,10 @@ public class Launcher extends BaseActivity
         handleActivityResult(requestCode, resultCode, data);
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if(null != mSecurityCallback) {
+            mSecurityCallback.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -2431,11 +2440,7 @@ public class Launcher extends BaseActivity
     private void startMarketIntentForPackage(View v, String packageName) {
         ItemInfo item = (ItemInfo) v.getTag();
         Intent intent = PackageManagerHelper.getMarketIntent(packageName);
-        boolean success = startActivitySafely(v, intent, item);
-        if (success && v instanceof BubbleTextView) {
-            mWaitingForResume = (BubbleTextView) v;
-            mWaitingForResume.setStayPressed(true);
-        }
+        startActivitySecurely(v, intent, item);
     }
 
     /**
@@ -2505,13 +2510,8 @@ public class Launcher extends BaseActivity
         if (intent == null) {
             throw new IllegalArgumentException("Input must have a valid intent");
         }
-        boolean success = startActivitySafely(v, intent, item);
-        getUserEventDispatcher().logAppLaunch(v, intent, item.user); // TODO for discovered apps b/35802115
 
-        if (success && v instanceof BubbleTextView) {
-            mWaitingForResume = (BubbleTextView) v;
-            mWaitingForResume.setStayPressed(true);
-        }
+        startActivitySecurely(v, intent, item);
     }
 
     /**
@@ -2719,6 +2719,45 @@ public class Launcher extends BaseActivity
         int[] pos = new int[2];
         v.getLocationOnScreen(pos);
         return new Rect(pos[0], pos[1], pos[0] + v.getWidth(), pos[1] + v.getHeight());
+    }
+
+    private SecurityHelper.SecurityCallback mSecurityCallback;
+
+    public void startActivitySecurely(final View v, final Intent intent, final ItemInfo item) {
+        final ComponentName componentName = item.getTargetComponent();
+        boolean isAppSecured = AppLockHelper.isSecured(this, new ComponentKey(componentName, item.user));
+        boolean isUnlocked = mUnlockedAppsList.contains(componentName);
+        if(!isAppSecured || isUnlocked) {
+            startActivityAuthenticated(v, intent, item);
+            return;
+        }
+
+        mSecurityCallback = new SecurityHelper.SecurityCallback(){
+
+            @Override
+            public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                if (requestCode == REQUEST_CONFIRM_CREDENTIALS) {
+                    if (resultCode == RESULT_OK) {
+                        mUnlockedAppsList.add(componentName);
+                        startActivityAuthenticated(v, intent, item);
+                    }
+                }
+            }
+        };
+
+
+        SecurityHelper securityHelper = new SecurityHelper(this);
+        securityHelper.authenticate(item.title.toString(), "Use device pattern to continue");
+    }
+
+    public void startActivityAuthenticated(View v, Intent intent, ItemInfo item){
+        boolean success = startActivitySafely(v, intent, item);
+        getUserEventDispatcher().logAppLaunch(v, intent, item.user);
+
+        if (success && v instanceof BubbleTextView) {
+            mWaitingForResume = (BubbleTextView) v;
+            mWaitingForResume.setStayPressed(true);
+        }
     }
 
     public boolean startActivitySafely(View v, Intent intent, ItemInfo item) {

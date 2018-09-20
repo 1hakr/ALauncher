@@ -44,6 +44,7 @@ import java.io.File;
 
 import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.apps.lock.AppLockHelper;
 import dev.dworks.apps.alauncher.helpers.Utils;
 
 import static com.android.launcher3.Utilities.THEME_OVERRIDE_KEY;
@@ -261,6 +262,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
             findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESET_APP_LOCK).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
             findPreference(Settings.RESTART_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(Settings.CHANGE_DEFAULT_PREFERENCE).setOnPreferenceClickListener(this);
@@ -544,6 +546,13 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                         new ResetAppVisibilityDialog().show(getFragmentManager(), preference.getKey());
                     }
                     return true;
+                case Settings.RESET_APP_LOCK:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        new ResetAppSecurityDialog().show(getFragmentManager(), preference.getKey());
+                    }
+                    return true;
                 case Settings.RESET_APP_ICONS:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
@@ -716,6 +725,24 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                                     applyingDialog.cancel();
                                 }
                             }, 1000);
+                        }
+                    })
+                    .create();
+        }
+    }
+
+    public static class ResetAppSecurityDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.reset_app_security_title)
+                    .setMessage(R.string.reset_app_security_description)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppLockHelper.resetAppLock(getActivity());
+                            Utils.reload(getActivity());
                         }
                     })
                     .create();

@@ -35,4 +35,11 @@
         android:defaultValue="false"
         android:persistent="false" />
 
+    <SwitchPreference
+        android:key="pref_app_lock"
+        android:title="@string/lock_app"
+        android:summary="@string/lock_app_sum"
+        android:defaultValue="false"
+        android:persistent="false" />
+
 </PreferenceScreen>
