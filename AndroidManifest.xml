@@ -94,13 +94,11 @@
         -->
         <activity
             android:name="com.google.android.apps.nexuslauncher.SettingsActivity"
-            android:label="@string/derived_app_name"
-            android:theme="@style/SettingsTheme"
+            android:label="@string/settings_title"
+            android:theme="@style/DefaultTheme.Splash"
             android:autoRemoveFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
-                <category android:name="android.intent.category.DEFAULT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

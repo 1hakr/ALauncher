@@ -38,4 +38,10 @@
         <item name="android:shouldDisableView">false</item>
         <item name="android:selectable">false</item>
     </style>
+
+    <style name="DefaultTheme.Splash" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>
