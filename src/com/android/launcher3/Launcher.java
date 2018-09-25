@@ -1574,6 +1574,7 @@ public class Launcher extends BaseActivity
                     }
                 }
                 mShouldFadeInScrim = true;
+                mUnlockedAppsList.clear();
             } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
                 // ACTION_USER_PRESENT is sent after onStart/onResume. This covers the case where
                 // the user unlocked and the Launcher is not in the foreground.

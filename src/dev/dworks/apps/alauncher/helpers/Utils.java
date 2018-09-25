@@ -11,6 +11,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -39,12 +40,14 @@ import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
+import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.LooperExecutor;
 import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
+import com.google.android.apps.nexuslauncher.SettingsActivity;
 import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 
 import java.io.File;
@@ -63,6 +66,8 @@ import dev.dworks.apps.alauncher.lock.DoubleTapToLockRegistry;
 import dev.dworks.apps.alauncher.lock.LockDeviceAdmin;
 import dev.dworks.apps.alauncher.lock.LockTimeoutActivity;
 
+import static com.android.launcher3.LauncherSettings.BaseLauncherColumns.ITEM_TYPE_APPLICATION;
+import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
 import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
 
 public class Utils {
@@ -520,5 +525,33 @@ public class Utils {
 
     public static void setDefaultLauncher(Activity activity){
         new DefaultLauncher(activity).launchHomeOrClearDefaultsDialog();
+    }
+
+    public static ContentValues installSettingShortcurt(Context context) {
+
+        ComponentName componentName = new ComponentName(context, SettingsActivity.class);
+        Intent intent = new Intent(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .setPackage(BuildConfig.APPLICATION_ID)
+                .setComponent(componentName)
+                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        String intentUri = intent.toUri(0);
+        ContentValues values = new ContentValues();
+
+        long id = LauncherSettings.Settings.call(
+                context.getContentResolver(), LauncherSettings.Settings.METHOD_NEW_ITEM_ID)
+                .getLong(LauncherSettings.Settings.EXTRA_VALUE);
+        values.put(LauncherSettings.Favorites._ID, 99);
+        values.put(LauncherSettings.Favorites.ITEM_TYPE, ITEM_TYPE_APPLICATION);
+        values.put(LauncherSettings.Favorites.CONTAINER, CONTAINER_DESKTOP);
+        values.put(LauncherSettings.Favorites.SCREEN, 0);
+        values.put(LauncherSettings.Favorites.CELLX, 4);
+        values.put(LauncherSettings.Favorites.CELLY, 4);
+        values.put(LauncherSettings.Favorites.SPANX, 1);
+        values.put(LauncherSettings.Favorites.SPANY, 1);
+        values.put(LauncherSettings.Favorites.TITLE, "Settings");
+        values.put(LauncherSettings.Favorites.INTENT, intentUri);
+        context.getContentResolver().insert(LauncherSettings.Favorites.CONTENT_URI, values);
+        return values;
     }
 }

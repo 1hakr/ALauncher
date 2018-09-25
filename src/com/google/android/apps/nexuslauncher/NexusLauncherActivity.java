@@ -21,14 +21,18 @@ import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 import java.util.List;
 
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.helpers.Utils;
 
 public class NexusLauncherActivity extends Launcher {
     public static final String BRIDGE_TAG = "bridge";
 
     private final static String PREF_IS_RELOAD = "pref_reload_workspace";
+    private final static String PREF_LAUNCH_TIMES = "pref_launch_times";
     private NexusLauncher mLauncher;
     private boolean mIsReload;
+    private int mLaunchTimes;
     private String mThemeHints;
+    private SharedPreferences prefs;
 
     public NexusLauncherActivity() {
         mLauncher = new NexusLauncher(this);
@@ -40,8 +44,7 @@ public class NexusLauncherActivity extends Launcher {
         mThemeHints = themeHints();
 
         super.onCreate(savedInstanceState);
-
-        SharedPreferences prefs = Utilities.getPrefs(this);
+        prefs = Utilities.getPrefs(this);
         if (mIsReload = prefs.getBoolean(PREF_IS_RELOAD, false)) {
             prefs.edit().remove(PREF_IS_RELOAD).apply();
 
@@ -51,6 +54,16 @@ public class NexusLauncherActivity extends Launcher {
             // Fix for long press not working
             // This is overwritten in Launcher.onResume
             setWorkspaceLoading(false);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLaunchTimes = prefs.getInt(PREF_LAUNCH_TIMES, 1);
+        if(mLaunchTimes < 3) {
+            prefs.edit().putInt(PREF_LAUNCH_TIMES, mLaunchTimes + 1).apply();
+            Utils.installSettingShortcurt(this);
         }
     }
 

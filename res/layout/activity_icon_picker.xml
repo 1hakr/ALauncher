@@ -33,7 +33,7 @@
 
     </LinearLayout>
 
-    <LinearLayoutz
+    <LinearLayout
         android:id="@+id/icon_picker_loading_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +59,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayoutz>
+    </LinearLayout>
 
 </FrameLayout>
