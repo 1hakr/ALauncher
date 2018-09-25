@@ -1,6 +1,7 @@
 package com.google.android.apps.nexuslauncher;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -29,8 +30,11 @@ import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
@@ -40,6 +44,7 @@ import java.io.File;
 
 import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.apps.lock.AppLockHelper;
 import dev.dworks.apps.alauncher.helpers.Utils;
 
 import static com.android.launcher3.Utilities.THEME_OVERRIDE_KEY;
@@ -60,9 +65,17 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
     @Override
     protected void onCreate(final Bundle bundle) {
+        setTheme(R.style.SettingsTheme);
         super.onCreate(bundle);
         if (bundle == null) {
             getFragmentManager().beginTransaction().replace(android.R.id.content, new MySettingsFragment()).commit();
+        }
+
+        final ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_logo);
         }
     }
 
@@ -180,6 +193,42 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
             customPreferences();
         }
 
+        @Override
+        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+            if (preference instanceof PreferenceScreen) {
+                initializeActionBar((PreferenceScreen) preference);
+            }
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
+        }
+
+        public void initializeActionBar(PreferenceScreen preferenceScreen) {
+            final Dialog dialog = preferenceScreen.getDialog();
+
+            if (dialog != null) {
+                dialog.getActionBar().setDisplayHomeAsUpEnabled(true);
+                dialog.getActionBar().setHomeButtonEnabled(true);
+                int titleId = getActivity().getResources().getIdentifier("action_bar", "id", "android");
+                ViewGroup root = dialog.findViewById(titleId);
+                View homeBtn = null;
+                for (int i = 0 ; i < root.getChildCount(); i++) {
+                    View child = root.getChildAt(i);
+                    if(child instanceof ImageView){
+                        homeBtn = child;
+                        break;
+                    }
+                }
+
+                if (homeBtn != null) {
+                    homeBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        }
+
         private void customPreferences() {
             //findPreference(THEME_OVERRIDE_KEY).setOnPreferenceChangeListener(this);
             findPreference(Settings.BOTTOM_SEARCH_BAR_KEY).setOnPreferenceChangeListener(this);
@@ -214,6 +263,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
 
             findPreference(Settings.RESET_APP_NAMES).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_VISIBILITY).setOnPreferenceClickListener(this);
+            findPreference(Settings.RESET_APP_LOCK).setOnPreferenceClickListener(this);
             findPreference(Settings.RESET_APP_ICONS).setOnPreferenceClickListener(this);
             findPreference(Settings.RESTART_PREFERENCE).setOnPreferenceClickListener(this);
             findPreference(Settings.CHANGE_DEFAULT_PREFERENCE).setOnPreferenceClickListener(this);
@@ -285,6 +335,10 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                 ((PreferenceScreen) getPreferenceScreen()
                         .findPreference("pref_smartspace_screen"))
                         .removePreference(findPreference(SMARTSPACE_SETTINGS));
+            }
+
+            if(Utils.isAmazonBuild()){
+                getPreferenceScreen().removePreference(findPreference("pref_basic_category"));
             }
         }
 
@@ -493,6 +547,13 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                         new ResetAppVisibilityDialog().show(getFragmentManager(), preference.getKey());
                     }
                     return true;
+                case Settings.RESET_APP_LOCK:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        new ResetAppSecurityDialog().show(getFragmentManager(), preference.getKey());
+                    }
+                    return true;
                 case Settings.RESET_APP_ICONS:
                     if(!App.isPurchased()){
                         App.openPurchaseActivity(getActivity());
@@ -665,6 +726,24 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
                                     applyingDialog.cancel();
                                 }
                             }, 1000);
+                        }
+                    })
+                    .create();
+        }
+    }
+
+    public static class ResetAppSecurityDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.reset_app_security_title)
+                    .setMessage(R.string.reset_app_security_description)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AppLockHelper.resetAppLock(getActivity());
+                            Utils.reload(getActivity());
                         }
                     })
                     .create();

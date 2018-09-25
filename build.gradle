@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0-rc02'
+        classpath 'com.android.tools.build:gradle:3.2.0-rc03'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.6'
         classpath 'com.google.gms:google-services:4.0.1'
         classpath 'io.fabric.tools:gradle:1.25.4'
@@ -33,8 +33,8 @@ android {
         testApplicationId 'dev.dworks.apps.alauncher.tests'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.2"
+        versionCode 5
+        versionName "1.3"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "PLAYSTORE_LICENSE_KEY",  "$props.PLAYSTORE_LICENSE_KEY"
@@ -120,6 +120,7 @@ android {
 
         google {
             java.srcDirs = ['google/src']
+            manifest.srcFile "google/AndroidManifest.xml"
         }
 
         amazon {
@@ -157,7 +158,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc02'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0-rc02'
     implementation 'androidx.recyclerview:recyclerview:1.0.0-rc02'
-    implementation 'androidx.cardview:cardview:1.0.0-rc02'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0-rc02'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
     implementation 'com.google.firebase:firebase-core:16.0.3'

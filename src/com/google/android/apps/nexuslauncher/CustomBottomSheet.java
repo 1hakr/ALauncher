@@ -38,8 +38,11 @@ import com.android.launcher3.graphics.DrawableFactory;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.widget.WidgetsBottomSheet;
 
+import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
+import dev.dworks.apps.alauncher.apps.lock.AppLockHelper;
 import dev.dworks.apps.alauncher.helpers.Utils;
+import dev.dworks.apps.alauncher.icons.IconPackListActivity;
 
 public class CustomBottomSheet extends WidgetsBottomSheet {
     private FragmentManager mFragmentManager;
@@ -94,11 +97,16 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
         Utils.reload(context);
     }
 
-    public static class PrefsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
+    public static class PrefsFragment extends PreferenceFragment
+            implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
+        private static final String PREF_OVERRIDE_ICON = "pref_override_app_icon";
         private final static String PREF_PACK = "pref_app_icon_pack";
         private final static String PREF_HIDE = "pref_app_hide";
+        private final static String PREF_LOCK = "pref_app_lock";
+        private Preference mPrefOverride;
         private SwitchPreference mPrefPack;
         private SwitchPreference mPrefHide;
+        private SwitchPreference mPrefLock;
 
         private ComponentKey mKey;
 
@@ -111,8 +119,10 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
         public void loadForApp(ItemInfo itemInfo) {
             mKey = new ComponentKey(itemInfo.getTargetComponent(), itemInfo.user);
 
+            mPrefOverride = findPreference(PREF_OVERRIDE_ICON);
             mPrefPack = (SwitchPreference) findPreference(PREF_PACK);
             mPrefHide = (SwitchPreference) findPreference(PREF_HIDE);
+            mPrefLock = (SwitchPreference) findPreference(PREF_LOCK);
 
             Context context = getActivity();
             CustomDrawableFactory factory = (CustomDrawableFactory) DrawableFactory.get(context);
@@ -131,15 +141,26 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
             }
 
             mPrefHide.setChecked(CustomAppFilter.isHiddenApp(context, mKey));
-
             mPrefPack.setOnPreferenceChangeListener(this);
             mPrefHide.setOnPreferenceChangeListener(this);
+            mPrefLock.setOnPreferenceChangeListener(this);
+
+            mPrefPack.setOnPreferenceClickListener(this);
+            mPrefHide.setOnPreferenceClickListener(this);
+            mPrefLock.setOnPreferenceClickListener(this);
+            mPrefOverride.setOnPreferenceClickListener(this);
+
+            getPreferenceScreen().removePreference(findPreference(PREF_PACK));
+            getPreferenceScreen().removePreference(findPreference(PREF_LOCK));
         }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             boolean enabled = (boolean) newValue;
             Launcher launcher = Launcher.getLauncher(getActivity());
+            if(!App.isPurchased()) {
+                return true;
+            }
             switch (preference.getKey()) {
                 case PREF_PACK:
                     CustomIconProvider.setAppState(launcher, mKey, enabled);
@@ -148,8 +169,37 @@ public class CustomBottomSheet extends WidgetsBottomSheet {
                 case PREF_HIDE:
                     CustomAppFilter.setComponentNameState(launcher, mKey, enabled);
                     break;
+                case PREF_LOCK:
+                    AppLockHelper.setComponentNameState(launcher, mKey, enabled);
+                    break;
             }
             return true;
+        }
+
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            switch (preference.getKey()) {
+                case PREF_PACK:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    }
+                    IconPackListActivity.openForComponent(getActivity(), mKey);
+                    return true;
+                case PREF_HIDE:
+                case PREF_LOCK:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    }
+                    return true;
+                case PREF_OVERRIDE_ICON:
+                    if(!App.isPurchased()){
+                        App.openPurchaseActivity(getActivity());
+                    } else {
+                        IconPackListActivity.openForComponent(getActivity(), mKey);
+                    }
+                    return true;
+            }
+            return false;
         }
     }
 }

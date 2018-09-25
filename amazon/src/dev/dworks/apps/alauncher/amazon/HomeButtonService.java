@@ -24,7 +24,7 @@ public class HomeButtonService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        if(!Utils.isAmazonDevice()){
+        if(!Utils.isAmazonBuild()){
             ServiceManager.stop(getApplicationContext());
             return;
         }

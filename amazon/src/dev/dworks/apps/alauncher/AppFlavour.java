@@ -48,7 +48,7 @@ public class AppFlavour extends Application implements PurchaseServiceListener {
 	}
 
 	public static boolean isPurchased() {
-		return PreferenceUtils.getBooleanPrefs(PURCHASED);
+		return BuildConfig.DEBUG || PreferenceUtils.getBooleanPrefs(PURCHASED);
 	}
 
 	public static String getPurchaseId(){
