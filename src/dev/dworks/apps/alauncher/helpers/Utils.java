@@ -420,7 +420,8 @@ public class Utils {
 
             install = new Intent(Intent.ACTION_INSTALL_PACKAGE);
             install.setData(apkUri);
-            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         } else {
             Uri apkUri = Uri.fromFile(file);
 

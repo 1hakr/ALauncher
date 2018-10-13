@@ -85,6 +85,9 @@ public final class Utilities {
     private static final Matrix sMatrix = new Matrix();
     private static final Matrix sInverseMatrix = new Matrix();
 
+    public static final boolean ATLEAST_PIE =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.P;
+
     public static final boolean ATLEAST_OREO_MR1 =
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
 

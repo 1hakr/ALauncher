@@ -28,6 +28,7 @@ import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppWidgetHostView;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.folder.FolderIcon;
 
@@ -91,7 +92,11 @@ public class DragPreviewProvider {
             }
             destCanvas.translate(-mView.getScrollX() + blurSizeOutline / 2,
                     -mView.getScrollY() + blurSizeOutline / 2);
-            destCanvas.clipRect(clipRect, Op.REPLACE);
+            if(Utilities.ATLEAST_PIE) {
+                destCanvas.clipRect(clipRect);
+            } else {
+                destCanvas.clipRect(clipRect, Op.REPLACE);
+            }
             mView.draw(destCanvas);
 
             // Restore text visibility of FolderIcon if necessary
