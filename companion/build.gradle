@@ -38,12 +38,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
-repositories {
-    mavenCentral()
-    jcenter()
-    google()
-}
-
 android.signingConfigs.companion.storeFile rootProject.file(props.keyStore)
 android.signingConfigs.companion.storePassword props.keyStorePassword
 android.signingConfigs.companion.keyAlias props.keyAlias

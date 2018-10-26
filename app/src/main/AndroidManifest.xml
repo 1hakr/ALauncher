@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.android.launcher3">
+    <!--
+    Manifest entries specific to Launcher3. This is merged with AndroidManifest-common.xml.
+    Refer comments around specific entries on how to extend individual components.
+    -->
+
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" tools:node="remove"/>
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE"  tools:node="remove" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" tools:node="remove" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" tools:node="remove" />
+
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+
+    <application
+        android:name="dev.dworks.apps.alauncher.App"
+        android:backupAgent="com.android.launcher3.LauncherBackupAgent"
+        android:fullBackupOnly="true"
+        android:fullBackupContent="@xml/backupscheme"
+        android:hardwareAccelerated="true"
+        android:label="@string/derived_app_name"
+        android:theme="@style/LauncherTheme"
+        android:largeHeap="@bool/config_largeHeap"
+        android:restoreAnyVersion="true"
+        android:supportsRtl="true"
+        android:banner="@drawable/banner"
+        tools:ignore="GoogleAppIndexingWarning">
+
+        <!--
+        Main launcher activity. When extending only change the name, and keep all the
+        attributes and intent filters the same
+        -->
+        <activity
+            android:name="com.google.android.apps.nexuslauncher.NexusLauncherActivity"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="nosensor"
+            android:configChanges="keyboard|keyboardHidden|navigation"
+            android:resizeableActivity="true"
+            android:resumeWhilePausing="true"
+            android:taskAffinity=""
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+            </intent-filter>
+            <!-- For TV -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+        The settings activity. When extending keep the intent filter present
+        -->
+        <activity
+            android:name="com.google.android.apps.nexuslauncher.SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/DefaultTheme.Splash"
+            android:autoRemoveFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+        The settings provider contains Home's data, like the workspace favorites. The permissions
+        should be changed to what is defined above. The authorities should also be changed to
+        represent the package name.
+        -->
+        <provider
+            android:name="com.android.launcher3.LauncherProvider"
+            android:authorities="${applicationId}.settings"
+            android:exported="false"
+            android:protectionLevel="signature"
+            android:writePermission="${applicationId}.permission.WRITE_SETTINGS"
+            android:readPermission="${applicationId}.permission.READ_SETTINGS" />
+
+        <!--
+        Pixel
+        -->
+        <activity
+            android:name="com.google.android.apps.nexuslauncher.search.AppLaunchActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter android:priority="1">
+                <action android:name="com.google.android.apps.nexuslauncher.search.APP_LAUNCH"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data
+                    android:mimeType="vnd.android.cursor.dir/vnd.android.search.suggest"
+                    android:scheme="content"/>
+            </intent-filter>
+        </activity>
+        <receiver android:name="com.google.android.apps.nexuslauncher.qsb.OPAStatusReceiver"
+            android:permission="android.permission.CAPTURE_AUDIO_HOTWORD">
+            <intent-filter>
+                <action android:name="com.google.android.systemui.OPA_ENABLED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.google.android.apps.nexuslauncher.smartspace.SmartspaceBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.google.android.apps.nexuslauncher.UPDATE_SMARTSPACE" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.google.android.apps.nexuslauncher.qsb.LongClickReceiver" />
+        <provider
+            android:authorities="${applicationId}.appssearch"
+            android:exported="true"
+            android:name="com.google.android.apps.nexuslauncher.search.AppSearchProvider" />
+
+        <!--
+        Custom
+        -->
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+        <activity
+            android:name="dev.dworks.apps.alauncher.pro.PurchaseActivity"
+            android:theme="@style/DefaultTheme"/>
+
+        <!-- Lock -->
+        <activity
+            android:name="dev.dworks.apps.alauncher.lock.LockTimeoutActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/TimeoutTheme" />
+
+        <receiver
+            android:name="dev.dworks.apps.alauncher.lock.LockDeviceAdmin"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/lock_admin_policy" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/apps_selection_title"
+            android:theme="@style/SettingsTheme" />
+
+        <activity
+            android:name="dev.dworks.apps.alauncher.icons.IconPickerActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/available_icon_packs"
+            android:theme="@style/SettingsTheme" />
+
+        <activity
+            android:name="dev.dworks.apps.alauncher.icons.IconPackListActivity"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/override_app_icon"
+            android:theme="@style/SettingsTheme" />
+
+
+        <!-- Bridge -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.bridge"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- Intent received used to install shortcuts from other applications -->
+        <receiver
+            android:name="com.android.launcher3.InstallShortcutReceiver"
+            android:permission="com.android.launcher.permission.INSTALL_SHORTCUT"
+            android:enabled="@bool/enable_install_shortcut_api" >
+            <intent-filter>
+                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Intent received when a session is committed -->
+        <receiver
+            android:name="com.android.launcher3.SessionCommitReceiver" >
+            <intent-filter>
+                <action android:name="android.content.pm.action.SESSION_COMMITTED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Intent received used to initialize a restored widget -->
+        <receiver android:name="com.android.launcher3.AppWidgetsRestoredReceiver" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_HOST_RESTORED"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.android.launcher3.dynamicui.ColorExtractionService"
+            android:exported="false"
+            android:process=":wallpaper_chooser"
+            android:permission="android.permission.BIND_JOB_SERVICE">
+        </service>
+
+        <service
+            android:name="com.android.launcher3.compat.WallpaperManagerCompatVL$ColorExtractionService"
+            android:exported="false"
+            android:process=":wallpaper_chooser"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <service android:name="com.android.launcher3.notification.NotificationListener"
+            android:enabled="@bool/notification_badging_enabled"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+        <meta-data android:name="android.nfc.disable_beam_default"
+            android:value="true" />
+
+        <activity android:name="com.android.launcher3.dragndrop.AddItemActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog.Alert"
+            android:excludeFromRecents="true"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/action_add_to_workspace" >
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
+                <action android:name="android.content.pm.action.CONFIRM_PIN_APPWIDGET" />
+            </intent-filter>
+        </activity>
+
+        <!--
+        Should point to the content provider which can be used to dump Launcher3 compatible
+        worspace configuration to the dump's file descriptor by using launcher_dump.proto
+        -->
+        <meta-data
+            android:name="com.android.launcher3.launcher_dump_provider"
+            android:value="com.android.launcher3.LauncherProvider" />
+
+    </application>
+</manifest>
