@@ -52,17 +52,17 @@ public class AppsSelectionActivity extends Activity {
         }
         setTitle(type == 0 ? R.string.hide_apps_title : R.string.lock_apps_title);
         bindViews();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if(type == TYPE_LOCK) {
             SecurityHelper securityHelper = new SecurityHelper(this);
             securityHelper.authenticate();
         } else {
             query();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
