@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" гэж хайгаарай</item>
+        <item>\"Michael Fassbender\" гэж хайгаарай</item>
+        <item>\"Jennifer Lawrence\" гэж хайгаарай</item>
+        <item>\"Olivia Wilde\" гэж хайгаарай</item>
+        <item>\"romantic comedies\" гэж хайгаарай</item>
+        <item>\"Шинжлэх ухааны уран зөгнөлт кино\" гэж хайгаарай</item>
+        <item>\"superhero movies\" гэж хайгаарай</item>
+        <item>\"action movies\" гэж хайгаарай</item>
+        <item>\"Star Trek\" гэж хайгаарай</item>
+        <item>\"Sherlock\" гэж хайгаарай</item>
+        <item>\"American Idol\" гэж хайгаарай</item>
+        <item>\"Star Trek\" гэж хайгаарай</item>
+        <item>\"Castle\" гэж хайгаарай</item>
+        <item>\"pictures of Beyonce\" гэж хайгаарай</item>
+        <item>\"pictures of London\" гэж хайгаарай</item>
+        <item>\"pictures of Godzilla\" гэж хайгаарай</item>
+        <item>\"Giants-н оноо хэд вэ?\" гэж асуугаарай</item>
+        <item>\"Knicks-н оноо хэд вэ?\" гэж асуугаарай</item>
+        <item>\"Red Wings-н оноо хэд вэ?\" гэж асуугаарай</item>
+        <item>\"Seahawks-н оноо хэд вэ?\" гэж асуугаарай</item>
+        <item>\"Нью Йорк хотод цаг агаар ямар байна вэ?\" гэж асуугаарай</item>
+        <item>\"Сан Франциско хотод цаг агаар ямар байна вэ?\" гэж асуугаарай</item>
+        <item>\"Парис хотод цаг агаар ямар байна вэ?\" гэж асуугаарай</item>
+        <item>\"Козумелд цаг агаар ямар байна вэ?\" гэж асуугаарай</item>
+        <item>\"Брэд Питт хэр өндөр вэ?\" гэж асуугаарай</item>
+        <item>\"Нар хэр халуун бэ?\" гэж асуугаарай</item>
+        <item>\"Жон Вэйн хэзээ төрсөн бэ?\" гэж асуугаарай</item>
+        <item>\"YouTube нээж\" үзээрэй</item>
+        <item>\"Кино тоглуулахыг нээж\" үзээрэй</item>
+    </string-array>
+</resources>

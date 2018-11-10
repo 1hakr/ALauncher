@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+
+def props = new Properties()
+props.load(new FileInputStream(rootProject.file("keystore.properties")))
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "dev.dworks.apps.alauncher"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionName rootProject.generateVersionName()
+        versionCode rootProject.generateVersionCode(3)
+    }
+
+    signingConfigs {
+        release
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+        }
+
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard.pro'
+        }
+    }
+    flavorDimensions "release", "default"
+    productFlavors {
+        free {
+            applicationId "dev.dworks.apps.alauncher"
+            dimension "default"
+        }
+        pro {
+            applicationId "dev.dworks.apps.alauncher.pro"
+            dimension "default"
+        }
+        google {
+            dimension "release"
+        }
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'mockito-extensions/org.mockito.plugins.MockMaker'
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation 'androidx.leanback:leanback:1.0.0'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.leanback:leanback-preference:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'androidx.annotation:annotation:1.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.google.guava:guava:22.0-android'
+}
+
+repositories {
+    jcenter()
+    google()
+}
+
+android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+android.signingConfigs.release.storePassword props.keyStorePassword
+android.signingConfigs.release.keyAlias props.keyAlias
+android.signingConfigs.release.keyPassword props.keyAliasPassword

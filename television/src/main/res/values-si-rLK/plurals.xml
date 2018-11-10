@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">මූලාශ්‍ර %dක් සඟවා ඇත</item>
+        <item quantity="one">මූලාශ්‍ර %dක් සඟවා ඇත</item>
+    </plurals>
+</resources>

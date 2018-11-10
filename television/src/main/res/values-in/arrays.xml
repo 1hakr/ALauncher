@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Coba telusuri \"Will Smith\"</item>
+        <item>Coba telusuri \"Michael Fassbender\"</item>
+        <item>Coba telusuri \"Jennifer Lawrence\"</item>
+        <item>Coba telusuri \"Olivia Wilde\"</item>
+        <item>Coba telusuri \"komedi romantis\"</item>
+        <item>Coba telusuri \"film sci-fi\"</item>
+        <item>Coba telusuri \"film superhero\"</item>
+        <item>Coba telusuri \"film action\"</item>
+        <item>Coba telusuri \"Star Trek\"</item>
+        <item>Coba telusuri \"Sherlock\"</item>
+        <item>Coba telusuri \"American Idol\"</item>
+        <item>Coba telusuri \"Star Trek\"</item>
+        <item>Coba telusuri \"Castle\"</item>
+        <item>Coba telusuri \"gambar Beyonce\"</item>
+        <item>Coba telusuri \"gambar kota London\"</item>
+        <item>Coba telusuri \"gambar Godzilla\"</item>
+        <item>Coba tanyakan, \"berapa skor Persija?\"</item>
+        <item>Coba tanyakan, \"berapa skor Persib?\"</item>
+        <item>Coba tanyakan, \"berapa skor Arema Malang?\"</item>
+        <item>Coba tanyakan, \"berapa skor AC Milan?\"</item>
+        <item>Coba tanyakan, \"bagaimana cuaca di Jakarta?\"</item>
+        <item>Coba tanyakan, \"bagaimana cuaca di Bandung?\"</item>
+        <item>Coba tanyakan, \"bagaimana cuaca di Surabaya?\"</item>
+        <item>Coba tanyakan, \"bagaimana cuaca di Singapura?\"</item>
+        <item>Coba tanyakan, \"Berapa tinggi Brad Pitt?\"</item>
+        <item>Coba tanyakan, \"Berapa suhu matahari?\"</item>
+        <item>Coba tanyakan, \"Kapan John Wayne lahir?\"</item>
+        <item>Coba, \"buka YouTube\"</item>
+        <item>Coba, \"buka Play Film\"</item>
+    </string-array>
+</resources>

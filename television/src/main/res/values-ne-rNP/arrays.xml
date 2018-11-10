@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>\"Will Smith\" खोजी हेर्नुहोस्</item>
+        <item>\"Michael Fassbender\" खोजी हेर्नुहोस्</item>
+        <item>\"Jennifer Lawrence\" खोजी हेर्नुहोस्</item>
+        <item>\"Olivia Wilde\" खोजी हेर्नुहोस्</item>
+        <item>\"romantic comedies\" खोजी हेर्नुहोस्</item>
+        <item>\"sci-fi movies\" खोजी हेर्नुहोस्</item>
+        <item>\"superhero movies\" खोजी हेर्नुहोस्</item>
+        <item>\"action movies\" खोजी हेर्नुहोस्</item>
+        <item>\"Star Trek\" खोजी हेर्नुहोस्</item>
+        <item>\"Sherlock\" खोजी हेर्नुहोस्</item>
+        <item>\"American Idol\" खोजी हेर्नुहोस्</item>
+        <item>\"Star Trek\" खोजी हेर्नुहोस्</item>
+        <item>\"Castle\" खोजी हेर्नुहोस्</item>
+        <item>\"pictures of Beyonce\" खोजी हेर्नुहोस्</item>
+        <item>\"pictures of London\" खोजी हेर्नुहोस्</item>
+        <item>\"pictures of Godzilla\" खोजी हेर्नुहोस्</item>
+        <item>"\"what's the Giants score?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the Knicks score?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the Red Wings score?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the Seahawks score?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the weather in New York?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the weather in San Francisco?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the weather in Paris?\" सोधी हेर्नुहोस्"</item>
+        <item>"\"what's the weather in Cozumel?\" सोधी हेर्नुहोस्"</item>
+        <item>\"How tall is Brad Pitt?\" सोधी हेर्नुहोस्</item>
+        <item>\"How hot is the sun?\" सोधी हेर्नुहोस्</item>
+        <item>\"When was John Wayne born?\" सोधी हेर्नुहोस्</item>
+        <item>\"open YouTube\" भनी हेर्नुहोस्</item>
+        <item>\"open Play Movies\" भनी हेर्नुहोस्</item>
+    </string-array>
+</resources>
