@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [ <!ENTITY appid "dev.dworks.apps.alauncher"> ]>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="settingsApplicationId" translatable="false">&appid;</string>
+    <string name="applicationId" translatable="false">&appid;</string>
+    <string name="store_url" translatable="false">http://play.google.com/store/apps/details?id=&appid;</string>
     <string name="companion_app_permission_label" translatable="false">ALauncher companion permission</string>
     <string name="companion_app_permission_description" translatable="false">Permission to enforce signature protection for companion apps.</string>
 
@@ -351,9 +355,6 @@
 
     <string name="show_page_indicator_title">Show page indicator</string>
     <string name="show_page_indicator_summary">Using horizontal lines</string>
-    <string name="settingsApplicationId" translatable="false">package:dev.dworks.apps.alauncher</string>
-    <string name="applicationId">dev.dworks.apps.alauncher</string>
-    <string name="store_url">http://play.google.com/store/apps/details?id=dev.dworks.apps.alauncher</string>
 
     <string name="launcher_is_already_default">ALauncher is already your default launcher</string>
     <string name="change_default_home_dialog_body">%s is currently your default launcher. To try the ALauncher, go to Settings, tap Clear Defaults, and press the Home button.</string>

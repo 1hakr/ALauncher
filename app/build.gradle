@@ -13,12 +13,11 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId 'dev.dworks.apps.alauncher'
         testApplicationId 'dev.dworks.apps.alauncher.tests'
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 6
-        versionName "1.4"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionName rootProject.generateVersionName()
+        versionCode rootProject.generateVersionCode(1)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "PLAYSTORE_LICENSE_KEY",  "$props.PLAYSTORE_LICENSE_KEY"
@@ -44,9 +43,11 @@ android {
     flavorDimensions "release", "default"
     productFlavors {
         free {
+            applicationId "dev.dworks.apps.alauncher"
             dimension "default"
         }
         pro {
+            applicationId "dev.dworks.apps.alauncher.pro"
             dimension "default"
         }
         google {
@@ -82,8 +83,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
-    implementation 'com.google.firebase:firebase-core:16.0.4'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
     implementation 'com.zsoltsafrany:needle:1.0.0'
     googleImplementation 'com.anjlab.android.iab.v3:library:1.0.44'
     amazonImplementation 'com.github.eggheadgames:android-in-app-payments:1.2.8'
@@ -124,7 +125,8 @@ android.signingConfigs.release.storePassword props.keyStorePassword
 android.signingConfigs.release.keyAlias props.keyAlias
 android.signingConfigs.release.keyPassword props.keyAliasPassword
 
-if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug")) {
+if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug") &&
+        !getGradle().getStartParameter().getTaskRequests().toString().contains("Pro")) {
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'io.fabric'
 }

@@ -698,7 +698,7 @@
         <PreferenceScreen
             android:icon="@drawable/ic_info_outline_no_shadow"
             android:key="pref_about_screen"
-            android:summary="@string/about_summary"
+            android:summary="@string/derived_app_name"
             android:title="@string/about">
 
             <Preference

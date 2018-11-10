@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
     <string name="derived_app_name" translatable="false">ALauncher Debug</string>
     <string name="settingsApplicationId" translatable="false">package:dev.dworks.apps.alauncher.debug</string>
