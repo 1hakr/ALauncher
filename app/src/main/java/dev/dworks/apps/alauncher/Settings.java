@@ -68,6 +68,7 @@ public class Settings {
     public static final String RESTART_PREFERENCE = "restart_launcher";
     public static final String CHANGE_DEFAULT_PREFERENCE = "change_default_launcher";
 
+    private static final boolean PRO_DEFAULT = Utils.isPro();
     private static final boolean SETTINGS_DIRTY_DEFAULT = false;
     private static final boolean LOCK_DESKTOP_DEFAULT = false;
     private static final boolean BOTTOM_SEARCH_BAR_DEFAULT = true;
@@ -99,11 +100,11 @@ public class Settings {
     private static final boolean GENERATE_ADAPTIVE_ICONS_DEFAULT = false;
     private static final boolean GENERATED_ADAPTIVE_BACKGROUND_DEFAULT = false;
     private static final boolean ALLOW_TWO_LINE_LABELS_DEFAULT = false;
-    private static final boolean SHORTCUT_UNLOCKED_WIDGETS_DEFAULT = false;
-    private static final boolean SHORTCUT_UNLOCKED_UNINSTALL_DEFAULT = false;
-    private static final boolean SHORTCUT_UNLOCKED_EDIT_DEFAULT = false;
-    private static final boolean SHORTCUT_LOCKED_UNINSTALL_DEFAULT = false;
-    private static final boolean SHORTCUT_LOCKED_EDIT_DEFAULT = false;
+    private static final boolean SHORTCUT_UNLOCKED_WIDGETS_DEFAULT = PRO_DEFAULT;
+    private static final boolean SHORTCUT_UNLOCKED_UNINSTALL_DEFAULT = PRO_DEFAULT;
+    private static final boolean SHORTCUT_UNLOCKED_EDIT_DEFAULT = PRO_DEFAULT;
+    private static final boolean SHORTCUT_LOCKED_UNINSTALL_DEFAULT = PRO_DEFAULT;
+    private static final boolean SHORTCUT_LOCKED_EDIT_DEFAULT = PRO_DEFAULT;
     private static final boolean CARET_LONG_PRESS_DEFAULT = false;
     private static final int DATE_FORMAT_DEFAULT = R.string.date_format_normal;
     private static final boolean PAGE_INDICATOR_DEFAULT = true;

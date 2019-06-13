@@ -69,6 +69,7 @@ import dev.dworks.apps.alauncher.lock.LockTimeoutActivity;
 import static com.android.launcher3.LauncherSettings.BaseLauncherColumns.ITEM_TYPE_APPLICATION;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
 import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
+import static dev.dworks.apps.alauncher.AppPaymentFlavour.PURCHASED;
 
 public class Utils {
 
@@ -554,5 +555,9 @@ public class Utils {
         values.put(LauncherSettings.Favorites.INTENT, intentUri);
         context.getContentResolver().insert(LauncherSettings.Favorites.CONTENT_URI, values);
         return values;
+    }
+
+    public static boolean isPro(){
+        return PreferenceUtils.getBooleanPrefs(PURCHASED) || BuildConfig.FLAVOR.contains("Pro");
     }
 }
