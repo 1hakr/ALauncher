@@ -36,6 +36,11 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.graphics.ColorUtils;
+import androidx.palette.graphics.Palette;
+
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
@@ -57,10 +62,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.graphics.ColorUtils;
-import androidx.palette.graphics.Palette;
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.lock.DoubleTapToLockRegistry;
 import dev.dworks.apps.alauncher.lock.LockDeviceAdmin;
@@ -69,7 +70,6 @@ import dev.dworks.apps.alauncher.lock.LockTimeoutActivity;
 import static com.android.launcher3.LauncherSettings.BaseLauncherColumns.ITEM_TYPE_APPLICATION;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
 import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
-import static dev.dworks.apps.alauncher.AppPaymentFlavour.PURCHASED;
 
 public class Utils {
 
@@ -558,6 +558,6 @@ public class Utils {
     }
 
     public static boolean isPro(){
-        return PreferenceUtils.getBooleanPrefs(PURCHASED) || BuildConfig.FLAVOR.contains("Pro");
+        return BuildConfig.FLAVOR.contains("Pro");
     }
 }
