@@ -29,7 +29,7 @@ ext {
     minSdkVersion = 21
     versionMajor = 1
     versionMinor = 5
-    versionPatch = 0
+    versionPatch = 1
 
 }
 

@@ -31,13 +31,14 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import androidx.core.graphics.ColorUtils;
+
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.Themes;
 
-import androidx.core.graphics.ColorUtils;
 import dev.dworks.apps.alauncher.Settings;
 
 /**
@@ -170,7 +171,7 @@ public class GradientView extends View implements WallpaperColorInfo.OnChangeLis
     protected void onDraw(Canvas canvas) {
         Paint paint = mShowScrim ? mPaintWithScrim : mPaintNoScrim;
 
-        float head = 0.29f;
+        float head = 0f;
         float linearProgress = head + (mProgress * (mShiftScrim ? 0.85f : 1f) * (1f - head));
         float startMaskY = (1f - linearProgress) * mHeight - mMaskHeight * linearProgress;
         float interpolatedAlpha = (255 - mAlphaStart) * mAccelerator.getInterpolation(mProgress);
