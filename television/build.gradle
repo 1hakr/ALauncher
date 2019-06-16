@@ -4,7 +4,7 @@ def props = new Properties()
 props.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "dev.dworks.apps.alauncher"
