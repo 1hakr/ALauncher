@@ -4,11 +4,11 @@ def props = new Properties()
 props.load(new FileInputStream(rootProject.file("keystore.properties")))
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.google.android.apps.nexuslauncher"
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
 
@@ -36,12 +36,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
-    google()
 }
 
 android.signingConfigs.companion.storeFile rootProject.file(props.keyStore)

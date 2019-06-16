@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">هناك %d مصدر تم إخفاؤها</item>
+        <item quantity="zero">هناك %d مصدر تم إخفاؤه</item>
+        <item quantity="one">هناك %d مصدر تم إخفاؤه</item>
+        <item quantity="two">هناك مصدران (%d) تم إخفاؤهما</item>
+        <item quantity="few">هناك %d مصادر تم إخفاؤها</item>
+        <item quantity="many">هناك %d مصدرًا تم إخفاؤها</item>
+    </plurals>
+</resources>

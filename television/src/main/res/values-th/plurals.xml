@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="recommendation_blacklist_action_description">
+        <item quantity="other">แหล่งที่มาซ่อนอยู่ %d แห่ง</item>
+        <item quantity="one">แหล่งที่มาซ่อนอยู่ %d แห่ง</item>
+    </plurals>
+</resources>

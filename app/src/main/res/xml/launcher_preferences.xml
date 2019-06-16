@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2015 Google Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_main">
+    <Preference
+        android:icon="@drawable/ic_support"
+        android:key="pref_support"
+        android:summary="@string/support_summary"
+        android:title="@string/support_title">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="dev.dworks.apps.alauncher.pro.PurchaseActivity"
+            android:targetPackage="@string/applicationId" />
+
+    </Preference>
+    <PreferenceCategory
+        android:key="pref_basic_category"
+        android:title="Basic">
+        <com.android.launcher3.views.ButtonPreference
+            android:icon="@drawable/ic_notifications_no_shadow"
+            android:key="pref_icon_badging"
+            android:persistent="false"
+            android:title="@string/icon_badging_title"
+            android:widgetLayout="@layout/notification_pref_warning">
+            <intent android:action="android.settings.NOTIFICATION_SETTINGS">
+                <!-- This extra highlights the "Allow icon badges" field in Notification settings -->
+                <extra
+                    android:name=":settings:fragment_args_key"
+                    android:value="notification_badging" />
+            </intent>
+        </com.android.launcher3.views.ButtonPreference>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_assistant_no_shadow"
+            android:key="pref_smartspace_screen"
+            android:summary="@string/at_a_glance_summary"
+            android:title="@string/at_a_glance_category">
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="pref_smartspace"
+                android:persistent="true"
+                android:summary="@string/smartspace_preferences_in_settings_desc"
+                android:title="@string/smartspace_preferences_in_settings" />
+
+            <dev.dworks.apps.alauncher.view.ListPreference
+                android:defaultValue="@string/date_format_normal"
+                android:entries="@array/date_format_names"
+                android:entryValues="@array/date_format_values"
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="pref_date_format"
+                android:persistent="true"
+                android:summary="%s"
+                android:title="@string/date_format_title" />
+
+            <Preference
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="pref_smartspace_settings"
+                android:summary="@string/smartspace_settings_summary"
+                android:title="@string/smartspace_settings_title" />
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_rss_feed_no_shadow"
+            android:key="pref_feed_screen"
+            android:summary="@string/feed_summary"
+            android:title="@string/feed_category">
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="pref_enable_minus_one"
+                android:summary="@string/pref_show_google_now_summary"
+                android:title="@string/title_show_google_app" />
+
+        </PreferenceScreen>
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_advanced_category"
+        android:title="Advanced">
+        <PreferenceScreen
+            android:icon="@drawable/ic_search_no_shadow"
+            android:key="pref_search_screen"
+            android:summary="@string/search_summary"
+            android:title="@string/search_category">
+
+            <PreferenceCategory
+                android:key="pref_bottom_search_category"
+                android:title="@string/bottom_search_category">
+
+                <SwitchPreference
+                    android:defaultValue="true"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_bottom_search_bar"
+                    android:persistent="true"
+                    android:summary="@string/bottom_search_bar_summary"
+                    android:title="@string/bottom_search_bar_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="https://www.google.com"
+                    android:dependency="pref_bottom_search_bar"
+                    android:entries="@array/search_provider_names"
+                    android:entryValues="@array/search_provider_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_search_provider"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/search_provider_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:dependency="pref_bottom_search_bar"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_extra_bottom_padding"
+                    android:persistent="true"
+                    android:summary="@string/extra_bottom_padding_summary"
+                    android:title="@string/extra_bottom_padding_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:dependency="pref_bottom_search_bar"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_colored_g_icon"
+                    android:persistent="true"
+                    android:summary="@string/force_colored_g_icon_summary"
+                    android:title="@string/force_colored_g_icon_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_qsb_assistant_icon"
+                    android:summary="@string/qsb_assistant_icon_summary"
+                    android:title="@string/qsb_assistant_icon_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_top_search_category"
+                android:title="@string/top_search_category">
+
+                <SwitchPreference
+                    android:defaultValue="true"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_top_search_bar"
+                    android:persistent="true"
+                    android:summary="@string/top_search_bar_summary"
+                    android:title="@string/top_search_bar_title" />
+
+                <SwitchPreference
+                    android:defaultValue="true"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_show_predictions"
+                    android:summary="@string/summary_app_suggestions"
+                    android:title="@string/title_app_suggestions" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_top_search_apps"
+                    android:summary="@string/top_search_apps_summary"
+                    android:title="@string/top_search_apps_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_other_category"
+                android:title="@string/other_category">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_qsb_voice_icon"
+                    android:summary="@string/qsb_voice_icon_summary"
+                    android:title="@string/qsb_voice_icon_title" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_palette_no_shadow"
+            android:key="pref_look_and_feel_screen"
+            android:summary="@string/look_and_feel_summary"
+            android:title="@string/look_and_feel_category">
+
+            <PreferenceCategory
+                android:key="pref_color_category"
+                android:title="@string/color_category">
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue=""
+                    android:entries="@array/theme_override_names"
+                    android:entryValues="@array/theme_override_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_override_theme"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/theme_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_black_colors"
+                    android:persistent="true"
+                    android:summary="@string/black_colors_summary"
+                    android:title="@string/black_colors_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_dark_bottom_search_bar"
+                    android:persistent="true"
+                    android:summary="@string/bottom_search_bar_summary"
+                    android:title="@string/dark_bottom_search_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_dark_top_search_bar"
+                    android:persistent="true"
+                    android:summary="@string/top_search_bar_summary"
+                    android:title="@string/dark_top_search_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="100"
+                    android:entries="@array/hotseat_background_names"
+                    android:entryValues="@array/hotseat_background_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_hotseat_background"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/hotseat_background_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_sizes_category"
+                android:title="@string/sizes_category">
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="default"
+                    android:entries="@array/grid_names"
+                    android:entryValues="@array/grid_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_grid_columns"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/number_of_columns_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="default"
+                    android:entries="@array/grid_names"
+                    android:entryValues="@array/grid_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_grid_rows"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/number_of_rows_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="default"
+                    android:entries="@array/grid_names"
+                    android:entryValues="@array/grid_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_hotseat_icons"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/number_of_hotseat_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="average"
+                    android:entries="@array/icon_size_names"
+                    android:entryValues="@array/icon_size_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_icon_size"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/icon_size_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="average"
+                    android:entries="@array/icon_size_names"
+                    android:entryValues="@array/icon_size_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_icon_text_size"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/icon_text_size_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_look_feel_other_category"
+                android:title="@string/other_category">
+
+                <SwitchPreference
+                    android:defaultValue="true"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_show_caret"
+                    android:persistent="true"
+                    android:summary="@string/show_caret_summary"
+                    android:title="@string/show_caret_title" />
+
+                <SwitchPreference
+                    android:defaultValue="true"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_page_indicator"
+                    android:persistent="true"
+                    android:summary="@string/show_page_indicator_summary"
+                    android:title="@string/show_page_indicator_title" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_edit_black_no_shadow"
+            android:key="pref_edit_apps_screen"
+            android:summary="@string/edit_apps_summary"
+            android:title="@string/edit_apps_category">
+
+            <PreferenceCategory
+                android:key="pref_security_category"
+                android:title="@string/security_category">
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_lock_apps"
+                    android:summary="@string/lock_apps_summary"
+                    android:title="@string/lock_apps_title">
+
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:targetClass="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
+                        android:targetPackage="@string/applicationId" >
+                        <extra
+                            android:name="TYPE"
+                            android:value="1" />
+                    </intent>
+
+                </Preference>
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_visibility_category"
+                android:title="@string/visibility_category">
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_hide_apps"
+                    android:summary="@string/hide_apps_summary"
+                    android:title="@string/hide_apps_title">
+
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:targetClass="dev.dworks.apps.alauncher.apps.AppsSelectionActivity"
+                        android:targetPackage="@string/applicationId" >
+                        <extra
+                            android:name="TYPE"
+                            android:value="0" />
+                    </intent>
+
+                </Preference>
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_label_hidden_on_desktop"
+                    android:persistent="true"
+                    android:summary="@string/hide_app_label_on_desktop_summary"
+                    android:title="@string/hide_app_label_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_label_hidden_on_all_apps"
+                    android:persistent="true"
+                    android:summary="@string/hide_app_label_on_all_apps_summary"
+                    android:title="@string/hide_app_label_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_icons_category"
+                android:title="@string/icons_category">
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue=""
+                    android:entries="@array/icon_shape_override_paths_names"
+                    android:entryValues="@array/icon_shape_override_paths_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_override_icon_shape"
+                    android:persistent="false"
+                    android:summary="%s"
+                    android:title="@string/icon_shape_override_label" />
+
+                <com.google.android.apps.nexuslauncher.CustomIconPreference
+                    android:defaultValue=""
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_icon_pack"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/pref_icon_pack" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_generate_adaptive_icons"
+                    android:persistent="true"
+                    android:summary="@string/generate_adaptive_icons_summary"
+                    android:title="@string/generate_adaptive_icons_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_generated_adaptive_background"
+                    android:persistent="true"
+                    android:summary="@string/generate_adaptive_background_summary"
+                    android:title="@string/generate_adaptive_background_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_reset_category"
+                android:title="@string/reset_category">
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_reset_app_names"
+                    android:summary="@string/reset_app_names_summary"
+                    android:title="@string/reset_app_names_title" />
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_reset_app_visibility"
+                    android:summary="@string/reset_app_visibility_summary"
+                    android:title="@string/reset_app_visibility_title" />
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_reset_app_icons"
+                    android:summary="@string/reset_app_icons_summary"
+                    android:title="@string/reset_app_icons_title" />
+
+                <Preference
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_reset_app_security"
+                    android:summary="@string/reset_app_security_summary"
+                    android:title="@string/reset_app_security_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_other_category"
+                android:title="@string/other_category">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_allow_to_line_labels"
+                    android:persistent="true"
+                    android:summary="@string/allow_two_line_labels_summary"
+                    android:title="@string/allow_two_line_labels_title" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_gesture_no_shadow"
+            android:key="pref_gestures"
+            android:summary="@string/gestures_and_actions_summary"
+            android:title="@string/gestures_and_actions">
+
+            <PreferenceCategory
+                android:key="pref_gestures_category"
+                android:title="@string/gestures_category">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_one_finger_down"
+                    android:persistent="true"
+                    android:summary="@string/one_finger_down_summary"
+                    android:title="@string/one_finger_down_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_two_finger_down"
+                    android:persistent="true"
+                    android:summary="@string/two_finger_down_summary"
+                    android:title="@string/two_finger_down_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_actions_category"
+                android:title="@string/actions_category">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_double_tap_to_lock"
+                    android:persistent="true"
+                    android:summary="@string/double_tap_to_lock_summary"
+                    android:title="@string/double_tap_to_lock_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:dependency="pref_double_tap_to_lock"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_double_tap_to_lock_is_secure"
+                    android:persistent="true"
+                    android:summary="@string/double_tap_to_secure_lock_summary"
+                    android:title="@string/double_tap_to_secure_lock_title" />
+
+                <dev.dworks.apps.alauncher.view.ListPreference
+                    android:defaultValue="nothing"
+                    android:entries="@array/home_action_names"
+                    android:entryValues="@array/home_action_values"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_home_action"
+                    android:persistent="true"
+                    android:summary="%s"
+                    android:title="@string/home_action_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_caret_long_press"
+                    android:persistent="true"
+                    android:summary="@string/search_apps_caret_summary"
+                    android:title="@string/search_apps_caret_title" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:icon="@drawable/ic_shortcut_no_shadow"
+            android:key="pref_shortcut_screen"
+            android:summary="@string/shortcuts_summary"
+            android:title="@string/shortcuts_title">
+
+            <PreferenceCategory
+                android:key="pref_unlocked_category"
+                android:title="@string/when_desktop_is_unlocked">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_shortcut_unlocked_widgets"
+                    android:persistent="true"
+                    android:title="@string/shortcut_widgets_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_shortcut_unlocked_uninstall"
+                    android:persistent="true"
+                    android:title="@string/shortcut_uninstall_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_shortcut_unlocked_edit"
+                    android:persistent="true"
+                    android:title="@string/shortcut_edit_title" />
+
+            </PreferenceCategory>
+
+            <PreferenceCategory
+                android:key="pref_locked_category"
+                android:title="@string/when_desktop_is_locked">
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_shortcut_locked_uninstall"
+                    android:persistent="true"
+                    android:title="@string/shortcut_uninstall_title" />
+
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:icon="@drawable/ic_dummy_icon"
+                    android:key="pref_shortcut_locked_edit"
+                    android:persistent="true"
+                    android:title="@string/shortcut_edit_title" />
+
+            </PreferenceCategory>
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceScreen
+        android:icon="@drawable/ic_dashboard_no_shadow"
+        android:key="pref_other_screen"
+        android:summary="@string/other_summary"
+        android:title="@string/other_category">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="pref_add_icon_to_home"
+            android:persistent="true"
+            android:summary="@string/auto_add_shortcuts_description"
+            android:title="@string/auto_add_shortcuts_label" />
+
+        <SwitchPreference
+            android:defaultValue="@bool/allow_rotation"
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="pref_allowRotation"
+            android:persistent="true"
+            android:title="@string/allow_rotation_title" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="pref_physical_animation"
+            android:persistent="true"
+            android:summary="@string/physical_animation_summary"
+            android:title="@string/physical_animation_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="pref_transparent_navigation_bar"
+            android:persistent="true"
+            android:summary="@string/transparent_navigation_bar_summary"
+            android:title="@string/transparent_navigation_bar_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="pref_lock_desktop"
+            android:persistent="true"
+            android:summary="@string/lock_desktop_summary"
+            android:title="@string/lock_desktop_title" />
+
+        <Preference
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="change_default_launcher"
+            android:summary="@string/change_launcher_summary"
+            android:title="@string/change_launcher_title" />
+
+        <Preference
+            android:icon="@drawable/ic_dummy_icon"
+            android:key="restart_launcher"
+            android:summary="@string/restart_launcher_summary"
+            android:title="@string/restart_launcher_title" />
+
+    </PreferenceScreen>
+    <PreferenceCategory
+        android:key="pref_support_category"
+        android:title="Support">
+        <Preference
+            android:icon="@drawable/ic_star"
+            android:key="pref_rate"
+            android:summary="@string/rate_summary"
+            android:title="@string/rate_title">
+
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/store_url" />
+
+        </Preference>
+        <Preference
+            android:icon="@drawable/ic_feedback"
+            android:key="pref_feedback"
+            android:summary="@string/feedback_summary"
+            android:title="@string/feedback_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:support@dworks.io">
+                <!--<extra android:name="android.intent.extra.TEXT"-->
+                <!--android:value="Pre-filled email body." />-->
+                <extra
+                    android:name="android.intent.extra.SUBJECT"
+                    android:value="Feedback for ALauncher" />
+            </intent>
+        </Preference>
+        <PreferenceScreen
+            android:icon="@drawable/ic_info_outline_no_shadow"
+            android:key="pref_about_screen"
+            android:summary="@string/derived_app_name"
+            android:title="@string/about">
+
+            <Preference
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="about_app_version"
+                android:persistent="false"
+                android:title="@string/about_app_version" />
+
+            <Preference
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="app_info"
+                android:persistent="false"
+                android:title="@string/app_info_drop_target_label">
+                <intent
+                    android:action="android.settings.APPLICATION_DETAILS_SETTINGS"
+                    android:data="@string/settingsApplicationId" />
+            </Preference>
+
+            <Preference
+                android:fragment="com.google.android.apps.nexuslauncher.SettingsActivity$OpenSourceLicensesFragment"
+                android:icon="@drawable/ic_dummy_icon"
+                android:key="open_source_licenses"
+                android:persistent="false"
+                android:title="@string/pref_open_source_licenses_title" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

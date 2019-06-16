@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_orb_text_to_show">
+        <item>Suche nach \"Will Smith\"</item>
+        <item>Suche nach \"Michael Fassbender\"</item>
+        <item>Suche nach \"Jennifer Lawrence\"</item>
+        <item>Suche nach \"Olivia Wilde\"</item>
+        <item>Suche nach \"Liebeskomödien\"</item>
+        <item>Suche nach \"Science-Fiction-Filme\"</item>
+        <item>Suche nach \"Filme mit Superhelden\"</item>
+        <item>Suche nach \"Actionfilme\"</item>
+        <item>Suche nach \"Star Trek\"</item>
+        <item>Suche nach \"Sherlock\"</item>
+        <item>Suche nach \"American Idol\"</item>
+        <item>Suche nach \"Star Trek\"</item>
+        <item>Suche nach \"Castle\"</item>
+        <item>Suche nach \"Bilder von Beyonce\"</item>
+        <item>Suche nach \"Bilder von London\"</item>
+        <item>Suche nach \"Bilder von Godzilla\"</item>
+        <item>Frag zum Beispiel: \"Wie ist der Punktestand von Borussia Dortmund?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist der Punktestand von Bayern München?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist der Punktestand von Werder Bremen?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist der Punktestand des 1. FC Köln?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist das Wetter in New York?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist das Wetter in Berlin?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist das Wetter in Paris?\"</item>
+        <item>Frag zum Beispiel: \"Wie ist das Wetter in München?\"</item>
+        <item>Frag zum Beispiel: \"Wie groß ist Brad Pitt?\"</item>
+        <item>Frag zum Beispiel: \"Wie heiß ist die Sonne?\"</item>
+        <item>Frag zum Beispiel: \"Wann wurde Stephen King geboren?\"</item>
+        <item>Sage: \"YouTube öffnen\"</item>
+        <item>Sage: \"Play Filme öffnen\"</item>
+    </string-array>
+</resources>
