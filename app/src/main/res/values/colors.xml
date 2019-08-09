@@ -66,4 +66,7 @@
     <color name="qsb_background_drawer_default">#ccffffff</color>
     <color name="qsb_background_drawer_dark">#ebffffff</color>
     <color name="qsb_drawer_text_color">#ff212121</color>
+    <color name="primary_text_default_material_dark">#ffffffff</color>
+    <color name="secondary_text_default_material_dark">#b3ffffff</color>
+
 </resources>

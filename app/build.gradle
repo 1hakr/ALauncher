@@ -9,6 +9,8 @@ if (keystoreProperties.exists()) {
     props['keystorefile'] = 'none';
 }
 
+def useGoogleServices = true
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -28,6 +30,7 @@ android {
     }
     buildTypes {
         debug {
+            useGoogleServices = false
             minifyEnabled false
             shrinkResources false
             applicationIdSuffix ".debug"
@@ -48,6 +51,7 @@ android {
             dimension "default"
         }
         pro {
+            useGoogleServices = false
             applicationId "dev.dworks.apps.alauncher.pro"
             dimension "default"
         }
@@ -79,13 +83,12 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
-    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.zsoltsafrany:needle:1.0.0'
     googleImplementation 'com.anjlab.android.iab.v3:library:1.0.44'
@@ -94,7 +97,7 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-core:2.23.0'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'androidx.annotation:annotation:1.0.0'
 }
@@ -127,8 +130,7 @@ android.signingConfigs.release.storePassword props.keyStorePassword
 android.signingConfigs.release.keyAlias props.keyAlias
 android.signingConfigs.release.keyPassword props.keyAliasPassword
 
-if (!getGradle().getStartParameter().getTaskRequests().toString().contains("Debug") &&
-        !getGradle().getStartParameter().getTaskRequests().toString().contains("Pro")) {
+if (useGoogleServices) {
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'io.fabric'
 }
