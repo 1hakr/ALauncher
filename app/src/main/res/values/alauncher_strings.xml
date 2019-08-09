@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE resources [ <!ENTITY appid "dev.dworks.apps.alauncher"> ]>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="settingsApplicationId" translatable="false">&appid;</string>
+    <string name="settingsApplicationId" translatable="false">package:&appid;</string>
     <string name="applicationId" translatable="false">&appid;</string>
     <string name="store_url" translatable="false">http://play.google.com/store/apps/details?id=&appid;</string>
     <string name="companion_app_permission_label" translatable="false">ALauncher companion permission</string>
