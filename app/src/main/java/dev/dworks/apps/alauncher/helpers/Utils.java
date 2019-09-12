@@ -3,7 +3,6 @@ package dev.dworks.apps.alauncher.helpers;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.FragmentManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.UiModeManager;
@@ -51,7 +50,6 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.dynamicui.WallpaperColorInfo;
 import com.android.launcher3.util.LooperExecutor;
-import com.google.android.apps.nexuslauncher.NexusLauncherActivity;
 import com.google.android.apps.nexuslauncher.SettingsActivity;
 import com.google.android.libraries.gsa.launcherclient.LauncherClient;
 
@@ -69,7 +67,6 @@ import dev.dworks.apps.alauncher.lock.LockTimeoutActivity;
 
 import static com.android.launcher3.LauncherSettings.BaseLauncherColumns.ITEM_TYPE_APPLICATION;
 import static com.android.launcher3.LauncherSettings.Favorites.CONTAINER_DESKTOP;
-import static com.google.android.apps.nexuslauncher.NexusLauncherActivity.BRIDGE_TAG;
 
 public class Utils {
 
@@ -406,11 +403,7 @@ public class Utils {
             return;
         }
 
-        FragmentManager fm = context.getFragmentManager();
-        if (fm.findFragmentByTag(BRIDGE_TAG) == null) {
-            NexusLauncherActivity.InstallFragment fragment = new NexusLauncherActivity.InstallFragment();
-            fragment.show(fm, BRIDGE_TAG);
-        }
+        Utils.showSnackBar(context, R.string.bridge_missing_message);
     }
 
     public static  void installCompanionApp(Context context, File file) {

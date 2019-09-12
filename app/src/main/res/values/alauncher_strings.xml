@@ -14,8 +14,8 @@
     <string name="bridge_download_file" translatable="false">bridge.apk</string>
     <string name="bridge_missing_title" translatable="false">ALauncher Bridge</string>
     <string name="bridge_missing_message" translatable="false">
-         The bridge to connect to the Google Feed could not be found,
-         or needs to be updated. Do you want to install the latest version?
+         The bridge to connect to the Google Feed could not be found.
+        Please go to app description on Play Store to get the link for the bridge to download.
      </string>
     <string name="bridge_install" translatable="false">Install</string>
 

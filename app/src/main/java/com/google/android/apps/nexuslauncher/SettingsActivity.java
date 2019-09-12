@@ -5,21 +5,15 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.DownloadManager;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -39,8 +33,6 @@ import android.widget.ImageView;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.google.android.apps.nexuslauncher.smartspace.SmartspaceController;
-
-import java.io.File;
 
 import dev.dworks.apps.alauncher.App;
 import dev.dworks.apps.alauncher.Settings;
@@ -120,37 +112,7 @@ public class SettingsActivity extends com.android.launcher3.SettingsActivity imp
     }
 
     private void installBridge() {
-        // Use application context to ensure it does not expire after the download.
-        final Context context = getApplicationContext();
-
-        final String fileName = "/" + getString(R.string.bridge_download_file);
-
-        final String src = getString(R.string.bridge_download_url);
-
-        final String dest = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS) + fileName;
-
-        final File file = new File(dest);
-        if (file.exists() && !file.delete()) {
-            return;
-        }
-
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(src))
-                .setVisibleInDownloadsUi(false)
-                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-
-        final DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        final long downloadId = manager.enqueue(request);
-
-        context.registerReceiver(new BroadcastReceiver() {
-            public void onReceive(Context ignored, Intent intent) {
-                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                if (id == downloadId) {
-                    Utils.installCompanionApp(ignored, file);
-                    context.unregisterReceiver(this);
-                }
-            }
-        }, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        Utils.showSnackBar(this, R.string.bridge_missing_message);
     }
 
     public static class MySettingsFragment extends LauncherSettingsFragment
