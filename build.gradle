@@ -7,9 +7,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0-rc03'
+        classpath 'com.android.tools.build:gradle:3.6.1'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
-        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'com.google.gms:google-services:4.3.3'
         classpath 'io.fabric.tools:gradle:1.28.1'
     }
 }
@@ -24,12 +24,12 @@ allprojects {
 }
 
 ext {
-    compileSdkVersion = 28
-    targetSdkVersion = 28
+    compileSdkVersion = 29
+    targetSdkVersion = 29
     minSdkVersion = 21
     versionMajor = 1
     versionMinor = 5
-    versionPatch = 3
+    versionPatch = 4
 
 }
 

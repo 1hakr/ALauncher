@@ -84,14 +84,14 @@ android {
 
 dependencies {
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
-    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.zsoltsafrany:needle:1.0.0'
-    googleImplementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    googleImplementation 'com.anjlab.android.iab.v3:library:1.1.0'
     amazonImplementation 'com.github.eggheadgames:android-in-app-payments:1.2.8'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.mockito:mockito-core:2.23.0'
@@ -99,7 +99,7 @@ dependencies {
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-    androidTestImplementation 'androidx.annotation:annotation:1.0.0'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0'
 }
 
 protobuf {
