@@ -15,8 +15,6 @@
  */
 package com.android.launcher3.graphics;
 
-import static com.android.launcher3.Utilities.getDevicePrefs;
-
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -29,10 +27,10 @@ import android.os.SystemClock;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.provider.Settings;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherModel;
@@ -41,6 +39,9 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.util.LooperExecutor;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
+
+import static com.android.launcher3.Utilities.getDevicePrefs;
 
 /**
  * Utility class to override shape of {@link android.graphics.drawable.AdaptiveIconDrawable}.
@@ -93,6 +94,10 @@ public class IconShapeOverride {
             Resources override =
                     new ResourcesOverride(Resources.getSystem(), getConfigResId(), path);
             getSystemResField().set(null, override);
+            int masks = getOverrideMasksResId();
+            if (masks != 0) {
+                ((ResourcesOverride) override).setArrayOverrideId(masks);
+            }
         } catch (Exception e) {
             Log.e(TAG, "Unable to override icon shape", e);
             // revert value.
@@ -110,7 +115,11 @@ public class IconShapeOverride {
         return Resources.getSystem().getIdentifier("config_icon_mask", "string", "android");
     }
 
-    private static String getAppliedValue(Context context) {
+    private static int getOverrideMasksResId() {
+        return Resources.getSystem().getIdentifier("system_icon_masks", "array", "android");
+    }
+
+    public static String getAppliedValue(Context context) {
         return getDevicePrefs(context).getString(KEY_PREFERENCE, "");
     }
 
@@ -123,6 +132,7 @@ public class IconShapeOverride {
     private static class ResourcesOverride extends Resources {
 
         private final int mOverrideId;
+        private int mArrayOverrideId = 0;
         private final String mOverrideValue;
 
         @SuppressWarnings("deprecation")
@@ -139,6 +149,23 @@ public class IconShapeOverride {
                 return mOverrideValue;
             }
             return super.getString(id);
+        }
+
+        void setArrayOverrideId(int id) {
+            mArrayOverrideId = id;
+        }
+
+        // I do admit that this is one hell of a hack
+        @NonNull
+        @Override
+        public String[] getStringArray(int id) throws NotFoundException {
+            if (id != 0 && id == mArrayOverrideId) {
+                int size = super.getStringArray(id).length;
+                String[] arr = new String[size];
+                Arrays.fill(arr, mOverrideValue);
+                return arr;
+            }
+            return super.getStringArray(id);
         }
     }
 

@@ -6,6 +6,8 @@ import android.os.Build;
 
 import java.util.Locale;
 
+import dev.dworks.apps.alauncher.icons.AdaptiveIconCompat;
+
 public class IconProvider {
 
     private static final boolean DBG = false;
@@ -30,6 +32,6 @@ public class IconProvider {
      *                        original icon as long as the flattened version looks the same.
      */
     public Drawable getIcon(LauncherActivityInfo info, int iconDpi, boolean flattenDrawable) {
-        return info.getIcon(iconDpi);
+        return AdaptiveIconCompat.wrap(info.getIcon(iconDpi));
     }
 }

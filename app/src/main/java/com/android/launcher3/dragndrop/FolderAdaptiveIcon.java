@@ -25,7 +25,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -40,11 +39,13 @@ import com.android.launcher3.util.Preconditions;
 
 import java.util.concurrent.Callable;
 
+import dev.dworks.apps.alauncher.icons.AdaptiveIconCompat;
+
 /**
- * {@link AdaptiveIconDrawable} representation of a {@link FolderIcon}
+ * {@link AdaptiveIconCompat} representation of a {@link FolderIcon}
  */
 @TargetApi(Build.VERSION_CODES.O)
-public class FolderAdaptiveIcon extends AdaptiveIconDrawable {
+public class FolderAdaptiveIcon extends AdaptiveIconCompat {
     private static final String TAG = "FolderAdaptiveIcon";
 
     private final Drawable mBadge;
@@ -76,7 +77,7 @@ public class FolderAdaptiveIcon extends AdaptiveIconDrawable {
                 dragViewSize.x - margin, dragViewSize.y - margin, Bitmap.Config.ARGB_8888);
 
         // The bitmap for the preview is generated larger than needed to allow for the spring effect
-        float sizeScaleFactor = 1 + 2 * AdaptiveIconDrawable.getExtraInsetFraction();
+        float sizeScaleFactor = 1 + 2 * AdaptiveIconCompat.getExtraInsetFraction();
         final Bitmap preview = Bitmap.createBitmap(
                 (int) (dragViewSize.x * sizeScaleFactor), (int) (dragViewSize.y * sizeScaleFactor),
                 Bitmap.Config.ARGB_8888);
@@ -115,8 +116,8 @@ public class FolderAdaptiveIcon extends AdaptiveIconDrawable {
         icon.drawBadge(c);
 
         // Initialize preview
-        float shiftFactor = AdaptiveIconDrawable.getExtraInsetFraction() /
-                (1 + 2 * AdaptiveIconDrawable.getExtraInsetFraction());
+        float shiftFactor = AdaptiveIconCompat.getExtraInsetFraction() /
+                (1 + 2 * AdaptiveIconCompat.getExtraInsetFraction());
         float previewShiftX = shiftFactor * previewBitmap.getWidth();
         float previewShiftY = shiftFactor * previewBitmap.getHeight();
 

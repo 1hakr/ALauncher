@@ -28,13 +28,15 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.os.Process;
 import android.os.UserHandle;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.FastBitmapDrawable;
@@ -48,9 +50,9 @@ import com.android.launcher3.shortcuts.DeepShortcutManager;
 import com.android.launcher3.shortcuts.ShortcutInfoCompat;
 import com.android.launcher3.util.Provider;
 
-import androidx.annotation.Nullable;
 import dev.dworks.apps.alauncher.Settings;
 import dev.dworks.apps.alauncher.helpers.Utils;
+import dev.dworks.apps.alauncher.icons.AdaptiveIconCompat;
 
 /**
  * Helper methods for generating various launcher icons
@@ -96,6 +98,10 @@ public class LauncherIcons {
         return createIconBitmap(new BitmapDrawable(context.getResources(), icon), context);
     }
 
+    public static AdaptiveIconCompat getAdaptiveIconDrawableWrapper(Context context) {
+        return (AdaptiveIconCompat) AdaptiveIconCompat.wrap(context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate());
+    }
+
     /**
      * Returns a bitmap suitable for the all apps view. The icon is badged for {@param user}.
      * The bitmap is also visually normalized with other icons.
@@ -109,13 +115,12 @@ public class LauncherIcons {
             normalizer = IconNormalizer.getInstance(context);
             if (Utilities.ATLEAST_OREO) {
                 boolean[] outShape = new boolean[1];
-                AdaptiveIconDrawable dr = (AdaptiveIconDrawable)
-                        context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate();
+                AdaptiveIconCompat dr = getAdaptiveIconDrawableWrapper(context);
                 dr.setBounds(0, 0, 1, 1);
                 scale = normalizer.getScale(icon, null, dr.getIconMask(), outShape);
                 if ((FeatureFlags.LEGACY_ICON_TREATMENT || Settings.shouldGenerateAdaptiveIcons(context))
                         && !outShape[0]){
-                    Drawable wrappedIcon = wrapToAdaptiveIconDrawable(context, icon, scale, true);
+                    Drawable wrappedIcon = wrapToAdaptiveIconCompat(context, icon, scale, true);
                     if (wrappedIcon != icon) {
                         icon = wrappedIcon;
                         scale = normalizer.getScale(icon, null, null, null);
@@ -127,7 +132,7 @@ public class LauncherIcons {
         }
         Bitmap bitmap = createIconBitmap(icon, context, scale);
         if (FeatureFlags.ADAPTIVE_ICON_SHADOW && Utilities.ATLEAST_OREO &&
-                icon instanceof AdaptiveIconDrawable) {
+                icon instanceof AdaptiveIconCompat) {
             bitmap = ShadowGenerator.getInstance(context).recreateIcon(bitmap);
         }
         return badgeIconForUser(bitmap, user, context);
@@ -163,13 +168,13 @@ public class LauncherIcons {
             normalizer = IconNormalizer.getInstance(context);
             if (Utilities.ATLEAST_OREO) {
                 boolean[] outShape = new boolean[1];
-                AdaptiveIconDrawable dr = (AdaptiveIconDrawable)
+                AdaptiveIconCompat dr = (AdaptiveIconCompat)
                         context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate();
                 dr.setBounds(0, 0, 1, 1);
                 scale = normalizer.getScale(icon, iconBounds, dr.getIconMask(), outShape);
                 if (Utilities.ATLEAST_OREO && (FeatureFlags.LEGACY_ICON_TREATMENT
                         || Settings.shouldGenerateAdaptiveIcons(context))  && !outShape[0]) {
-                    Drawable wrappedIcon = wrapToAdaptiveIconDrawable(context, icon, scale, false);
+                    Drawable wrappedIcon = wrapToAdaptiveIconCompat(context, icon, scale, false);
                     if (wrappedIcon != icon) {
                         icon = wrappedIcon;
                         scale = normalizer.getScale(icon, iconBounds, null, null);
@@ -217,12 +222,12 @@ public class LauncherIcons {
     public static Bitmap createIconBitmap(Drawable icon, Context context) {
         float scale = 1f;
         if (FeatureFlags.ADAPTIVE_ICON_SHADOW && Utilities.ATLEAST_OREO &&
-                icon instanceof AdaptiveIconDrawable) {
+                icon instanceof AdaptiveIconCompat) {
             scale = ShadowGenerator.getScaleForBounds(new RectF(0, 0, 0, 0));
         }
         Bitmap bitmap =  createIconBitmap(icon, context, scale);
         if (FeatureFlags.ADAPTIVE_ICON_SHADOW && Utilities.ATLEAST_OREO &&
-                icon instanceof AdaptiveIconDrawable) {
+                icon instanceof AdaptiveIconCompat) {
             bitmap = ShadowGenerator.getInstance(context).recreateIcon(bitmap);
         }
         return bitmap;
@@ -274,7 +279,7 @@ public class LauncherIcons {
             final int top = (textureHeight-height) / 2;
 
             sOldBounds.set(icon.getBounds());
-            if (Utilities.ATLEAST_OREO && icon instanceof AdaptiveIconDrawable) {
+            if (Utilities.ATLEAST_OREO && icon instanceof AdaptiveIconCompat) {
                 int offset = Math.max((int)(ShadowGenerator.BLUR_FACTOR * iconBitmapSize),
                         Math.min(left, top));
                 int size = Math.max(width, height);
@@ -294,20 +299,21 @@ public class LauncherIcons {
     }
 
     /**
-     * If the platform is running O but the app is not providing AdaptiveIconDrawable, then
+     * If the platform is running O but the app is not providing AdaptiveIconCompat, then
      * shrink the legacy icon and set it as foreground. Use color drawable as background to
-     * create AdaptiveIconDrawable.
+     * create AdaptiveIconCompat.
      */
-    static Drawable wrapToAdaptiveIconDrawable(Context context, Drawable drawable, float scale,
-                                               boolean extractColorIfEnabled) {
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    static Drawable wrapToAdaptiveIconCompat(Context context, Drawable drawable, float scale,
+                                             boolean extractColorIfEnabled) {
         if (!((FeatureFlags.LEGACY_ICON_TREATMENT || Settings.shouldGenerateAdaptiveIcons(context))
                 && Utilities.ATLEAST_OREO)) {
             return drawable;
         }
 
         try {
-            if (!(drawable instanceof AdaptiveIconDrawable)) {
-                AdaptiveIconDrawable iconWrapper = (AdaptiveIconDrawable)
+            if (!(drawable instanceof AdaptiveIconCompat)) {
+                AdaptiveIconCompat iconWrapper = (AdaptiveIconCompat)
                         context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate();
                 FixedScaleDrawable fsd = ((FixedScaleDrawable) iconWrapper.getForeground());
                 fsd.setDrawable(drawable);

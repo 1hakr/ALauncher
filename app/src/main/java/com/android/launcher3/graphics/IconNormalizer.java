@@ -27,17 +27,21 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.util.Log;
+
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.Utilities;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Random;
+
+import dev.dworks.apps.alauncher.icons.AdaptiveIconCompat;
 
 public class IconNormalizer {
 
@@ -231,7 +235,7 @@ public class IconNormalizer {
      */
     public synchronized float getScale(@NonNull Drawable d, @Nullable RectF outBounds,
             @Nullable Path path, @Nullable boolean[] outMaskShape) {
-        if (Utilities.ATLEAST_OREO && d instanceof AdaptiveIconDrawable &&
+        if (Utilities.ATLEAST_OREO && d instanceof AdaptiveIconCompat &&
                 mAdaptiveIconScale != SCALE_NOT_INITIALIZED) {
             if (outBounds != null) {
                 outBounds.set(mAdaptiveIconBounds);
@@ -347,7 +351,7 @@ public class IconNormalizer {
         float areaScale = area / (width * height);
         // Use sqrt of the final ratio as the images is scaled across both width and height.
         float scale = areaScale > scaleRequired ? (float) Math.sqrt(scaleRequired / areaScale) : 1;
-        if (Utilities.ATLEAST_OREO && d instanceof AdaptiveIconDrawable &&
+        if (Utilities.ATLEAST_OREO && d instanceof AdaptiveIconCompat &&
                 mAdaptiveIconScale == SCALE_NOT_INITIALIZED) {
             mAdaptiveIconScale = scale;
             mAdaptiveIconBounds.set(mBounds);

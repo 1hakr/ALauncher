@@ -1,6 +1,5 @@
 package com.google.android.apps.nexuslauncher.clock;
 
-import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 
@@ -8,6 +7,8 @@ import com.android.launcher3.Utilities;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import dev.dworks.apps.alauncher.icons.AdaptiveIconCompat;
 
 public class ClockLayers {
     Drawable mDrawable;
@@ -75,8 +76,8 @@ public class ClockLayers {
         if (mDrawable instanceof LayerDrawable) {
             return (LayerDrawable) mDrawable;
         }
-        if (Utilities.ATLEAST_OREO && mDrawable instanceof AdaptiveIconDrawable) {
-            AdaptiveIconDrawable adaptiveIconDrawable = (AdaptiveIconDrawable) mDrawable;
+        if (Utilities.ATLEAST_OREO && mDrawable instanceof AdaptiveIconCompat) {
+            AdaptiveIconCompat adaptiveIconDrawable = (AdaptiveIconCompat) mDrawable;
             if (adaptiveIconDrawable.getForeground() instanceof LayerDrawable) {
                 return (LayerDrawable) adaptiveIconDrawable.getForeground();
             }
