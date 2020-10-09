@@ -26,8 +26,8 @@ ext {
     targetSdkVersion = 30
     minSdkVersion = 21
     versionMajor = 1
-    versionMinor = 5
-    versionPatch = 5
+    versionMinor = 6
+    versionPatch = 0
 
 }
 

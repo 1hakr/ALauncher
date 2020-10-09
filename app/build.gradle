@@ -9,8 +9,6 @@ if (keystoreProperties.exists()) {
     props['keystorefile'] = 'none';
 }
 
-def useGoogleServices = true
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -30,10 +28,8 @@ android {
     }
     buildTypes {
         debug {
-            useGoogleServices = false
             minifyEnabled false
             shrinkResources false
-            applicationIdSuffix ".debug"
         }
 
         release {
@@ -51,7 +47,6 @@ android {
             dimension "default"
         }
         pro {
-            useGoogleServices = false
             applicationId "dev.dworks.apps.alauncher.pro"
             dimension "default"
         }
@@ -87,11 +82,12 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.palette:palette:1.0.0'
+    implementation "androidx.interpolator:interpolator:1.0.0"
     implementation 'com.google.protobuf.nano:protobuf-javanano:3.2.0rc2'
-    implementation 'com.google.firebase:firebase-core:17.5.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     implementation 'com.zsoltsafrany:needle:1.0.0'
     googleImplementation 'com.anjlab.android.iab.v3:library:1.1.0'
+    freeImplementation 'com.google.firebase:firebase-core:17.5.1'
+    freeImplementation 'com.google.firebase:firebase-crashlytics:17.2.2'
     amazonImplementation 'com.github.eggheadgames:android-in-app-payments:1.2.8'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'org.mockito:mockito-core:2.23.0'
@@ -129,7 +125,7 @@ android.signingConfigs.release.storePassword props.keyStorePassword
 android.signingConfigs.release.keyAlias props.keyAlias
 android.signingConfigs.release.keyPassword props.keyAliasPassword
 
-if (useGoogleServices) {
+if (getGradle().getStartParameter().getTaskRequests().toString().contains("Free")) {
     apply plugin: 'com.google.gms.google-services'
     apply plugin: 'com.google.firebase.crashlytics'
 }
