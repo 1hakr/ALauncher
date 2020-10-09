@@ -113,7 +113,7 @@ public class LauncherIcons {
         float scale = 1f;
         if (!FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION) {
             normalizer = IconNormalizer.getInstance(context);
-            if (Utilities.ATLEAST_OREO) {
+            if (Utilities.ATLEAST_OREO && icon instanceof AdaptiveIconCompat) {
                 boolean[] outShape = new boolean[1];
                 AdaptiveIconCompat dr = getAdaptiveIconDrawableWrapper(context);
                 dr.setBounds(0, 0, 1, 1);
@@ -166,7 +166,7 @@ public class LauncherIcons {
         float scale = 1f;
         if (!FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION) {
             normalizer = IconNormalizer.getInstance(context);
-            if (Utilities.ATLEAST_OREO) {
+            if (Utilities.ATLEAST_OREO  && icon instanceof AdaptiveIconCompat) {
                 boolean[] outShape = new boolean[1];
                 AdaptiveIconCompat dr = (AdaptiveIconCompat)
                         context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate();
