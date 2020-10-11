@@ -20,55 +20,30 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.android.launcher3.BuildConfig;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class AnalyticsHelper {
-    private static Context sAppContext = null;
-
-    private static FirebaseAnalytics mFirebaseAnalytics;
     private final static String TAG = "ALauncher";
 
     private static boolean canSend() {
-        return sAppContext != null && mFirebaseAnalytics != null
-                && !BuildConfig.DEBUG ;
+        return false;
     }
 
     public static synchronized void intialize(Context context) {
-        sAppContext = context;
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
 
-        setProperty("DeviceType", Utils.getDeviceType(context));
     }
 
     public static void setProperty(String propertyName, String propertyValue){
-        if (!canSend()) {
-            return;
-        }
-        mFirebaseAnalytics.setUserProperty(propertyName, propertyValue);
+
     }
 
     public static void logEvent(String eventName){
-        if (!canSend()) {
-            return;
-        }
-        mFirebaseAnalytics.logEvent(eventName, new Bundle());
+
     }
 
     public static void logEvent(String eventName, Bundle params){
-        if (!canSend()) {
-            return;
-        }
-        mFirebaseAnalytics.logEvent(eventName, params);
+
     }
 
     public static void setCurrentScreen(Activity activity, String screenName){
-        if (!canSend()) {
-            return;
-        }
-
-        if(null != screenName) {
-            mFirebaseAnalytics.setCurrentScreen(activity, screenName, screenName);
-        }
     }
 }
