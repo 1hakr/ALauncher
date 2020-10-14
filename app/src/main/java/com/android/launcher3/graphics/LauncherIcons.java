@@ -28,6 +28,7 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -113,7 +114,7 @@ public class LauncherIcons {
         float scale = 1f;
         if (!FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION) {
             normalizer = IconNormalizer.getInstance(context);
-            if (Utilities.ATLEAST_OREO && icon instanceof AdaptiveIconCompat) {
+            if (Utilities.ATLEAST_OREO && iconAppTargetSdk >= Build.VERSION_CODES.O) {
                 boolean[] outShape = new boolean[1];
                 AdaptiveIconCompat dr = getAdaptiveIconDrawableWrapper(context);
                 dr.setBounds(0, 0, 1, 1);
@@ -166,13 +167,13 @@ public class LauncherIcons {
         float scale = 1f;
         if (!FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION) {
             normalizer = IconNormalizer.getInstance(context);
-            if (Utilities.ATLEAST_OREO  && icon instanceof AdaptiveIconCompat) {
+            if (Utilities.ATLEAST_OREO  && iconAppTargetSdk >= Build.VERSION_CODES.O) {
                 boolean[] outShape = new boolean[1];
-                AdaptiveIconCompat dr = (AdaptiveIconCompat)
+                AdaptiveIconDrawable dr = (AdaptiveIconDrawable)
                         context.getDrawable(R.drawable.adaptive_icon_drawable_wrapper).mutate();
                 dr.setBounds(0, 0, 1, 1);
                 scale = normalizer.getScale(icon, iconBounds, dr.getIconMask(), outShape);
-                if (Utilities.ATLEAST_OREO && (FeatureFlags.LEGACY_ICON_TREATMENT
+                if ((FeatureFlags.LEGACY_ICON_TREATMENT
                         || Settings.shouldGenerateAdaptiveIcons(context))  && !outShape[0]) {
                     Drawable wrappedIcon = wrapToAdaptiveIconCompat(context, icon, scale, false);
                     if (wrappedIcon != icon) {
