@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+* Copyright (C) 2017 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="recent_task_option_split_screen" msgid="5353188922202653570">"Pantalla dividida"</string>
+    <string name="recent_task_option_pin" msgid="7929860679018978258">"Fixa"</string>
+    <string name="recent_task_option_freeform" msgid="48863056265284071">"Format lliure"</string>
+    <string name="accessibility_desc_recent_apps" msgid="1444379410873162882">"Aplicacions recents"</string>
+    <string name="recents_empty_message" msgid="7040467240571714191">"No hi ha cap element recent"</string>
+    <string name="accessibility_close_task" msgid="5354563209433803643">"Tanca"</string>
+    <string name="accessibility_app_usage_settings" msgid="6312864233673544149">"Configuració d\'ús d\'aplicacions"</string>
+    <string name="recents_clear_all" msgid="5328176793634888831">"Esborra-ho tot"</string>
+    <string name="accessibility_recent_apps" msgid="4058661986695117371">"Aplicacions recents"</string>
+    <string name="task_contents_description_with_remaining_time" msgid="4479688746574672685">"<xliff:g id="TASK_DESCRIPTION">%1$s</xliff:g>; <xliff:g id="REMAINING_TIME">%2$s</xliff:g>"</string>
+    <string name="shorter_duration_less_than_one_minute" msgid="4722015666335015336">"&lt; 1 minut"</string>
+    <string name="time_left_for_app" msgid="3111996412933644358">"temps restant avui: <xliff:g id="TIME">%1$s</xliff:g>"</string>
+    <string name="title_app_suggestions" msgid="4185902664111965088">"Suggeriments d\'aplicacions"</string>
+    <string name="all_apps_label" msgid="8542784161730910663">"Totes les aplicacions"</string>
+    <string name="all_apps_prediction_tip" msgid="2672336544844936186">"Prediccions d\'aplicacions"</string>
+	<string name="smartspace_preferences">"Preferències"</string>
+	<string name="smartspace_preferences_in_settings">"D\'una ullada"</string>
+	<string name="smartspace_preferences_in_settings_desc">"A la part superior de la pantalla d\'inici"</string>
+	<string name="icon_shape_override_label">"Canvia la forma de les icones"</string>
+	<string name="icon_shape_override_progress">"S\'estan aplicant els canvis de forma de les icones"</string>
+	<string name="icon_shape_square">"Quadrat"</string>
+	<string name="icon_shape_squircle">"Quadrat arrodonit"</string>
+	<string name="icon_shape_circle">"Cercle"</string>
+	<string name="icon_shape_teardrop">"Llàgrima"</string>
+	<string name="device_theme_tone">"To"</string>
+	<string name="device_theme_wallpaper">"Automàtic (segons el fons de pantalla)"</string>
+	<string name="device_theme_light">"Clar"</string>
+	<string name="device_theme_dark">"Fosc"</string>
+	<string name="category_general">"General"</string>
+	<string name="category_style">"Tema"</string>
+	<string name="category_customization">"Personalització"</string>
+	<string name="category_about">"Informació"</string>
+	<string name="pref_value_default">"Predeterminada"</string>
+	<string name="pref_value_disabled">"Desactivat"</string>
+	<string name="show_drop_target_label">"Mostra"</string>
+	<string name="hide_drop_target_label">"Amaga"</string>
+	<string name="app_info_more">"Més"</string>
+	<string name="app_info_version">"Versió"</string>
+	<string name="app_info_icon_pack">"Paquet d'icones"</string>
+	<string name="app_info_icon_pack_none">"Cap"</string>
+	<string name="app_info_source_unknown">"Desconegut"</string>
+	<string name="font">"Tipus de lletra"</string>
+	<string name="icon_shape">"Forma"</string>
+	<string name="loading">"Carregant..."</string>
+	<string name="about_donate">"Donar"</string>
+	<string name="any_activity_shortcut">"Selecció de l'activitat"</string>
+</resources>

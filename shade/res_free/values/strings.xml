@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="shade_app_name" translatable="false">ALauncher</string>
+    <string name="shade_app_name_short" translatable="false">ALauncher</string>
+    <string name="settings_title" translatable="false">ALauncher settings</string>
+    <string name="app_pro" translatable="false">ALauncher Pro</string>
+    <string name="about_review" translatable="false">"Like ALauncher?"</string>
+    <string name="about_donate_url" translatable="false">market://details?id=dev.dworks.apps.alauncher</string>
+    <string name="app_pro_content" translatable="false">Unlocks extra features, such as the Shortcuts, Gestures, Edit apps
+            Theme customizations and removes ads. \n\nThe source code of ALauncher is available on GitHub.
+            You are welcome to compile the pro version yourself for free.
+            \n\nHowever if you like what I do and love ALauncher and want us to survive,
+            please support the development and receive updates through the Play Store, consider purchasing
+            ALauncher Pro.
+            \n\nThank you,\nHari</string>
+    <string name="restoring_purchase" translatable="false">Restoring purchase…</string>
+    <string name="could_not_restore_purchase" translatable="false">Could not restore purchase.</string>
+    <string name="purchase" translatable="false">Purchase</string>
+    <string name="restore" translatable="false">Restore</string>
+    <string name="thank_you" translatable="false">Thank you!</string>
+    <string name="support_app" translatable="false">Support ALauncher</string>
+    <string name="restored_previous_purchase_please_restart" translatable="false">Restored previous purchase.</string>
+</resources>

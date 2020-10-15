@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+* Copyright (C) 2017 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="recent_task_option_split_screen" msgid="5353188922202653570">"分割画面"</string>
+    <string name="recent_task_option_pin" msgid="7929860679018978258">"固定"</string>
+    <string name="recent_task_option_freeform" msgid="48863056265284071">"フリーフォーム"</string>
+    <string name="accessibility_desc_recent_apps" msgid="1444379410873162882">"概要"</string>
+    <string name="recents_empty_message" msgid="7040467240571714191">"最近のアイテムはありません"</string>
+    <string name="accessibility_close_task" msgid="5354563209433803643">"閉じる"</string>
+    <string name="accessibility_app_usage_settings" msgid="6312864233673544149">"アプリの使用状況の設定"</string>
+    <string name="recents_clear_all" msgid="5328176793634888831">"すべてクリア"</string>
+    <string name="accessibility_recent_apps" msgid="4058661986695117371">"最近使ったアプリ"</string>
+    <string name="task_contents_description_with_remaining_time" msgid="4479688746574672685">"<xliff:g id="TASK_DESCRIPTION">%1$s</xliff:g>、<xliff:g id="REMAINING_TIME">%2$s</xliff:g>"</string>
+    <string name="shorter_duration_less_than_one_minute" msgid="4722015666335015336">"1 分未満"</string>
+    <string name="time_left_for_app" msgid="3111996412933644358">"今日はあと <xliff:g id="TIME">%1$s</xliff:g>です"</string>
+    <string name="title_app_suggestions" msgid="4185902664111965088">"アプリの候補"</string>
+    <string name="all_apps_label" msgid="8542784161730910663">"すべてのアプリ"</string>
+    <string name="all_apps_prediction_tip" msgid="2672336544844936186">"予測されたアプリ"</string>
+	<string name="smartspace_preferences">"設定"</string>
+	<string name="smartspace_preferences_in_settings">"At A Glance"</string>
+	<string name="smartspace_preferences_in_settings_desc">"ホーム画面の上部"</string>
+	<string name="icon_shape_override_label">"アイコンの形の変更"</string>
+	<string name="icon_shape_override_progress">"アイコンの形の変更を適用しています"</string>
+	<string name="icon_shape_square">"スクエア"</string>
+	<string name="icon_shape_squircle">"スクワークル"</string>
+	<string name="icon_shape_circle">"サークル"</string>
+	<string name="icon_shape_teardrop">"ティアドロップ"</string>
+	<string name="device_theme_tone">"トーン"</string>
+	<string name="device_theme_wallpaper">"自動（壁紙に基づく）"</string>
+	<string name="device_theme_light">"ライト"</string>
+	<string name="device_theme_dark">"ダーク"</string>
+	<string name="category_general">"全般"</string>
+	<string name="category_style">"テーマ"</string>
+	<string name="category_customization">"カスタマイズ"</string>
+	<string name="category_about">"概要"</string>
+	<string name="pref_value_default">"デフォルト"</string>
+	<string name="pref_value_disabled">"無効"</string>
+	<string name="show_drop_target_label">"表示"</string>
+	<string name="hide_drop_target_label">"非表示"</string>
+	<string name="app_info_more">"その他"</string>
+	<string name="app_info_version">"バージョン"</string>
+	<string name="app_info_icon_pack">"アイコンパック"</string>
+	<string name="app_info_icon_pack_none">"指定しない"</string>
+	<string name="app_info_source_unknown">"不明"</string>
+	<string name="font">"フォント"</string>
+	<string name="icon_shape">"シェイプ"</string>
+	<string name="loading">"読み込み中..."</string>
+	<string name="about_donate">"寄付する"</string>
+	<string name="any_activity_shortcut">"操作の選択"</string>
+</resources>
