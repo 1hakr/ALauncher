@@ -16,9 +16,6 @@
 
 package com.android.launcher3.appprediction;
 
-import static com.android.launcher3.anim.Interpolators.LINEAR;
-import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -65,6 +62,11 @@ import com.android.quickstep.AnimatedFloat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import amirz.shade.search.AllAppsQsb;
+
+import static com.android.launcher3.anim.Interpolators.LINEAR;
+import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
 
 @TargetApi(Build.VERSION_CODES.P)
 public class PredictionRowView extends LinearLayout implements
@@ -198,6 +200,12 @@ public class PredictionRowView extends LinearLayout implements
     @Override
     public boolean hasVisibleContent() {
         return mPredictionsEnabled;
+    }
+
+    private boolean isInSearchMode() {
+        AllAppsQsb search = (AllAppsQsb) mLauncher.getAppsView().getSearchView();
+        Boolean isInSearchMode =  search.hasSearchQuery();
+        return isInSearchMode;
     }
 
     /**

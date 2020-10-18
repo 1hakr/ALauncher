@@ -28,7 +28,6 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.ExtendedEditText;
-import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.allapps.AlphabeticalAppsList;
@@ -173,6 +172,10 @@ public class AllAppsSearchBarController
      */
     public boolean isSearchFieldFocused() {
         return mInput.isFocused();
+    }
+
+    public String searchQuery(){
+        return mQuery;
     }
 
     /**

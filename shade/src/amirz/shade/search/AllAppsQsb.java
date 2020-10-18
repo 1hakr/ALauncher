@@ -11,6 +11,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.os.Bundle;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.method.TextKeyListener;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -341,7 +342,7 @@ public class AllAppsQsb extends QsbContainerView
 
     private void notifyResultChanged() {
         mAppsView.onSearchResultsChanged();
-        mAppsView.getFloatingHeaderView().setCollapsed(mApps.hasNoFilteredResults());
+        mAppsView.getFloatingHeaderView().setCollapsed(hasSearchQuery() || mApps.hasNoFilteredResults());
     }
 
     @Override
@@ -400,5 +401,9 @@ public class AllAppsQsb extends QsbContainerView
             return true;
         }
         return false;
+    }
+
+    public boolean hasSearchQuery() {
+        return !TextUtils.isEmpty(mSearchBarController.searchQuery());
     }
 }
