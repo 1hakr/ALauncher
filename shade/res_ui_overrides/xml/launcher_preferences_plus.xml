@@ -142,7 +142,7 @@
             android:title="@string/category_gestures">
 
             <SwitchPreference
-                android:defaultValue="false"
+                android:defaultValue="true"
                 android:key="pref_swipe_down"
                 android:persistent="true"
                 android:summary="@string/swipe_down_desc"

@@ -16,8 +16,6 @@
 
 package com.android.launcher3.appprediction;
 
-import static com.android.launcher3.LauncherState.ALL_APPS;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -43,6 +41,10 @@ import com.android.launcher3.allapps.FloatingHeaderRow;
 import com.android.launcher3.allapps.FloatingHeaderView;
 import com.android.launcher3.anim.PropertySetter;
 import com.android.launcher3.util.Themes;
+
+import amirz.helpers.Settings;
+
+import static com.android.launcher3.LauncherState.ALL_APPS;
 
 /**
  * A view which shows a horizontal divider
@@ -91,10 +93,13 @@ public class AppsDividerView extends View implements LauncherStateManager.StateL
         boolean isMainColorDark = Themes.getAttrBoolean(context, R.attr.isMainColorDark);
         mPaint.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.all_apps_divider_height));
 
-        mStrokeColor = ContextCompat.getColor(context, isMainColorDark
+        int stokeColor = ContextCompat.getColor(context, isMainColorDark
                 ? R.color.all_apps_prediction_row_separator_dark
                 : R.color.all_apps_prediction_row_separator);
-
+        if(Settings.isTransparentTone(context)){
+            stokeColor = Settings.getAllAppsTextColor(context);
+        }
+        mStrokeColor = stokeColor;
         mAllAppsLabelTextColor = ContextCompat.getColor(context, isMainColorDark
                 ? R.color.all_apps_label_text_dark
                 : R.color.all_apps_label_text);

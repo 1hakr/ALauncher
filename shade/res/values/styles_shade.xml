@@ -43,4 +43,8 @@
         <item name="shadeColorAllAppsOverlay">#FF338F</item>
         <item name="shadeColorAccent">#C51162</item>
     </style>
+
+    <style name="ShadeOverride.Transparent" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#00FFFFFF</item>
+    </style>
 </resources>

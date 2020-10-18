@@ -13,10 +13,10 @@ public class ShadeStyle {
     public static final String KEY_THEME = "pref_theme";
     public static final int[] THEMES = {R.style.ShadeOverride_Shade, R.style.ShadeOverride_Campfire,
             R.style.ShadeOverride_Sunset, R.style.ShadeOverride_Forest, R.style.ShadeOverride_Ocean,
-            R.style.ShadeOverride_Twilight, R.style.ShadeOverride_Blossom};
+            R.style.ShadeOverride_Twilight, R.style.ShadeOverride_Blossom, R.style.ShadeOverride_Transparent};
     public static final String[] COLORS = {"#009688", "#D32F2F",
             "#FF8B27", "#388E3C",  "#03A9F4",
-            "#855CCC", "#C51162"};
+            "#855CCC", "#C51162", "#00FFFFFF"};
 
     public static void override(Activity activity) {
         String theme = Utilities.getPrefs(activity).getString(KEY_THEME, "");
@@ -29,6 +29,7 @@ public class ShadeStyle {
         themes.put("ocean",THEMES[4]);
         themes.put("twilight", THEMES[5]);
         themes.put("blossom", THEMES[6]);
+        themes.put("transparent", THEMES[7]);
 
         //noinspection ConstantConditions
         int override = themes.getOrDefault(theme, R.style.ShadeOverride);

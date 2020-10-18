@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -14,10 +15,13 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherFiles;
+import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
+import com.android.launcher3.util.Themes;
 
 import amirz.shade.search.AllAppsQsb;
 
@@ -61,7 +65,7 @@ public class Settings {
     }
 
     public static boolean isSwipeDownEnabled(Context context) {
-        return prefs(context).getBoolean(KEY_SWIPE_DOWN, false);
+        return prefs(context).getBoolean(KEY_SWIPE_DOWN, true);
     }
 
     public static boolean isDoubleTapLockEnabled(Context context) {
@@ -184,6 +188,25 @@ public class Settings {
     public static void handleWorkspaceTouchEvent(Launcher launcher) {
         if (Settings.isDoubleTapLockEnabled(launcher)) {
             DoubleTapLockHelper.timeoutLock(launcher);
+        }
+    }
+
+    public static boolean isTransparentTone(Context context) {
+        int overlayEndScrim = Themes.getAttrColor(context, R.attr.shadeColorAllAppsOverlay);
+        boolean isDark = Themes.getAttrBoolean(context, R.attr.isMainColorDark);
+        int alpha = Color.alpha(overlayEndScrim);
+        return !isDark && alpha == 0;
+    }
+
+    public static int getAllAppsTextColor(Context context) {
+        return Themes.getAttrColor(context, R.attr.workspaceTextColor);
+    }
+
+    public static void setAllAppsTextColor(BubbleTextView icon) {
+        Context context = icon.getContext();
+        if(isTransparentTone(context)) {
+            int textColor = Themes.getAttrColor(icon.getContext(), R.attr.workspaceTextColor);
+            icon.setTextColor(textColor);
         }
     }
 }

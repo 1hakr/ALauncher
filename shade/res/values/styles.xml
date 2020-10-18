@@ -52,6 +52,7 @@
         <item name="shadeColorSearchBar">#FFF</item>
         <item name="popupColorPrimary">#3C4043</item>
         <item name="shadeTextColor">@color/color_secondary_text_default_material_light</item>
+        <item name="popupColorSecondary">#5F6368</item> <!-- Gray 700 -->
     </style>
 
     <style name="AppTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark.DarkMainColor">
