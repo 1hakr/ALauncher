@@ -22,10 +22,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
-import com.android.launcher3.icons.IconCache;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.Adapter;
+
 import com.android.launcher3.R;
 import com.android.launcher3.WidgetPreviewLoader;
+import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.model.WidgetItem;
 import com.android.launcher3.util.LabelComparator;
 
@@ -33,9 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 /**
  * List view adapter for the widget tray.
@@ -45,7 +47,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
  * happens and less memory is consumed. {@link #getItemViewType} was not overridden as there is
  * only a single type of view.
  */
-public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
+public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> implements Filterable {
 
     private static final String TAG = "WidgetsListAdapter";
     private static final boolean DEBUG = false;
@@ -57,6 +59,7 @@ public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
     private final OnLongClickListener mIconLongClickListener;
     private final int mIndent;
     private ArrayList<WidgetListRowEntry> mEntries = new ArrayList<>();
+    private ArrayList<WidgetListRowEntry> mEntriesFull = new ArrayList<>();
     private final WidgetsDiffReporter mDiffReporter;
 
     private boolean mApplyBitmapDeferred;
@@ -99,6 +102,7 @@ public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
         WidgetListRowEntryComparator rowComparator = new WidgetListRowEntryComparator();
         Collections.sort(tempEntries, rowComparator);
         mDiffReporter.process(mEntries, tempEntries, rowComparator);
+        mDiffReporter.process(mEntriesFull, tempEntries, rowComparator);
     }
 
     @Override
@@ -216,4 +220,42 @@ public class WidgetsListAdapter extends Adapter<WidgetsRowViewHolder> {
             return mComparator.compare(a.pkgItem.title.toString(), b.pkgItem.title.toString());
         }
     }
+
+    public void reset(){
+        mEntries.clear();
+        mEntries.addAll(mEntriesFull);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return exampleFilter;
+    }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<WidgetListRowEntry> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mEntriesFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (WidgetListRowEntry item : mEntriesFull) {
+                    String title = item.pkgItem.title.toString();
+                    if (title.toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mEntries.clear();
+            mEntries.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }

@@ -36,6 +36,7 @@
 
     <string name="device_theme_default" translatable="false">"Use system default"</string>
 
+    <string name="widget_search_bar_hint" translatable="false">Search widgets</string>
     <string name="lock_app_label" translatable="false">Lock</string>
     <string name="unlock_app_label" translatable="false">Unlock</string>
     <string name="device_unsecure" translatable="false">"Screen lock is required."</string>

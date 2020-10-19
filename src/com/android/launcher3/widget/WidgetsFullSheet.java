@@ -22,6 +22,8 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Rect;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -31,20 +33,25 @@ import android.view.animation.AnimationUtils;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.graphics.ColorUtils;
 
 import com.android.launcher3.Insettable;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.LauncherAppWidgetHost.ProviderChangedListener;
 import com.android.launcher3.R;
+import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.RecyclerViewFastScroller;
 import com.android.launcher3.views.TopRoundedCornerView;
+
+import amirz.shade.search.AllAppsSearchBackground;
+import amirz.shade.search.EditText;
 
 /**
  * Popup for showing the full list of available widgets
  */
-public class WidgetsFullSheet extends BaseWidgetSheet
-        implements Insettable, ProviderChangedListener {
+public class WidgetsFullSheet extends BaseWidgetSheet implements Insettable, TextWatcher,
+        ProviderChangedListener, View.OnFocusChangeListener {
 
     private static final long DEFAULT_OPEN_DURATION = 267;
     private static final long FADE_IN_DURATION = 150;
@@ -55,6 +62,9 @@ public class WidgetsFullSheet extends BaseWidgetSheet
     private final WidgetsListAdapter mAdapter;
 
     private WidgetsRecyclerView mRecyclerView;
+    private AllAppsSearchBackground mFallbackSearchView;
+    private EditText mFallbackSearchViewText;
+    private String mQuery;
 
     public WidgetsFullSheet(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -77,6 +87,24 @@ public class WidgetsFullSheet extends BaseWidgetSheet
         mRecyclerView = findViewById(R.id.widgets_list_view);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setApplyBitmapDeferred(true, mRecyclerView);
+
+        mFallbackSearchView = findViewById(R.id.fallback_search_view);
+        mFallbackSearchViewText = findViewById(R.id.fallback_search_view_text);
+        mFallbackSearchViewText.addTextChangedListener(this);
+        mFallbackSearchViewText.setOnFocusChangeListener(this);
+
+        int bgColor = Themes.getAttrColor(getContext(), R.attr.shadeColorSearchBar);
+        int overlay = Themes.getAttrColor(getContext(), R.attr.shadeColorAllAppsOverlay);
+
+        if (ColorUtils.setAlphaComponent(overlay, 0) != overlay) {
+            // Alpha is not zero, so update it to the right value.
+            overlay = ColorUtils.setAlphaComponent(overlay,
+                    getContext().getResources().getInteger(R.integer.shade_qsb_color_alpha));
+
+            bgColor = ColorUtils.compositeColors(overlay, bgColor);
+        }
+
+        mFallbackSearchView.setColor(bgColor);
 
         TopRoundedCornerView springLayout = (TopRoundedCornerView) mContent;
         springLayout.addSpringView(R.id.widgets_list_view);
@@ -246,5 +274,28 @@ public class WidgetsFullSheet extends BaseWidgetSheet
         anim.play(ObjectAnimator.ofFloat(mRecyclerView, TRANSLATION_Y, -distanceToMove));
         anim.play(ObjectAnimator.ofFloat(mRecyclerView, ALPHA, 0.5f));
         return anim;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        // Do nothing
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        // Do nothing
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        mQuery = s.toString();
+        mAdapter.getFilter().filter(mQuery);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            mFallbackSearchViewText.hideKeyboard();
+        }
     }
 }

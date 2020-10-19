@@ -193,8 +193,6 @@ public class AllAppsQsb extends QsbContainerView
         }
 
         mFallbackSearchViewText.setSpannedHint(mFallbackSearchViewText.getHint());
-        mFallbackSearchViewText.setHintTextColor(Themes.getShadeColorAccent(getContext()));
-        mFallbackSearchViewText.tintDrawable(Themes.getShadeColorAccent(getContext()));
     }
 
     @Override
