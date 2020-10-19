@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
-import android.content.pm.LauncherActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Process;
 import android.os.UserHandle;
 
-import com.android.launcher3.allapps.AllAppsStore;
 import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.util.ComponentKey;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -83,6 +80,11 @@ class FilteredPredictor extends UsageTracker {
 
         // Remove hidden app components.
         if (HiddenAppsDatabase.isHidden(mContext, cn, user)) {
+            return true;
+        }
+
+        // Remove dismissed app components.
+        if (DismissedAppsDatabase.isDismissed(mContext, cn, user)) {
             return true;
         }
 

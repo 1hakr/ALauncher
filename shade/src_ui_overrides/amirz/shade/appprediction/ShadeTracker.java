@@ -15,8 +15,6 @@
  */
 package amirz.shade.appprediction;
 
-import static com.android.launcher3.InvariantDeviceProfile.CHANGE_FLAG_GRID;
-
 import android.annotation.TargetApi;
 import android.app.prediction.AppPredictor;
 import android.app.prediction.AppTarget;
@@ -34,6 +32,8 @@ import android.os.UserHandle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.WorkerThread;
 
 import com.android.launcher3.InvariantDeviceProfile;
 import com.android.launcher3.appprediction.PredictionUiStateManager;
@@ -42,12 +42,11 @@ import com.android.launcher3.model.AppLaunchTracker;
 import com.android.launcher3.util.Executors;
 import com.android.launcher3.util.LooperExecutor;
 
-import androidx.annotation.UiThread;
-import androidx.annotation.WorkerThread;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+
+import static com.android.launcher3.InvariantDeviceProfile.CHANGE_FLAG_GRID;
 
 /**
  * Subclass of app tracker which publishes the data to the prediction engine and gets back results.
@@ -183,6 +182,26 @@ public class ShadeTracker extends AppLaunchTracker {
     @UiThread
     private void sendLaunch(AppTarget target, String container) {
         AppTargetEvent event = new AppTargetEvent.Builder(target, AppTargetEvent.ACTION_LAUNCH)
+                .setLaunchLocation(container == null ? CONTAINER_DEFAULT : container)
+                .build();
+        Message.obtain(mMessageHandler, MSG_LAUNCH, event).sendToTarget();
+    }
+
+    @Override
+    @UiThread
+    public void onDismissApp(ComponentName cn, UserHandle user, String container) {
+        if (cn == null) return;
+        AppTarget target = new AppTarget.Builder(
+                new AppTargetId("app: " + cn), cn.getPackageName(), user)
+                .setClassName(cn.getClassName())
+                .build();
+        sendDismiss(target, container);
+        DismissedAppsDatabase.setDismissed(mContext, cn, user, true);
+    }
+
+    @UiThread
+    private void sendDismiss(AppTarget target, String container) {
+        AppTargetEvent event = new AppTargetEvent.Builder(target, AppTargetEvent.ACTION_DISMISS)
                 .setLaunchLocation(container == null ? CONTAINER_DEFAULT : container)
                 .build();
         Message.obtain(mMessageHandler, MSG_LAUNCH, event).sendToTarget();
