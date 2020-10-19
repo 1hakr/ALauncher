@@ -16,8 +16,6 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_ICON_BADGED;
-
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
@@ -79,6 +77,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_ICON_BADGED;
+
 /**
  * Various utilities shared amongst the Launcher's classes.
  */
@@ -96,6 +96,8 @@ public final class Utilities {
 
     public static final String[] EMPTY_STRING_ARRAY = new String[0];
     public static final Person[] EMPTY_PERSON_ARRAY = new Person[0];
+
+    public static final boolean ATLEAST_R = Build.VERSION.SDK_INT >= 30; //Build.VERSION_CODES.R;
 
     public static final boolean ATLEAST_Q = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 

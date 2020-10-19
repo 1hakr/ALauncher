@@ -1,5 +1,6 @@
 package amirz.shade.customization;
 
+import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,9 @@ import com.android.launcher3.views.Snackbar;
 
 import java.net.URISyntaxException;
 
+import amirz.helpers.AppsLockerDatabase;
+import amirz.helpers.SecurityHelper;
+import amirz.shade.ShadeLauncher;
 import amirz.shade.hidden.HiddenAppsDatabase;
 import amirz.shade.util.AppReloader;
 import amirz.unread.UnreadSession;
@@ -37,6 +41,8 @@ public class ShadeShortcutFactory extends SystemShortcutFactory {
                 new SystemShortcut.DismissPrediction(),
                 new HideApp(),
                 new UnhideApp(),
+                new LockApp(),
+                new UnlockApp(),
                 new UnInstall());
     }
 
@@ -190,6 +196,64 @@ public class ShadeShortcutFactory extends SystemShortcutFactory {
                     };
                     Snackbar.show(launcher, R.string.item_hidden, R.string.undo, null, onUndoClicked);
                 }
+                AbstractFloatingView.closeAllOpenViews(launcher);
+            };
+        }
+    }
+
+    public static class LockApp extends SystemShortcut<Launcher> {
+        public LockApp() {
+            super(R.drawable.ic_lock_app, R.string.lock_app_label);
+        }
+
+        @Override
+        public View.OnClickListener getOnClickListener(
+                Launcher launcher, ItemInfo itemInfo) {
+            boolean isLocked = AppsLockerDatabase.isLocked(launcher, itemInfo);
+            if (isLocked) {
+                return null;
+            }
+
+            return createOnClickListener(launcher, itemInfo);
+        }
+
+        public View.OnClickListener createOnClickListener(
+                Launcher launcher, ItemInfo itemInfo) {
+            return view -> {
+                SecurityHelper securityHelper = new SecurityHelper(launcher);
+                if(!securityHelper.isDeviceSecure()){
+                    Runnable onSetupClicked = () -> {
+                        Intent intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
+                        launcher.startActivitySafely(view, intent,  null, null);
+                    };
+                    Snackbar.show(launcher, R.string.device_unsecure, R.string.lock_setup, null, onSetupClicked);
+                    return;
+                }
+                ((ShadeLauncher)launcher).toggleAppLock(itemInfo);
+                AbstractFloatingView.closeAllOpenViews(launcher);
+            };
+        }
+    }
+
+    public static class UnlockApp extends SystemShortcut<Launcher> {
+        public UnlockApp() {
+            super(R.drawable.ic_unlock_app, R.string.unlock_app_label);
+        }
+
+        @Override
+        public View.OnClickListener getOnClickListener(
+                Launcher launcher, ItemInfo itemInfo) {
+            boolean isLocked = AppsLockerDatabase.isLocked(launcher, itemInfo);
+            if (!isLocked) {
+                return null;
+            }
+            return createOnClickListener(launcher, itemInfo);
+        }
+
+        public View.OnClickListener createOnClickListener(
+                Launcher launcher, ItemInfo itemInfo) {
+            return view -> {
+                ((ShadeLauncher)launcher).toggleAppLock(itemInfo);
                 AbstractFloatingView.closeAllOpenViews(launcher);
             };
         }

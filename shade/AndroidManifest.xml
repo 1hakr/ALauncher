@@ -47,6 +47,9 @@
         android:name="${packageName}.permission.ACCESSIBILITY"
         android:protectionLevel="signature" />
 
+    <!-- App lock-->
+<!--    <uses-permission android:name="android.permission.USE_BIOMETRIC" />-->
+
     <uses-permission android:name="${packageName}.permission.ACCESSIBILITY" />
     <uses-permission android:name="android.permission.VIBRATE" />
 

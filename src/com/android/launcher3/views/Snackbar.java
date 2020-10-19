@@ -16,9 +16,6 @@
 
 package com.android.launcher3.views;
 
-import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
-import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -34,6 +31,9 @@ import com.android.launcher3.R;
 import com.android.launcher3.anim.Interpolators;
 import com.android.launcher3.compat.AccessibilityManagerCompat;
 import com.android.launcher3.dragndrop.DragLayer;
+
+import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
+import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
 
 /**
  * A toast-like UI at the bottom of the screen with a label, button action, and dismiss action.
@@ -114,14 +114,16 @@ public class Snackbar extends AbstractFloatingView {
             }
         }
         labelView.setText(labelText);
-        actionView.setText(actionText);
-        actionView.setOnClickListener(v -> {
-            if (onActionClicked != null) {
-                onActionClicked.run();
-            }
-            snackbar.mOnDismissed = null;
-            snackbar.close(true);
-        });
+        if (null != onActionClicked){
+            actionView.setText(actionText);
+            actionView.setOnClickListener(v -> {
+                if (onActionClicked != null) {
+                    onActionClicked.run();
+                }
+                snackbar.mOnDismissed = null;
+                snackbar.close(true);
+            });
+        }
         snackbar.mOnDismissed = onDismissed;
 
         snackbar.setAlpha(0);
