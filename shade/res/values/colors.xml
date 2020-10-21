@@ -5,7 +5,7 @@
     <color name="colorAccent">#009688</color>
     <color name="colorAccentDark">#01524B</color>
     <color name="colorBlue">#4285F4</color>
-    <color name="colorPink">#009688</color>
+    <color name="colorPink">#e91e63</color>
 
     <item name="color_disabled_alpha_material_light" format="float" type="dimen">0.26</item>
     <item name="color_disabled_alpha_material_dark" format="float" type="dimen">0.30</item>
