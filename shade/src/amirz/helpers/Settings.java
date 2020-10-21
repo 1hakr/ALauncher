@@ -24,9 +24,9 @@ import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.graphics.IconPalette;
 import com.android.launcher3.util.Themes;
 
+import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
 
-import static amirz.shade.customization.DockSearch.KEY_DOCK_SEARCH;
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.android.launcher3.LauncherState.ALL_APPS;
 
@@ -77,10 +77,6 @@ public class Settings {
         return prefs(context).getBoolean(KEY_DOUBLE_TAP_LOCK, false);
     }
 
-    public static String getDockSearch(Context context) {
-        return prefs(context).getString(KEY_DOCK_SEARCH, "");
-    }
-
     public static void handleHomeAction(Launcher launcher) {
         switch (Settings.getHomeAction(launcher)) {
             case "quicksearch":
@@ -104,7 +100,7 @@ public class Settings {
         }
     }
     public static void startQuickSearch(final Launcher launcher) {
-        final String provider = Settings.getDockSearch(launcher);
+        final String provider = DockSearch.getDockSearch(launcher);
         if (provider.contains("google")) {
             Point point = new Point(0, 0);
             Intent intent = new Intent("com.google.nexuslauncher.FAST_TEXT_SEARCH")

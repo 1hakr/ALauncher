@@ -16,7 +16,6 @@ import amirz.shade.customization.DockSearch;
 public class DockSearchPrefSetter implements ReloadingListPreference.OnReloadListener {
     private final Context mContext;
     private final PackageManager mPm;
-    private final String DEFAULT_PROVIDER = "com.google.android.googlequicksearchbox/.SearchWidgetProvider";
 
     public DockSearchPrefSetter(Context context) {
         mContext = context;
@@ -26,7 +25,7 @@ public class DockSearchPrefSetter implements ReloadingListPreference.OnReloadLis
     @Override
     public Runnable listUpdater(ReloadingListPreference pref) {
         List<AppWidgetProviderInfo> widgets = DockSearch.validWidgets(mContext);
-        Boolean hasDefaultProvider = false;
+        String defaultValue = DockSearch.getRecommendedProvider(mContext);
         CharSequence[] keys = new String[widgets.size() + 1];
         CharSequence[] values = new String[keys.length];
         int i = 0;
@@ -50,17 +49,15 @@ public class DockSearchPrefSetter implements ReloadingListPreference.OnReloadLis
                 e.printStackTrace();
             }
             String provider = widget.provider.flattenToShortString();
-            if(provider.equals(DEFAULT_PROVIDER)){
-                hasDefaultProvider = true;
-            }
             values[i++] = provider;
         }
 
         return () -> {
             pref.setEntriesWithValues(keys, values);
+            pref.setDefaultValue(defaultValue);
             String v = pref.getValue();
             if (!TextUtils.isEmpty(v) && !Arrays.asList(values).contains(v)) {
-                pref.setValue("");
+                pref.setValue(defaultValue);
             }
         };
     }

@@ -31,6 +31,7 @@ import java.io.PrintWriter;
 import amirz.aidlbridge.LauncherClientIntent;
 import amirz.helpers.Settings;
 import amirz.shade.animations.TransitionManager;
+import amirz.shade.customization.DockSearch;
 import amirz.shade.hidden.HiddenAppsDrawerState;
 import amirz.shade.icons.pack.IconPackManager;
 import amirz.shade.search.AllAppsQsb;
@@ -96,6 +97,14 @@ public class ShadeLauncherCallbacks implements LauncherCallbacks,
                 : override;
     }
 
+    private String getRecommendedSearchProvider() {
+        String recommended = DockSearch.getRecommendedProvider(mLauncher);
+        String override = Utilities.getPrefs(mLauncher).getString(KEY_DOCK_SEARCH, recommended);
+        return TextUtils.isEmpty(override)
+                ? recommended
+                : override;
+    }
+
     public void deferCallbacksUntilNextResumeOrStop() {
         mDeferCallbacks = true;
     }
@@ -127,7 +136,8 @@ public class ShadeLauncherCallbacks implements LauncherCallbacks,
     private void setDefaultValues(SharedPreferences prefs) {
         prefs.edit().putBoolean(KEY_SMARTSPACE, prefs.getBoolean(KEY_SMARTSPACE, true))
                 .putString(KEY_FONT, prefs.getString(KEY_FONT, DEFAULT_FONT))
-                .putString(KEY_DOCK_SEARCH, prefs.getString(KEY_DOCK_SEARCH, ""))
+                .putString(KEY_DOCK_SEARCH, prefs.getString(KEY_DOCK_SEARCH,
+                        getRecommendedSearchProvider()))
                 .putString(KEY_IDP_GRID_NAME, prefs.getString(KEY_IDP_GRID_NAME, null))
                 .putString(KEY_FEED_PROVIDER, prefs.getString(KEY_FEED_PROVIDER,
                         getRecommendedFeedPackage()))

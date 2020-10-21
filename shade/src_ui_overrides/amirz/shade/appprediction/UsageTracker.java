@@ -95,10 +95,13 @@ class UsageTracker {
             usageStats.getTotalTimeInForeground();
             sortedTime.put(-time, usageStats);
         }
+        List<UsageStats> sortedList = new ArrayList<>();
+        if(sortedTime.isEmpty()){
+            return sortedList;
+        }
         List<UsageStats> sorted = new ArrayList<UsageStats>(sortedTime.values()).subList(0, 100);
         List<UsageStats> sortedExtras = new ArrayList<UsageStats>(sortedUsed.values()).subList(0, 100);
         sorted.retainAll(sortedExtras);
-        List<UsageStats> sortedList = new ArrayList<>();
         Set<String> packages = new HashSet<>();
         packages.addAll(getHotSeatPackages());
         for (UsageStats stat : sorted) {

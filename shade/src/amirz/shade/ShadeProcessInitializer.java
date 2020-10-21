@@ -18,8 +18,7 @@ public class ShadeProcessInitializer extends MainProcessInitializer {
         FeatureFlags.QSB_ON_FIRST_SCREEN =
                 Utilities.getPrefs(context).getBoolean(KEY_SMARTSPACE, true);
         FeatureFlags.HOTSEAT_WIDGET =
-                !TextUtils.isEmpty(Utilities.getPrefs(context)
-                        .getString(DockSearch.KEY_DOCK_SEARCH, ""));
+                !TextUtils.isEmpty(DockSearch.getDockSearch(context));
         IconShapeOverride.apply(context);
     }
 }
