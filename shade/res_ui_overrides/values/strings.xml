@@ -33,6 +33,8 @@
 
     <string name="close_task" translatable="false">Close</string>
     <string name="theme_transparent" translatable="false">"Transparent"</string>
+    <string name="theme_sunrise" translatable="false">Sunrise</string>
+    <string name="theme_midnight" translatable="false">Midnight</string>
 
     <string name="device_theme_default" translatable="false">"Use system default"</string>
 

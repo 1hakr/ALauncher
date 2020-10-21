@@ -16,9 +16,6 @@
 
 package com.android.launcher3.folder;
 
-import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
-import static com.android.launcher3.folder.PreviewItemManager.INITIAL_ITEM_ANIMATION_DURATION;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -73,6 +70,11 @@ import com.android.launcher3.widget.PendingAddShortcutInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+
+import amirz.helpers.Settings;
+
+import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
+import static com.android.launcher3.folder.PreviewItemManager.INITIAL_ITEM_ANIMATION_DURATION;
 
 /**
  * An icon that can appear on in the workspace representing an {@link Folder}.
@@ -536,7 +538,7 @@ public class FolderIcon extends FrameLayout implements FolderListener, IconLabel
 
             // If we are animating to the accepting state, animate the dot out.
             mDotParams.scale = Math.max(0, mDotScale - mBackground.getScaleProgress());
-            mDotParams.color = mBackground.getDotColor();
+            mDotParams.color = Settings.getNotificationColor(getContext());
             mDotRenderer.draw(canvas, mDotParams);
         }
     }

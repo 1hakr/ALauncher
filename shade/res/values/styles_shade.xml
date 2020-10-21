@@ -44,7 +44,18 @@
         <item name="shadeColorAccent">#C51162</item>
     </style>
 
+    <style name="ShadeOverride.Sunrise" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#FFB74D</item>
+        <item name="shadeColorAccent">#FFD600</item>
+    </style>
+
+    <style name="ShadeOverride.Midnight" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#262626</item>
+        <item name="shadeColorAccent">#0F0F0F</item>
+    </style>
+
     <style name="ShadeOverride.Transparent" parent="ShadeOverride.Shade">
         <item name="shadeColorAllAppsOverlay">#00FFFFFF</item>
+        <item name="shadeColorAccent">@color/colorAccent</item>
     </style>
 </resources>

@@ -21,6 +21,7 @@ import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
+import com.android.launcher3.graphics.IconPalette;
 import com.android.launcher3.util.Themes;
 
 import amirz.shade.search.AllAppsQsb;
@@ -54,6 +55,10 @@ public class Settings {
 
     public static void showSnackBar(Context context, int resId) {
         Toast.makeText(context, resId, LENGTH_SHORT).show();
+    }
+
+    public static int getNotificationColor(Context context) {
+        return IconPalette.getMutedColor(Themes.getShadeColorAccent(context), 0.2f);
     }
 
     public static boolean isDesktopLocked(Context context) {

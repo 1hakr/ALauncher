@@ -49,21 +49,25 @@
         <item>@string/pref_value_default</item>
         <item>@string/theme_campfire</item> <!-- Red -->
         <item>@string/theme_sunset</item> <!-- Yellow -->
+        <item>@string/theme_sunrise</item> <!-- Yellow -->
         <item>@string/theme_forest</item> <!-- Green -->
         <item>@string/theme_ocean</item> <!-- Blue -->
         <item>@string/theme_twilight</item> <!-- Purple -->
         <item>@string/theme_blossom</item> <!-- Pink -->
-        <item>@string/theme_transparent</item> <!-- Pink -->
+        <item>@string/theme_midnight</item> <!-- Black -->
+        <item>@string/theme_transparent</item> <!-- Transparent -->
     </string-array>
 
     <string-array translatable="false" name="theme_entry_values">
         <item>""</item>
         <item>"campfire"</item>
         <item>"sunset"</item>
+        <item>"sunrise"</item>
         <item>"forest"</item>
         <item>"ocean"</item>
         <item>"twilight"</item>
         <item>"blossom"</item>
+        <item>"midnight"</item>
         <item>"transparent"</item>
     </string-array>
 
@@ -111,9 +115,9 @@
 
     <string name="icon_pack_default" translatable="false">amirz.googleicons</string>
 
-    <integer name="shade_all_apps_light_alpha">25</integer>
-    <integer name="shade_all_apps_dark_alpha">15</integer>
-    <integer name="shade_qsb_color_alpha">6</integer>
+    <integer name="shade_all_apps_light_alpha">45</integer>
+    <integer name="shade_all_apps_dark_alpha">35</integer>
+    <integer name="shade_qsb_color_alpha">35</integer>
 
     <integer name="config_settingsFadeAnimationDuration">250</integer>
     <integer name="config_appOpenLauncherExitAnimationDuration">205</integer>
