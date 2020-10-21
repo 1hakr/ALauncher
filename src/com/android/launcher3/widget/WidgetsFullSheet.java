@@ -21,6 +21,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -90,6 +91,9 @@ public class WidgetsFullSheet extends BaseWidgetSheet implements Insettable, Tex
 
         mFallbackSearchView = findViewById(R.id.fallback_search_view);
         mFallbackSearchViewText = findViewById(R.id.fallback_search_view_text);
+        if(Themes.isTrickyMode(getContext())) {
+            mFallbackSearchViewText.setTextColor(Color.GRAY);
+        }
         mFallbackSearchViewText.addTextChangedListener(this);
         mFallbackSearchViewText.setOnFocusChangeListener(this);
 

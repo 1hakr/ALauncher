@@ -43,7 +43,7 @@ public class Themes {
 
     public static int getActivityThemeRes(Context context) {
         WallpaperColorInfo wallpaperColorInfo = WallpaperColorInfo.getInstance(context);
-        boolean darkTheme = isDarTheme(context, wallpaperColorInfo);
+        boolean darkTheme = isDarTheme(context);
         if (darkTheme) {
             if(wallpaperColorInfo.supportsDarkText()){
                 return R.style.AppTheme_Dark_DarkText;
@@ -68,8 +68,7 @@ public class Themes {
     }
 
     public static int getSettingActivityThemeRes(Context context) {
-        WallpaperColorInfo wallpaperColorInfo = WallpaperColorInfo.getInstance(context);
-        boolean darkTheme = isDarTheme(context, wallpaperColorInfo);
+        boolean darkTheme = isDarTheme(context);
         if (darkTheme) {
             if (darkTheme != isDarkMode(context)){
                 return R.style.Shade_SettingsTheme_Dark;
@@ -85,7 +84,8 @@ public class Themes {
         }
     }
 
-    public static boolean isDarTheme(Context context, WallpaperColorInfo wallpaperColorInfo) {
+    public static boolean isDarTheme(Context context) {
+        WallpaperColorInfo wallpaperColorInfo = WallpaperColorInfo.getInstance(context);
         boolean darkTheme = wallpaperColorInfo.isDark();;
         String theme = Utilities.getPrefs(context).getString(KEY_DEVICE_THEME, DEVICE_THEME_SYSTEM);
         if (theme.equals(DEVICE_THEME_LIGHT)) {
@@ -104,6 +104,10 @@ public class Themes {
         Configuration configuration = context.getResources().getConfiguration();
         int nightMode = configuration.uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return  nightMode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static boolean isTrickyMode(Context context) {
+        return isDarkMode(context) != isDarTheme(context);
     }
 
     public static String getDefaultBodyFont(Context context) {

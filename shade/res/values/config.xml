@@ -115,9 +115,9 @@
 
     <string name="icon_pack_default" translatable="false">amirz.googleicons</string>
 
-    <integer name="shade_all_apps_light_alpha">45</integer>
-    <integer name="shade_all_apps_dark_alpha">35</integer>
-    <integer name="shade_qsb_color_alpha">35</integer>
+    <integer name="shade_all_apps_light_alpha">25</integer>
+    <integer name="shade_all_apps_dark_alpha">20</integer>
+    <integer name="shade_qsb_color_alpha">6</integer>
 
     <integer name="config_settingsFadeAnimationDuration">250</integer>
     <integer name="config_appOpenLauncherExitAnimationDuration">205</integer>

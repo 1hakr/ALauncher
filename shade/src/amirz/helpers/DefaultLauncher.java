@@ -10,12 +10,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.style.TtsSpan.TextBuilder;
 import android.widget.Toast;
 
 import com.android.launcher3.BuildConfig;
-import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 
 import java.util.List;
@@ -71,15 +71,15 @@ public class DefaultLauncher {
         final Intent intent;
         CharSequence loadLabel = resolveInfo.loadLabel(activity.getPackageManager());
         if (activity.getPackageManager().resolveActivity(
-                new Intent("android.settings.HOME_SETTINGS"), 0) == null) {
+                new Intent(Settings.ACTION_HOME_SETTINGS), 0) == null) {
             string = activity.getString(R.string.change_default_home_dialog_body,
                     new Object[]{loadLabel});
             intent = new Intent(
-                    "android.settings.APPLICATION_DETAILS_SETTINGS",
+                    Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                     Uri.fromParts("package",
-                            resolveInfo.activityInfo.packageName, null));
+                            activity.getPackageName(), null));
         } else {
-            intent = new Intent("android.settings.HOME_SETTINGS");
+            intent = new Intent(Settings.ACTION_HOME_SETTINGS);
             string = new SpannableString(activity.getString(
                     R.string.change_default_home_dialog_body_settings,
                     new Object[]{loadLabel}));
@@ -91,6 +91,7 @@ public class DefaultLauncher {
                                             loadLabel)).build(), 0, string
                                     .length(), 18);
         }
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 
         new AlertDialog.Builder(activity)
@@ -119,7 +120,6 @@ public class DefaultLauncher {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
-                                    intent.setFlags(276856832);
                                     activity.startActivity(intent);
                                 } catch (Exception e) {
                                     setDefLauncher(activity);

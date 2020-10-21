@@ -155,9 +155,9 @@ public class AllAppsSearchBarController
      * Resets the search bar state.
      */
     public void reset() {
+        mQuery = null;
         mCb.clearSearchResult();
         mInput.reset();
-        mQuery = null;
     }
 
     /**

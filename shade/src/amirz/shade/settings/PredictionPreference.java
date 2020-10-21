@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -18,8 +20,12 @@ import androidx.preference.SwitchPreference;
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
+import com.android.launcher3.notification.NotificationListener;
 
 import amirz.shade.ShadeSettings;
+
+import static com.android.launcher3.settings.SettingsActivity.EXTRA_FRAGMENT_ARG_KEY;
+import static com.android.launcher3.settings.SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGS;
 
 public class PredictionPreference extends SwitchPreference
         implements ShadeSettings.OnResumePreferenceCallback {
@@ -95,7 +101,9 @@ public class PredictionPreference extends SwitchPreference
     }
 
     private static void openSetting(Context context) {
-        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS);
+        Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.fromParts("package",
+                context.getPackageName(), null))
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
