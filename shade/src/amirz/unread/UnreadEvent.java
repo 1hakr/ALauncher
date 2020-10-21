@@ -1,5 +1,6 @@
 package amirz.unread;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.List;
 
 public class UnreadEvent {
     private final List<String> mText = new ArrayList<>();
+    private Drawable mIcon;
     private View.OnClickListener mOnClick;
     private View.OnLongClickListener mOnLongClick;
 
@@ -16,6 +18,14 @@ public class UnreadEvent {
 
     public List<String> getText() {
         return mText;
+    }
+
+    public Drawable getIcon() {
+        return mIcon;
+    }
+
+    public void setIcon(Drawable mIcon) {
+        this.mIcon = mIcon;
     }
 
     public View.OnClickListener getOnClickListener() {

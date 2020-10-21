@@ -23,9 +23,12 @@ import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.Launcher;
@@ -53,12 +56,14 @@ public class NotificationInfo implements View.OnClickListener {
     public final boolean dismissable;
 
     private Drawable mIconDrawable;
+    private Drawable mIcon;
     private int mIconColor;
     private boolean mIsIconLarge;
 
     /**
      * Extracts the data that we need from the StatusBarNotification.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public NotificationInfo(Context context, StatusBarNotification statusBarNotification) {
         packageUserKey = PackageUserKey.fromNotification(statusBarNotification);
         notificationKey = statusBarNotification.getKey();
@@ -91,6 +96,8 @@ public class NotificationInfo implements View.OnClickListener {
                     .getInstance(context).getIconCache()
                     .getDefaultIcon(statusBarNotification.getUser()).icon);
         }
+        icon = notification.getSmallIcon();
+        mIcon = icon == null ? null : icon.loadDrawable(context);
         intent = notification.contentIntent;
         autoCancel = (notification.flags & Notification.FLAG_AUTO_CANCEL) != 0;
         dismissable = (notification.flags & Notification.FLAG_ONGOING_EVENT) == 0;
@@ -129,5 +136,9 @@ public class NotificationInfo implements View.OnClickListener {
         icon.setTintList(null);
         icon.setTint(mIconColor);
         return icon;
+    }
+
+    public Drawable getIcon() {
+        return mIcon;
     }
 }

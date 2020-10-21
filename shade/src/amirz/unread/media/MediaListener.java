@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.MediaMetadata;
 import android.media.session.MediaController;
 import android.media.session.MediaSessionManager;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.android.launcher3.notification.NotificationInfo;
 import com.android.launcher3.notification.NotificationListener;
 
 import java.util.Collections;
@@ -110,6 +112,15 @@ public class MediaListener extends MediaController.Callback
     public CharSequence getAlbum() {
         MediaMetadata md = mTracking.getMetadata();
         return md == null ? null : md.getText(MediaMetadata.METADATA_KEY_ALBUM);
+    }
+
+    public Drawable getIcon(Context context) {
+        StatusBarNotification sbn = getNotification(mTracking);
+        if(null != sbn){
+            NotificationInfo notif = new NotificationInfo(context, sbn);
+            return notif.getIcon();
+        }
+        return null;
     }
 
     public String getPackage() {

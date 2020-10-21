@@ -10,8 +10,11 @@ import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
+import com.android.launcher3.notification.NotificationInfo;
 import com.android.launcher3.notification.NotificationListenerProxy;
 
 import java.util.HashSet;
@@ -148,6 +151,7 @@ public class UnreadSession {
                     textList.add(album.toString());
                 }
             }
+            event.setIcon(mMedia.getIcon(mAppContext));
             event.setOnClickListener(mMedia);
             event.setOnLongClickListener(mMedia::open);
         }
@@ -164,6 +168,7 @@ public class UnreadSession {
                 textList.add(DateUtils.formatDateTime(mAppContext, System.currentTimeMillis(),
                         DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
 
+                event.setIcon(ContextCompat.getDrawable(mAppContext, R.drawable.ic_charging));
                 event.setOnClickListener(v -> Launcher.getLauncher(v.getContext())
                         .startActivitySafely(v, BATTERY_INTENT, null, null));
             }
@@ -209,6 +214,9 @@ public class UnreadSession {
         if (!textList.contains(app)) {
             textList.add(app);
         }
+
+        NotificationInfo notif = new NotificationInfo(mAppContext, sbn);
+        event.setIcon(notif.getIcon());
 
         event.setOnClickListener(mSender.onClickNotification(parsed.pi));
     }

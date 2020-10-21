@@ -19,6 +19,7 @@
         android:gravity="center"
         android:background="@android:color/transparent"
         android:orientation="vertical"
+        android:paddingHorizontal="@dimen/smartspace_padding"
         android:clipChildren="false">
 
         <amirz.shade.views.AutoShrinkTextView
@@ -31,15 +32,30 @@
             android:paddingRight="8dp"
             style="@style/TextShade.Title" />
 
-        <amirz.shade.views.DoubleShadowTextView
-            android:id="@+id/shadespace_subtitle"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            style="@style/TextShade.SubTitle" />
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:clipChildren="false">
+
+            <View
+                android:id="@+id/shadespace_icon"
+                android:layout_width="@dimen/notification_footer_icon_size"
+                android:layout_height="@dimen/notification_footer_icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="4dp" />
+
+            <amirz.shade.views.DoubleShadowTextView
+                android:id="@+id/shadespace_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp"
+                style="@style/TextShade.SubTitle" />
+        </LinearLayout>
 
     </LinearLayout>
 

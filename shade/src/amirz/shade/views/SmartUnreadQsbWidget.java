@@ -21,6 +21,7 @@ public class SmartUnreadQsbWidget extends SmartspaceQsbWidget
     private View mUnreadView;
     private DoubleShadowTextView mUnreadTitle;
     private DoubleShadowTextView mUnreadSubtitle;
+    private View mUnreadIcon;
 
     public SmartUnreadQsbWidget(Context context) {
         this(context,  null);
@@ -42,6 +43,7 @@ public class SmartUnreadQsbWidget extends SmartspaceQsbWidget
         mUnreadView = findViewById(R.id.unread_view);
         mUnreadTitle = mUnreadView.findViewById(R.id.shadespace_title);
         mUnreadSubtitle = mUnreadView.findViewById(R.id.shadespace_subtitle);
+        mUnreadIcon = mUnreadView.findViewById(R.id.shadespace_icon);
 
         View vc = mSmartspaceView.getChildAt(0);
         if (vc instanceof ThemedSmartspaceHostView) {
@@ -83,6 +85,9 @@ public class SmartUnreadQsbWidget extends SmartspaceQsbWidget
 
             mUnreadTitle.setText(top);
             mUnreadSubtitle.setText(bottom);
+            if(null != event.getIcon()){
+                mUnreadIcon.setBackground(event.getIcon());
+            }
         } else {
             mUnreadView.setVisibility(View.GONE);
             mSmartspaceView.setVisibility(View.VISIBLE);
