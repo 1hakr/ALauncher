@@ -67,13 +67,24 @@ public class ShadeSettings extends SettingsActivity {
             new SystemUiController(getWindow())
                     .updateUiState(SystemUiController.UI_STATE_BASE_WINDOW, true);
         }
+        setupActionbar("",true);
+    }
+
+    private void setupActionbar(CharSequence title, boolean isHome) {
         final ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
+            actionBar.setHomeButtonEnabled(isHome);
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_logo);
+            if (isHome){
+                actionBar.setTitle(R.string.settings_title);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_logo);
+            } else {
+                actionBar.setTitle(title);
+                actionBar.setHomeAsUpIndicator(null);
+            }
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -231,18 +242,7 @@ public class ShadeSettings extends SettingsActivity {
             if (preferenceScreen != null) {
                 Boolean isHome = TextUtils.isEmpty(preferenceScreen.getTitle());
                 CharSequence title = preferenceScreen.getTitle();
-                final ActionBar actionBar = getActivity().getActionBar();
-                if (actionBar != null) {
-                    actionBar.setHomeButtonEnabled(isHome);
-                    actionBar.setDisplayHomeAsUpEnabled(true);
-                    if (isHome){
-                        actionBar.setTitle(R.string.settings_title);
-                        actionBar.setHomeAsUpIndicator(R.drawable.ic_logo);
-                    } else {
-                        actionBar.setTitle(title);
-                        actionBar.setHomeAsUpIndicator(null);
-                    }
-                }
+                ((ShadeSettings)getActivity()).setupActionbar(title, isHome);
             }
         }
 

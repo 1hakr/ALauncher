@@ -70,19 +70,10 @@ public class ColorListPreference extends ListPreference {
                 getSelectedValuePos());
     }
 
-    private void setDrawableColor(ImageView imageView, String hexColor){
-        Resources res = imageView.getContext().getResources();
-
-        Drawable currentDrawable = imageView.getDrawable();
-        GradientDrawable colorChoiceDrawable;
-        if (currentDrawable instanceof GradientDrawable) {
-            // Reuse drawable
-            colorChoiceDrawable = (GradientDrawable) currentDrawable;
-        } else {
-            colorChoiceDrawable = new GradientDrawable();
-            colorChoiceDrawable.setShape(GradientDrawable.OVAL);
-        }
-
+    private Drawable getDrawableColor(Context context, String hexColor){
+        Resources res = context.getResources();
+        GradientDrawable colorChoiceDrawable = new GradientDrawable();
+        colorChoiceDrawable.setShape(GradientDrawable.OVAL);
         int color = Color.parseColor(hexColor);
 
         // Set stroke to dark version of color
@@ -95,7 +86,7 @@ public class ColorListPreference extends ListPreference {
         colorChoiceDrawable.setStroke((int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 2, res.getDisplayMetrics()), darkenedColor);
 
-        imageView.setImageDrawable(colorChoiceDrawable);
+        return colorChoiceDrawable;
     }
 
     public class ColorArrayAdapter extends ArrayAdapter<CharSequence> {
@@ -110,7 +101,7 @@ public class ColorListPreference extends ListPreference {
             CharSequence entry = getItem(position);
             CheckedTextView text = (CheckedTextView) root.findViewById(android.R.id.text1);
             ImageView imageView = (ImageView) root.findViewById(android.R.id.icon1);
-            setDrawableColor(imageView, COLORS[position]);
+            imageView.setImageDrawable(getDrawableColor(getContext(), COLORS[position]));
             if (mSelectedIndex != -1) {
                 text.setChecked(position == mSelectedIndex);
             }
