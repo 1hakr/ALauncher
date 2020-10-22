@@ -4,12 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 import com.android.launcher3.Launcher;
@@ -128,6 +129,7 @@ public class UnreadSession {
      * Load the latest mEvent on the current thread and then updates the main thread.
      * Should only be called from a background thread.
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void loadEvent() {
         UnreadEvent event = new UnreadEvent();
         List<String> textList = event.getText();
@@ -165,13 +167,14 @@ public class UnreadSession {
             if (lvl < 100) {
                 textList.add(mAppContext.getString(
                         R.string.shadespace_text_charging, mBatteryReceiver.getLevel()));
-                textList.add(DateUtils.formatDateTime(mAppContext, System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE));
-
-                event.setIcon(ContextCompat.getDrawable(mAppContext, R.drawable.ic_charging));
-                event.setOnClickListener(v -> Launcher.getLauncher(v.getContext())
-                        .startActivitySafely(v, BATTERY_INTENT, null, null));
+            } else {
+                textList.add("Fully Charged");
             }
+            textList.add(mBatteryReceiver.chargingType() + " charging");
+            textList.add(mBatteryReceiver.chargingTemp());
+            event.setIcon(ContextCompat.getDrawable(mAppContext, R.drawable.ic_charging));
+            event.setOnClickListener(v -> Launcher.getLauncher(v.getContext())
+                    .startActivitySafely(v, BATTERY_INTENT, null, null));
         }
 
         // Commit to new event.
@@ -193,6 +196,7 @@ public class UnreadSession {
                 : input;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void extractNotification(StatusBarNotification sbn, UnreadEvent event) {
         List<String> textList = event.getText();
         ParsedNotification parsed = new ParsedNotification(mAppContext, sbn);

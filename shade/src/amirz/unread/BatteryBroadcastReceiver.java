@@ -35,6 +35,36 @@ public class BatteryBroadcastReceiver extends AutoRegisterReceiver {
                 status == BatteryManager.BATTERY_STATUS_FULL;
     }
 
+    public String chargingType() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = mContext.registerReceiver(null, filter);
+        if (batteryStatus == null) {
+            return "";
+        }
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        String type = "AC";
+        switch (chargePlug) {
+            case BatteryManager.BATTERY_PLUGGED_WIRELESS:
+                type = "Wireless";
+                break;
+            case BatteryManager.BATTERY_PLUGGED_USB:
+                type = "USB";
+                break;
+        }
+        return type;
+    }
+
+    public String chargingTemp() {
+        IntentFilter filter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = mContext.registerReceiver(null, filter);
+        if (batteryStatus == null) {
+            return "";
+        }
+        int temp = batteryStatus.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0);
+        temp = temp/10;
+        return temp + " °C";
+    }
+
     public int getLevel() {
         return mManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
     }
