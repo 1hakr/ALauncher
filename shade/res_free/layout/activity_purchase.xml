@@ -13,7 +13,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="128dp"
-            android:background="@color/colorPink"
+            android:background="@color/colorAccent"
             android:elevation="4dp">
 
             <Toolbar

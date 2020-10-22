@@ -40,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/work_footer_divider"
+        android:thumbTint="?attr/shadeColorAccent"
         android:layout_marginEnd="@dimen/dynamic_grid_cell_padding_x" />
 
     <TextView
@@ -52,7 +53,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:text="@string/work_profile_toggle_label"
-        android:textColor="?android:attr/textColorTertiary"
+        android:textColor="?attr/shadeTextColor"
         android:textSize="16sp" />
 
     <ImageView
@@ -76,7 +77,7 @@
         android:lines="1"
         android:minHeight="24dp"
         android:paddingStart="12dp"
-        android:textColor="?android:attr/textColorHint"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="13sp"/>
 
 </com.android.launcher3.views.WorkFooterContainer>
