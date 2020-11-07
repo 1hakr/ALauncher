@@ -45,7 +45,6 @@ public class DefaultLauncher {
                 intent, 0);
         if(resolveActivity != null && Objects.equals(resolveActivity.activityInfo.processName, BuildConfig.APPLICATION_ID)){
             Toast.makeText(activity, R.string.launcher_is_already_default, Toast.LENGTH_SHORT).show();
-            return true;
         }
         HomeState homeState = (LAUNCHER_PACKAGE.equals(resolveActivity.activityInfo.applicationInfo.packageName)
                 && LAUNCHER_CLASS.equals(resolveActivity.activityInfo.name)) ? HomeState.GEL_IS_DEFAULT

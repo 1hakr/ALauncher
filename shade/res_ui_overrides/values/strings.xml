@@ -18,8 +18,8 @@
 
     <string name="launcher_is_already_default" translatable="false">ALauncher is already your default launcher</string>
     <string name="change_default_home_dialog_body" translatable="false">%s is currently your default launcher. To try the ALauncher, go to Settings, tap Clear Defaults, and press the Home button.</string>
-    <string name="change_default_home_dialog_body_settings" translatable="false">%s is currently your default launcher. To try the ALauncher, select it from Settings > Home.</string>
-    <string name="change_default_home_dialog_body_settings_tts" translatable="false">%s is currently your default launcher. To try the ALauncher, select Settings, then select Home.</string>
+    <string name="change_default_home_dialog_body_settings" translatable="false">%s is currently your default launcher. To change the launcher, select it from Settings > Home.</string>
+    <string name="change_default_home_dialog_body_settings_tts" translatable="false">%s is currently your default launcher. To change the launcher, select Settings, then select Home.</string>
     <string name="change_default_home_dialog_cancel" translatable="false">Cancel</string>
     <string name="change_default_home_dialog_proceed" translatable="false">Settings</string>
     <string name="change_launcher" translatable="false">Set ALauncher as Home</string>

@@ -32,5 +32,5 @@
     <dimen name="color_circle_size">36dp</dimen>
     <dimen name="card_padding">8dp</dimen>
     <dimen name="second_keyline_default">72dp</dimen>
-    <dimen name="smartspace_padding">40dp</dimen>
+    <dimen name="smartspace_padding">30dp</dimen>
 </resources>

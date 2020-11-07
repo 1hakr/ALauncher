@@ -27,7 +27,6 @@ import com.android.launcher3.util.Themes;
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
 
-import static android.widget.Toast.LENGTH_SHORT;
 import static com.android.launcher3.LauncherState.ALL_APPS;
 
 public class Settings {
@@ -54,7 +53,7 @@ public class Settings {
     }
 
     public static void showSnackBar(Context context, int resId) {
-        Toast.makeText(context, resId, LENGTH_SHORT).show();
+        Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
     }
 
     public static int getNotificationColor(Context context) {
