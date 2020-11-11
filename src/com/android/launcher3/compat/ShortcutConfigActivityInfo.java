@@ -38,6 +38,8 @@ import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.R;
 
+import static android.content.Context.LAUNCHER_APPS_SERVICE;
+
 /**
  * Wrapper class for representing a shortcut configure activity.
  */
@@ -147,7 +149,7 @@ public abstract class ShortcutConfigActivityInfo implements ComponentWithLabel {
             if (getUser().equals(Process.myUserHandle())) {
                 return super.startConfigActivity(activity, requestCode);
             }
-            IntentSender is = activity.getSystemService(LauncherApps.class)
+            IntentSender is = ((LauncherApps)activity.getSystemService(LAUNCHER_APPS_SERVICE))
                     .getShortcutConfigActivityIntent(mInfo);
             try {
                 activity.startIntentSenderForResult(is, requestCode, null, 0, 0, 0);

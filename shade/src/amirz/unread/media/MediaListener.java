@@ -25,6 +25,8 @@ import java.util.List;
 import amirz.unread.notifications.NotificationList;
 import amirz.unread.notifications.PendingIntentSender;
 
+import static android.content.Context.MEDIA_SESSION_SERVICE;
+
 public class MediaListener extends MediaController.Callback
         implements MediaSessionManager.OnActiveSessionsChangedListener, View.OnClickListener {
     private static final String TAG = "MediaListener";
@@ -45,7 +47,7 @@ public class MediaListener extends MediaController.Callback
     public MediaListener(Context context, Handler workerHandler, Runnable onChange,
                          NotificationList notifs, PendingIntentSender sender) {
         mComponent = new ComponentName(context, NotificationListener.class);
-        mManager = context.getSystemService(MediaSessionManager.class);
+        mManager = (MediaSessionManager) context.getSystemService(MEDIA_SESSION_SERVICE);
         mWorkerHandler = workerHandler;
         mOnChange = onChange;
         mTaps = new MultiClickListener(MULTI_CLICK_DELAY);

@@ -63,7 +63,7 @@ public class LauncherRootView extends InsettableFrameLayout {
     private void handleSystemWindowInsets(Rect insets) {
         mConsumedInsets.setEmpty();
         boolean drawInsetBar = false;
-        if (mLauncher.isInMultiWindowMode()
+        if (Utilities.ATLEAST_NOUGAT && mLauncher.isInMultiWindowMode()
                 && (insets.left > 0 || insets.right > 0 || insets.bottom > 0)) {
             mConsumedInsets.left = insets.left;
             mConsumedInsets.right = insets.right;

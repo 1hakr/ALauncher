@@ -77,6 +77,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static android.content.Context.POWER_SERVICE;
+import static android.content.Context.WALLPAPER_SERVICE;
 import static com.android.launcher3.ItemInfoWithIcon.FLAG_ICON_BADGED;
 
 /**
@@ -112,6 +114,12 @@ public final class Utilities {
 
     public static final boolean ATLEAST_NOUGAT_MR1 =
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1;
+
+    public static final boolean ATLEAST_NOUGAT =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+
+    public static final boolean ATLEAST_MARSHMALLOW =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 
     /**
      * Set on a motion event dispatched from the nav bar. See {@link MotionEvent#setEdgeFlags(int)}.
@@ -480,11 +488,11 @@ public final class Utilities {
     public static boolean areAnimationsEnabled(Context context) {
         return ATLEAST_OREO
                 ? ValueAnimator.areAnimatorsEnabled()
-                : !context.getSystemService(PowerManager.class).isPowerSaveMode();
+                : !((PowerManager)context.getSystemService(POWER_SERVICE)).isPowerSaveMode();
     }
 
     public static boolean isWallpaperAllowed(Context context) {
-        return context.getSystemService(WallpaperManager.class).isSetWallpaperAllowed();
+        return ((WallpaperManager)context.getSystemService(WALLPAPER_SERVICE)).isSetWallpaperAllowed();
     }
 
     public static boolean isBinderSizeError(Exception e) {

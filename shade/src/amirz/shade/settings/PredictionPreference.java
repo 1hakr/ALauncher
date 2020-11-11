@@ -24,6 +24,7 @@ import com.android.launcher3.notification.NotificationListener;
 
 import amirz.shade.ShadeSettings;
 
+import static android.content.Context.APP_OPS_SERVICE;
 import static com.android.launcher3.settings.SettingsActivity.EXTRA_FRAGMENT_ARG_KEY;
 import static com.android.launcher3.settings.SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGS;
 
@@ -91,7 +92,7 @@ public class PredictionPreference extends SwitchPreference
             Context context = getContext();
             PackageManager pm = context.getPackageManager();
             ApplicationInfo applicationInfo = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, 0);
-            AppOpsManager appOpsManager = context.getSystemService(AppOpsManager.class);
+            AppOpsManager appOpsManager = (AppOpsManager) context.getSystemService(APP_OPS_SERVICE);
             int mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS,
                     applicationInfo.uid, applicationInfo.packageName);
             return mode == AppOpsManager.MODE_ALLOWED;

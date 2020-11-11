@@ -8,6 +8,7 @@ import android.os.Vibrator;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.util.VibratorWrapper;
 
+import static android.content.Context.VIBRATOR_SERVICE;
 import static android.os.VibrationEffect.DEFAULT_AMPLITUDE;
 import static com.android.launcher3.util.VibratorWrapper.OVERVIEW_HAPTIC;
 
@@ -22,7 +23,7 @@ public class HapticFeedback {
         if (Utilities.ATLEAST_Q) {
             VibratorWrapper.INSTANCE.get(context).vibrate(OVERVIEW_HAPTIC);
         } else {
-            context.getSystemService(Vibrator.class).vibrate(FEEDBACK);
+            ((Vibrator)context.getSystemService(VIBRATOR_SERVICE)).vibrate(FEEDBACK);
         }
     }
 }

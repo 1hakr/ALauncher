@@ -17,10 +17,10 @@ package com.android.launcher3.icons.cache;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.os.LocaleList;
 import android.os.UserHandle;
 
 import androidx.annotation.Nullable;
+import androidx.core.os.LocaleListCompat;
 
 import com.android.launcher3.icons.BitmapInfo;
 
@@ -38,7 +38,7 @@ public interface CachingLogic<T> {
      * Provides a option list of keywords to associate with this object
      */
     @Nullable
-    default String getKeywords(T object, LocaleList localeList) {
+    default String getKeywords(T object, LocaleListCompat localeList) {
         return null;
     }
 

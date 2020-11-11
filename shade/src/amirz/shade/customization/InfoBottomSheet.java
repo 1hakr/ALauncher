@@ -8,15 +8,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.preference.Preference;
-import androidx.preference.PreferenceFragment;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
@@ -29,6 +29,7 @@ import amirz.shade.settings.IconPackPrefSetter;
 import amirz.shade.settings.ReloadingListPreference;
 import amirz.shade.util.AppReloader;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
 import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
 import static com.android.launcher3.util.Executors.THREAD_POOL_EXECUTOR;
 
@@ -61,7 +62,7 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
         TextView title = findViewById(R.id.title);
         title.setText(itemInfo.title);
         title.setOnLongClickListener(p -> {
-            ClipboardManager cm = getContext().getSystemService(ClipboardManager.class);
+            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
             if (cm != null) {
                 String str = itemInfo.getTargetComponent().flattenToString();
                 cm.setPrimaryClip(ClipData.newPlainText(CLIP_LABEL, str));

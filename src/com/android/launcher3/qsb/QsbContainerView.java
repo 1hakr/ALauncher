@@ -19,6 +19,7 @@ package com.android.launcher3.qsb;
 import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_BIND;
 import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID;
 import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_PROVIDER;
+import static android.content.Context.SEARCH_SERVICE;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -31,6 +32,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -41,6 +43,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.AppWidgetResizeFrame;
 import com.android.launcher3.InvariantDeviceProfile;
@@ -66,12 +69,13 @@ public class QsbContainerView extends FrameLayout {
      * @param context
      * @return String
      */
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     public static String getSearchWidgetPackageName(@NonNull Context context) {
         String providerPkg = Settings.Global.getString(context.getContentResolver(),
                 SEARCH_PROVIDER_SETTINGS_KEY);
         if (providerPkg == null) {
-            SearchManager searchManager = context.getSystemService(SearchManager.class);
+            SearchManager searchManager = (SearchManager)context.getSystemService(SEARCH_SERVICE);
             ComponentName componentName = searchManager.getGlobalSearchActivity();
             if (componentName != null) {
                 providerPkg = searchManager.getGlobalSearchActivity().getPackageName();

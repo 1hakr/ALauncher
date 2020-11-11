@@ -30,6 +30,7 @@ import androidx.core.graphics.PathParser;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 
+import com.android.launcher3.Alarm;
 import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
@@ -39,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static android.content.Context.ALARM_SERVICE;
 import static com.android.launcher3.util.Executors.MODEL_EXECUTOR;
 
 /**
@@ -141,7 +143,7 @@ public class IconShapeOverride {
 
             // Schedule an alarm before we kill ourself.
             PendingIntent pi = getRestartIntent(mContext);
-            mContext.getSystemService(AlarmManager.class).setExact(
+            ((AlarmManager)mContext.getSystemService(ALARM_SERVICE)).setExact(
                     AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 50, pi);
 
             // Kill process
@@ -159,6 +161,6 @@ public class IconShapeOverride {
     }
 
     private static void cancelRestart(Context context) {
-        context.getSystemService(AlarmManager.class).cancel(getRestartIntent(context));
+        ((AlarmManager)context.getSystemService(ALARM_SERVICE)).cancel(getRestartIntent(context));
     }
 }

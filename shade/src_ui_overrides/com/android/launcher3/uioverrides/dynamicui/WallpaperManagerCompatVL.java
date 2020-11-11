@@ -17,6 +17,7 @@ package com.android.launcher3.uioverrides.dynamicui;
 
 import static android.app.WallpaperManager.FLAG_SYSTEM;
 
+import static android.content.Context.WALLPAPER_SERVICE;
 import static com.android.launcher3.Utilities.getDevicePrefs;
 import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_TEXT;
 import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_THEME;
@@ -143,7 +144,7 @@ public class WallpaperManagerCompatVL extends WallpaperManagerCompat {
 
     private static final int getWallpaperId(Context context) {
         try {
-            return context.getSystemService(WallpaperManager.class).getWallpaperId(FLAG_SYSTEM);
+            return ((WallpaperManager)context.getSystemService(WALLPAPER_SERVICE)).getWallpaperId(FLAG_SYSTEM);
         } catch (RuntimeException ignored) {
             return -1;
         }

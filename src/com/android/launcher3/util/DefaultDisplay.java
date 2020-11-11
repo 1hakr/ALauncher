@@ -15,8 +15,6 @@
  */
 package com.android.launcher3.util;
 
-import static com.android.launcher3.util.Executors.UI_HELPER_EXECUTOR;
-
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.display.DisplayManager;
@@ -29,6 +27,10 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import java.util.ArrayList;
+
+import static android.content.Context.DISPLAY_SERVICE;
+import static android.content.Context.WINDOW_SERVICE;
+import static com.android.launcher3.util.Executors.UI_HELPER_EXECUTOR;
 
 /**
  * Utility class to cache properties of default display to avoid a system RPC on every call.
@@ -55,9 +57,8 @@ public class DefaultDisplay implements DisplayListener {
         mInfo = new Info(context);
         mId = mInfo.id;
         mChangeHandler = new Handler(this::onChange);
-
-        context.getSystemService(DisplayManager.class)
-                .registerDisplayListener(this, UI_HELPER_EXECUTOR.getHandler());
+        DisplayManager dm = (DisplayManager) context.getSystemService(DISPLAY_SERVICE);
+        dm.registerDisplayListener(this, UI_HELPER_EXECUTOR.getHandler());
     }
 
     @Override
@@ -128,7 +129,8 @@ public class DefaultDisplay implements DisplayListener {
         public final DisplayMetrics metrics;
 
         private Info(Context context) {
-            Display display = context.getSystemService(WindowManager.class).getDefaultDisplay();
+            WindowManager wm = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
 
             id = display.getDisplayId();
             rotation = display.getRotation();

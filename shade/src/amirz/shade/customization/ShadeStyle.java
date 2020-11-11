@@ -2,6 +2,8 @@ package amirz.shade.customization;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.util.Themes;
@@ -33,9 +35,9 @@ public class ShadeStyle {
         themes.put("blossom", THEMES[7]);
         themes.put("midnight", THEMES[8]);
         themes.put("transparent", THEMES[9]);
-
+        int override = 0;
         //noinspection ConstantConditions
-        int override = themes.getOrDefault(theme, R.style.ShadeOverride);
+        override = getOrDefault(themes, theme, R.style.ShadeOverride);
         activity.getTheme().applyStyle(override, true);
     }
 
@@ -50,4 +52,15 @@ public class ShadeStyle {
         int themeRes = Themes.getSettingActivityThemeRes(activity);
         activity.setTheme(themeRes);
     }
+
+    public static <K, V> V getOrDefault(@NonNull Map<K, V> map, K key, V defaultValue) {
+        V v;
+        if (Utilities.ATLEAST_NOUGAT) {
+            return map.getOrDefault(key, defaultValue);
+        }
+        return (((v = map.get(key)) != null) || map.containsKey(key))
+                ? v
+                : defaultValue;
+    }
+
 }

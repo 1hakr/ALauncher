@@ -30,6 +30,8 @@ import amirz.shade.hidden.HiddenAppsDatabase;
 import amirz.shade.util.AppReloader;
 import amirz.unread.UnreadSession;
 
+import static android.content.Context.USER_SERVICE;
+
 @SuppressWarnings("unused")
 public class ShadeShortcutFactory extends SystemShortcutFactory {
     private static final String TAG = "ShadeShortcutFactory";
@@ -99,7 +101,7 @@ public class ShadeShortcutFactory extends SystemShortcutFactory {
         public View.OnClickListener getOnClickListener(
                 Launcher launcher, ItemInfo itemInfo) {
             UserManager userManager =
-                    (UserManager) launcher.getSystemService(Context.USER_SERVICE);
+                    (UserManager) launcher.getSystemService(USER_SERVICE);
             Bundle restrictions = userManager.getUserRestrictions(itemInfo.user);
             boolean uninstallDisabled = restrictions.getBoolean(UserManager.DISALLOW_APPS_CONTROL, false)
                     || restrictions.getBoolean(UserManager.DISALLOW_UNINSTALL_APPS, false);

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 
+import static android.content.Context.WINDOW_SERVICE;
 import static android.graphics.PixelFormat.TRANSLUCENT;
 import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
 import static android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
@@ -39,7 +40,7 @@ public class BarView extends LinearLayout implements View.OnApplyWindowInsetsLis
     }
 
     public void addToWm() {
-        getContext().getSystemService(WindowManager.class).addView(this, getParams());
+        ((WindowManager)getContext().getSystemService(WINDOW_SERVICE)).addView(this, getParams());
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -59,7 +60,7 @@ public class BarView extends LinearLayout implements View.OnApplyWindowInsetsLis
             mGestureBarSize = bottomInset;
             mOffset = bottomInset;
         }
-        getContext().getSystemService(WindowManager.class).updateViewLayout(this, getParams());
+        ((WindowManager)getContext().getSystemService(WINDOW_SERVICE)).updateViewLayout(this, getParams());
         return insets.consumeSystemWindowInsets();
     }
 

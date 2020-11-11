@@ -15,10 +15,6 @@
  */
 package com.android.launcher3.icons.cache;
 
-import static com.android.launcher3.icons.BaseIconFactory.getFullResDefaultActivityIcon;
-import static com.android.launcher3.icons.BitmapInfo.LOW_RES_ICON;
-import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
-
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -45,6 +41,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.os.ConfigurationCompat;
+import androidx.core.os.LocaleListCompat;
 
 import com.android.launcher3.icons.BaseIconFactory;
 import com.android.launcher3.icons.BitmapInfo;
@@ -60,6 +58,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
+
+import static com.android.launcher3.icons.BaseIconFactory.getFullResDefaultActivityIcon;
+import static com.android.launcher3.icons.BitmapInfo.LOW_RES_ICON;
+import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
 
 public abstract class BaseIconCache {
 
@@ -86,7 +88,7 @@ public abstract class BaseIconCache {
 
     protected int mIconDpi;
     protected IconDB mIconDb;
-    protected LocaleList mLocaleList = LocaleList.getEmptyLocaleList();
+    protected LocaleListCompat mLocaleList = LocaleListCompat.getEmptyLocaleList();
     protected String mSystemState = "";
 
     private final String mDbFileName;
@@ -234,7 +236,7 @@ public abstract class BaseIconCache {
      * and system-version.
      */
     private void updateSystemState() {
-        mLocaleList = mContext.getResources().getConfiguration().getLocales();
+        mLocaleList = ConfigurationCompat.getLocales(mContext.getResources().getConfiguration());
         mSystemState = mLocaleList.toLanguageTags() + "," + Build.VERSION.SDK_INT;
     }
 

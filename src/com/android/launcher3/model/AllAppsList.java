@@ -16,17 +16,17 @@
 
 package com.android.launcher3.model;
 
-import static com.android.launcher3.AppInfo.COMPONENT_KEY_COMPARATOR;
-import static com.android.launcher3.AppInfo.EMPTY_ARRAY;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
-import android.os.LocaleList;
 import android.os.Process;
 import android.os.UserHandle;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.os.LocaleListCompat;
 
 import com.android.launcher3.AppFilter;
 import com.android.launcher3.AppInfo;
@@ -46,8 +46,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import static com.android.launcher3.AppInfo.COMPONENT_KEY_COMPARATOR;
+import static com.android.launcher3.AppInfo.EMPTY_ARRAY;
 
 
 /**
@@ -78,7 +78,7 @@ public class AllAppsList {
     public AllAppsList(IconCache iconCache, AppFilter appFilter) {
         mIconCache = iconCache;
         mAppFilter = appFilter;
-        mIndex = new AlphabeticIndexCompat(LocaleList.getDefault());
+        mIndex = new AlphabeticIndexCompat(LocaleListCompat.getDefault());
     }
 
     /**
@@ -157,7 +157,7 @@ public class AllAppsList {
         data.clear();
         mDataChanged = false;
         // Reset the index as locales might have changed
-        mIndex = new AlphabeticIndexCompat(LocaleList.getDefault());
+        mIndex = new AlphabeticIndexCompat(LocaleListCompat.getDefault());
     }
 
     /**

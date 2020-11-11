@@ -57,3 +57,7 @@
 -dontwarn android.os.**
 -dontwarn android.graphics.**
 -dontwarn android.content.pm.**
+
+-dontwarn com.amazon.**
+-keep class com.amazon.** {*;}
+-keepattributes *Annotation*

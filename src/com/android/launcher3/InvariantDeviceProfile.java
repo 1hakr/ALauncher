@@ -16,13 +16,6 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.Utilities.getDevicePrefs;
-import static com.android.launcher3.config.FeatureFlags.APPLY_CONFIG_AT_RUNTIME;
-import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
-import static com.android.launcher3.settings.SettingsActivity.GRID_OPTIONS_PREFERENCE_KEY;
-import static com.android.launcher3.util.PackageManagerHelper.getPackageFilter;
-
-import android.annotation.TargetApi;
 import android.appwidget.AppWidgetHostView;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -60,6 +53,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static com.android.launcher3.Utilities.getDevicePrefs;
+import static com.android.launcher3.config.FeatureFlags.APPLY_CONFIG_AT_RUNTIME;
+import static com.android.launcher3.settings.SettingsActivity.GRID_OPTIONS_PREFERENCE_KEY;
+import static com.android.launcher3.util.Executors.MAIN_EXECUTOR;
+import static com.android.launcher3.util.PackageManagerHelper.getPackageFilter;
 
 public class InvariantDeviceProfile {
 
@@ -155,7 +154,6 @@ public class InvariantDeviceProfile {
         mOverlayMonitor = p.mOverlayMonitor;
     }
 
-    @TargetApi(23)
     private InvariantDeviceProfile(Context context) {
         String gridName = Utilities.getPrefs(context).getBoolean(GRID_OPTIONS_PREFERENCE_KEY, false)
                 ? Utilities.getPrefs(context).getString(KEY_IDP_GRID_NAME, null)

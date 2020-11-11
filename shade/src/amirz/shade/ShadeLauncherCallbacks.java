@@ -43,6 +43,7 @@ import static amirz.shade.ShadeFont.KEY_FONT;
 import static amirz.shade.animations.TransitionManager.KEY_FADING_TRANSITION;
 import static amirz.shade.customization.DockSearch.KEY_DOCK_SEARCH;
 import static amirz.shade.customization.ShadeStyle.KEY_THEME;
+import static android.content.Context.SEARCH_SERVICE;
 import static com.android.launcher3.LauncherState.ALL_APPS;
 import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.allapps.PersonalWorkSlidingTabStrip.KEY_SHOWED_PEEK_WORK_TAB;
@@ -305,7 +306,7 @@ public class ShadeLauncherCallbacks implements LauncherCallbacks,
 
     @Override
     public boolean startSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData) {
-        SearchManager sm = mLauncher.getSystemService(SearchManager.class);
+        SearchManager sm = (SearchManager) mLauncher.getSystemService(SEARCH_SERVICE);
         if (sm == null || sm.getGlobalSearchActivity() == null) {
             AllAppsQsb search = (AllAppsQsb) mLauncher.getAppsView().getSearchView();
             search.requestSearch();

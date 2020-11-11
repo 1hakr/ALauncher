@@ -16,6 +16,7 @@
 
 package com.android.launcher3.tapl;
 
+import static android.content.Context.WINDOW_SERVICE;
 import static android.content.pm.PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
 import static android.content.pm.PackageManager.DONT_KILL_APP;
 import static android.content.pm.PackageManager.MATCH_ALL;
@@ -986,7 +987,7 @@ public final class LauncherInstrumentation {
 
     Point getRealDisplaySize() {
         final Point size = new Point();
-        getContext().getSystemService(WindowManager.class).getDefaultDisplay().getRealSize(size);
+        ((WindowManager)getContext().getSystemService(WINDOW_SERVICE)).getDefaultDisplay().getRealSize(size);
         return size;
     }
 

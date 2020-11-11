@@ -38,6 +38,8 @@ import com.android.launcher3.R;
 import com.android.launcher3.compat.LauncherAppsCompatVO;
 import com.android.launcher3.compat.ShortcutConfigActivityInfo;
 
+import static android.content.Context.LAUNCHER_APPS_SERVICE;
+
 /**
  * Extension of ShortcutConfigActivityInfo to be used in the confirmation prompt for pin item
  * request.
@@ -73,7 +75,7 @@ class PinShortcutRequestActivityInfo extends ShortcutConfigActivityInfo {
 
     @Override
     public Drawable getFullResIcon(IconCache cache) {
-        Drawable d = mContext.getSystemService(LauncherApps.class)
+        Drawable d = ((LauncherApps)mContext.getSystemService(LAUNCHER_APPS_SERVICE))
                 .getShortcutIconDrawable(mInfo, LauncherAppState.getIDP(mContext).fillResIconDpi);
         if (d == null) {
             d = new FastBitmapDrawable(cache.getDefaultIcon(Process.myUserHandle()));

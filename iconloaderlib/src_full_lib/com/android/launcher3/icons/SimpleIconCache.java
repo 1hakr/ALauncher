@@ -15,6 +15,7 @@
  */
 package com.android.launcher3.icons;
 
+import static android.content.Context.USER_SERVICE;
 import static android.content.Intent.ACTION_MANAGED_PROFILE_ADDED;
 import static android.content.Intent.ACTION_MANAGED_PROFILE_REMOVED;
 
@@ -50,7 +51,7 @@ public class SimpleIconCache extends BaseIconCache {
     public SimpleIconCache(Context context, String dbFileName, Looper bgLooper, int iconDpi,
             int iconPixelSize, boolean inMemoryCache) {
         super(context, dbFileName, bgLooper, iconDpi, iconPixelSize, inMemoryCache);
-        mUserManager = context.getSystemService(UserManager.class);
+        mUserManager = (UserManager) context.getSystemService(USER_SERVICE);
 
         // Listen for user cache changes.
         IntentFilter filter = new IntentFilter(ACTION_MANAGED_PROFILE_ADDED);
