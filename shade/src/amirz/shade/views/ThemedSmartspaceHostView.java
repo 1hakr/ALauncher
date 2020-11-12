@@ -83,6 +83,8 @@ public class ThemedSmartspaceHostView extends SmartspaceHostView {
     private void overrideLayout(LinearLayout l) {
         ViewGroup.LayoutParams llp = l.getLayoutParams();
         llp.height = MATCH_PARENT;
+        int padding=(int) getResources().getDimension(R.dimen.smartspace_padding);
+        l.setPadding(padding, 0, padding, 0);
         l.setLayoutParams(llp);
         l.setClipChildren(false);
 
@@ -95,8 +97,12 @@ public class ThemedSmartspaceHostView extends SmartspaceHostView {
             LinearLayout.LayoutParams lp =
                     new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
             lp.gravity = Gravity.BOTTOM;
+            lp.weight = 1f;
+            LinearLayout.LayoutParams lpf =
+                    new LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
+            lpf.gravity = Gravity.BOTTOM;
             for (int i = 0; i < topl.getChildCount(); i++) {
-                topl.getChildAt(i).setLayoutParams(lp);
+                topl.getChildAt(i).setLayoutParams(i == 1 ? lpf : lp);
             }
 
             Context context = getContext();

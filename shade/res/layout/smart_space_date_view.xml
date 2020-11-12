@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:animateLayoutChanges="true"
+    android:paddingHorizontal="@dimen/smartspace_padding"
     android:background="@android:color/transparent">
 
     <amirz.shade.views.DoubleShadowTextView
