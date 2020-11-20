@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -14,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.app.ShareCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
@@ -99,10 +102,11 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
         private static final String KEY_SOURCE = "pref_app_info_source";
         private static final String KEY_LAST_UPDATE = "pref_app_info_last_update";
         private static final String KEY_VERSION = "pref_app_info_version";
+        private static final String KEY_SHARE = "pref_app_info_share";
         private static final String KEY_MORE = "pref_app_info_more";
 
         private Context mContext;
-
+        private ItemInfo mItemInfo;
         private ComponentName mComponent;
         private ComponentKey mKey;
         private View.OnClickListener mOnMoreClick;
@@ -148,6 +152,7 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
 
         public void loadForApp(ItemInfo itemInfo, final View.OnClickListener onMoreClick,
                                final Runnable animatedClose) {
+            mItemInfo = itemInfo;
             mComponent = itemInfo.getTargetComponent();
             mKey = new ComponentKey(mComponent, itemInfo.user);
             mOnMoreClick = onMoreClick;
@@ -173,11 +178,14 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
                     Preference sourcePref = findPreference(KEY_SOURCE);
                     Preference lastUpdatePref = findPreference(KEY_LAST_UPDATE);
                     Preference versionPref = findPreference(KEY_VERSION);
+                    Preference sharePref = findPreference(KEY_SHARE);
                     Preference morePref = findPreference(KEY_MORE);
 
                     sourcePref.setSummary(source);
                     lastUpdatePref.setSummary(lastUpdate);
                     versionPref.setSummary(version);
+                    sharePref.setSummary(itemInfo.title);
+                    sharePref.setOnPreferenceClickListener(this);
                     morePref.setOnPreferenceClickListener(this);
 
                     if (marketIntent != null) {
@@ -213,7 +221,21 @@ public class InfoBottomSheet extends WidgetsBottomSheet {
 
         @Override
         public boolean onPreferenceClick(Preference preference) {
-            mOnMoreClick.onClick(getView());
+            switch (preference.getKey()) {
+                case KEY_MORE:
+                    mOnMoreClick.onClick(getView());
+                    break;
+                case KEY_SHARE:
+                    String appUrl = Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID).toString();
+                    String shareText = "I found this " + mItemInfo.title + " very useful. Give it a try. " + appUrl;
+                    ShareCompat.IntentBuilder
+                            .from(getActivity())
+                            .setText(shareText)
+                            .setType("text/plain")
+                            .setChooserTitle("Share "+ mItemInfo.title)
+                            .startChooser();
+                    break;
+            }
             return false;
         }
     }

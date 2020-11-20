@@ -46,6 +46,12 @@
         android:persistent="false" />
 
     <Preference
+        android:key="pref_app_info_share"
+        android:title="@string/app_info_share"
+        android:icon="@drawable/ic_share"
+        android:persistent="false" />
+
+    <Preference
         android:key="pref_app_info_more"
         android:title="@string/app_info_more"
         android:icon="@drawable/ic_app_info_more"

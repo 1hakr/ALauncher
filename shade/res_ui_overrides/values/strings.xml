@@ -50,6 +50,8 @@
     <string name="double_tap_lock" translatable="false">Double tap to lock</string>
     <string name="double_tap_lock_desc" translatable="false">On your home screen</string>
 
+    <string name="app_info_share" translatable="false">Share</string>
+
     <string name="home_action_nothing" translatable="false">Nothing</string>
     <string name="home_action_quick_search" translatable="false">Quick search</string>
     <string name="home_action_voice_search" translatable="false">Voice search</string>
