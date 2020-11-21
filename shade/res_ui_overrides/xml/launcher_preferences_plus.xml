@@ -250,18 +250,7 @@
             android:key="pref_contact"
             android:title="@string/about_contact"
             android:summary="@string/about_contact_desc"
-            android:persistent="false">
-
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/about_contact_email">
-                <!--<extra android:name="android.intent.extra.TEXT"-->
-                <!--android:value="Pre-filled email body." />-->
-                <extra
-                    android:name="android.intent.extra.SUBJECT"
-                    android:value="Feedback for ALauncher" />
-            </intent>
-        </Preference>
+            android:persistent="false" />
 
         <PreferenceScreen
             android:icon="@drawable/ic_info"

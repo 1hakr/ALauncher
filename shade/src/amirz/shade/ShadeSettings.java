@@ -48,6 +48,7 @@ import static amirz.shade.ShadeLauncherCallbacks.KEY_FEED_PROVIDER;
 import static amirz.shade.customization.DockSearch.KEY_DOCK_SEARCH;
 import static amirz.shade.customization.IconShapeOverride.KEY_ICON_SHAPE;
 import static amirz.shade.customization.ShadeStyle.KEY_THEME;
+import static android.content.Intent.ACTION_SENDTO;
 import static com.android.launcher3.util.Themes.KEY_DEVICE_THEME;
 
 public class ShadeSettings extends SettingsActivity {
@@ -111,6 +112,7 @@ public class ShadeSettings extends SettingsActivity {
         private static final String KEY_RESTART_LAUNCHER = "pref_restart_launcher";
         private static final String KEY_DEFAULT_LAUNCHER = "pref_default_launcher";
         private static final String KEY_PRO = "pref_pro";
+        private static final String KEY_CONTACT = "pref_contact";
         private Activity context;
 
         @Override
@@ -127,6 +129,10 @@ public class ShadeSettings extends SettingsActivity {
                     if(null != preference) {
                         getPreferenceScreen().removePreference(preference);
                     }
+                }
+                Preference contact = findPreference(KEY_CONTACT);
+                if(null != contact){
+                    contact.setOnPreferenceClickListener(this);
                 }
                 return;
             }
@@ -280,6 +286,15 @@ public class ShadeSettings extends SettingsActivity {
                     break;
                 case KEY_DEFAULT_LAUNCHER:
                     new DefaultLauncher(getActivity()).launchHomeOrClearDefaultsDialog();
+                    break;
+                case KEY_CONTACT:
+                    final Intent result = new Intent(ACTION_SENDTO);
+                    result.setData(Uri.parse("mailto:"));
+                    result.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@dworks.io"});
+                    result.putExtra(Intent.EXTRA_SUBJECT, "ALauncher Feedback" );
+                    result.putExtra(Intent.EXTRA_TEXT, "ALauncher Feedback" +  " v" + BuildConfig.VERSION_NAME);
+
+                    startActivity(Intent.createChooser(result, "Send Feedback"));
                     break;
             }
             return false;
