@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@id/edit_mode_background"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:alpha="0.0"
-    android:background="@color/edit_mode_background_color"
-    android:focusable="false"
-    android:orientation="vertical" />
