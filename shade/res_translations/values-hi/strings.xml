@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+* Copyright (C) 2017 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="recent_task_option_split_screen" msgid="5353188922202653570">"स्क्रीन को दो हिस्सों में बाँटना (स्प्लिट स्क्रीन)"</string>
+    <string name="recent_task_option_pin" msgid="7929860679018978258">"पिन करना"</string>
+    <string name="recent_task_option_freeform" msgid="48863056265284071">"फ़्रीफ़ॉर्म"</string>
+    <string name="accessibility_desc_recent_apps" msgid="1444379410873162882">"खास जानकारी"</string>
+    <string name="recents_empty_message" msgid="7040467240571714191">"हाल ही में इस्तेमाल किया गया कोई ऐप्लिकेशन नहीं है"</string>
+    <string name="accessibility_close_task" msgid="5354563209433803643">"बंद करें"</string>
+    <string name="accessibility_app_usage_settings" msgid="6312864233673544149">"ऐप्लिकेशन इस्तेमाल की सेटिंग"</string>
+    <string name="recents_clear_all" msgid="5328176793634888831">"सभी ऐप्लिकेशन बंद करें"</string>
+    <string name="accessibility_recent_apps" msgid="4058661986695117371">"हाल ही में इस्तेमाल किए गए ऐप्लिकेशन"</string>
+    <string name="task_contents_description_with_remaining_time" msgid="4479688746574672685">"<xliff:g id="TASK_DESCRIPTION">%1$s</xliff:g>, <xliff:g id="REMAINING_TIME">%2$s</xliff:g>"</string>
+    <string name="shorter_duration_less_than_one_minute" msgid="4722015666335015336">"&lt;1 मिनट"</string>
+    <string name="time_left_for_app" msgid="3111996412933644358">"आज <xliff:g id="TIME">%1$s</xliff:g> और चलेगा"</string>
+    <string name="title_app_suggestions" msgid="4185902664111965088">"ऐप्लिकेशन के सुझाव"</string>
+    <string name="all_apps_label" msgid="8542784161730910663">"सभी ऐप्लिकेशन"</string>
+    <string name="all_apps_prediction_tip" msgid="2672336544844936186">"आपके काम के ऐप्लिकेशन"</string>
+	<string name="smartspace_preferences">"प्राथमिकताएं"</string>
+	<string name="smartspace_preferences_in_settings">"एक नज़र में"</string>
+	<string name="smartspace_preferences_in_settings_desc">"आपकी होम स्क्रीन में सबसे ऊपर"</string>
+	<string name="icon_shape_override_label">"आइकन का आकार बदलें"</string>
+	<string name="icon_shape_override_progress">"आइकन के आकार में बदलाव लागू किए जा रहे हैं"</string>
+	<string name="icon_shape_square">"वर्ग"</string>
+	<string name="icon_shape_squircle">"गोल कोनों वाला वर्ग"</string>
+	<string name="icon_shape_circle">"मंडली"</string>
+	<string name="icon_shape_teardrop">"आंसू की बूंद"</string>
+	<string name="icon_shape_rounded_square">"गोल वर्ग"</string>
+	<string name="icon_shape_cylinder">"सिलेण्डर"</string>
+	<string name="device_theme_tone">"टोन"</string>
+	<string name="device_theme_wallpaper">"अपने आप सेट होने वाली थीम (वॉलपेपर के हिसाब से)"</string>
+	<string name="device_theme_light">"हल्के रंग की थीम"</string>
+	<string name="device_theme_dark">"गहरे रंग की थीम"</string>
+	<string name="category_general">"सामान्य"</string>
+	<string name="category_style">"थीम"</string>
+	<string name="category_customization">"अनुकूलन"</string>
+	<string name="category_about">"परिचय"</string>
+	<string name="pref_value_default">"डिफ़ॉल्ट"</string>
+	<string name="pref_value_disabled">"बंद किया गया"</string>
+	<string name="show_drop_target_label">"दिखाएं"</string>
+	<string name="hide_drop_target_label">"छिपाएं"</string>
+	<string name="app_info_more">"ज़्यादा"</string>
+	<string name="app_info_version">"वर्शन"</string>
+	<string name="app_info_icon_pack">"आइकन पैक"</string>
+	<string name="app_info_icon_pack_none">"कोई नहीं"</string>
+	<string name="app_info_source_unknown">"अनजान"</string>
+	<string name="font">"फ़ॉन्ट"</string>
+	<string name="icon_shape">"आकार"</string>
+	<string name="loading">"लोड हो रहा है..."</string>
+	<string name="about_donate">"उपहार देना"</string>
+	<string name="any_activity_shortcut">"गतिविधि चुनें"</string>
+</resources>

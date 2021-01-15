@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+* Copyright (C) 2017 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="recent_task_option_split_screen" msgid="5353188922202653570">"화면 분할"</string>
+    <string name="recent_task_option_pin" msgid="7929860679018978258">"고정"</string>
+    <string name="recent_task_option_freeform" msgid="48863056265284071">"자유 형식"</string>
+    <string name="accessibility_desc_recent_apps" msgid="1444379410873162882">"최근 사용"</string>
+    <string name="recents_empty_message" msgid="7040467240571714191">"최근 항목이 없습니다."</string>
+    <string name="accessibility_close_task" msgid="5354563209433803643">"닫기"</string>
+    <string name="accessibility_app_usage_settings" msgid="6312864233673544149">"앱 사용 설정"</string>
+    <string name="recents_clear_all" msgid="5328176793634888831">"모두 삭제"</string>
+    <string name="accessibility_recent_apps" msgid="4058661986695117371">"최근 앱"</string>
+    <string name="task_contents_description_with_remaining_time" msgid="4479688746574672685">"<xliff:g id="TASK_DESCRIPTION">%1$s</xliff:g>, <xliff:g id="REMAINING_TIME">%2$s</xliff:g>"</string>
+    <string name="shorter_duration_less_than_one_minute" msgid="4722015666335015336">"&lt; 1분"</string>
+    <string name="time_left_for_app" msgid="3111996412933644358">"오늘 <xliff:g id="TIME">%1$s</xliff:g> 남음"</string>
+    <string name="title_app_suggestions" msgid="4185902664111965088">"앱 추천"</string>
+    <string name="all_apps_label" msgid="8542784161730910663">"모든 앱"</string>
+    <string name="all_apps_prediction_tip" msgid="2672336544844936186">"추천 앱"</string>
+	<string name="smartspace_preferences">"환경설정"</string>
+	<string name="smartspace_preferences_in_settings">"한눈에 보기"</string>
+	<string name="smartspace_preferences_in_settings_desc">"홈 화면 상단"</string>
+	<string name="icon_shape_override_label">"아이콘 모양 변경"</string>
+	<string name="icon_shape_override_progress">"아이콘 모양 변경사항을 적용하는 중입니다."</string>
+	<string name="icon_shape_square">"정사각형"</string>
+	<string name="icon_shape_squircle">"모서리가 둥근 정사각형"</string>
+	<string name="icon_shape_circle">"원"</string>
+	<string name="icon_shape_teardrop">"눈물방울"</string>
+	<string name="device_theme_tone">"톤"</string>
+	<string name="device_theme_wallpaper">"자동(배경화면에 따라)"</string>
+	<string name="device_theme_light">"밝게"</string>
+	<string name="device_theme_dark">"어둡게"</string>
+	<string name="category_general">"기본설정"</string>
+	<string name="category_style">"테마"</string>
+	<string name="category_customization">"사용자 지정"</string>
+	<string name="category_about">"정보"</string>
+	<string name="pref_value_default">"기본"</string>
+	<string name="pref_value_disabled">"사용 안함"</string>
+	<string name="show_drop_target_label">"표시"</string>
+	<string name="hide_drop_target_label">"숨기기"</string>
+	<string name="app_info_more">"더보기"</string>
+	<string name="app_info_version">"버전"</string>
+	<string name="app_info_icon_pack">"아이콘 팩"</string>
+	<string name="app_info_icon_pack_none">"없음"</string>
+	<string name="app_info_source_unknown">"알 수 없음"</string>
+	<string name="font">"글꼴"</string>
+	<string name="icon_shape">"모양"</string>
+	<string name="loading">"로드하는 중..."</string>
+	<string name="about_donate">"기부"</string>
+	<string name="any_activity_shortcut">"작업 선택"</string>
+</resources>

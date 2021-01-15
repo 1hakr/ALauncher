@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2015 Google Inc.
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:key="category_general"
+        android:title="@string/category_general">
+
+        <com.android.launcher3.settings.NotificationDotsPreference
+            android:key="pref_icon_badging"
+            android:title="@string/notification_dots_title"
+            android:persistent="false"
+            android:widgetLayout="@layout/notification_pref_warning" >
+            <intent android:action="android.settings.NOTIFICATION_SETTINGS">
+                <!-- This extra highlights the "Allow notification dots" field in Notification settings -->
+                <extra
+                    android:name=":settings:fragment_args_key"
+                    android:value="notification_badging" />
+            </intent>
+        </com.android.launcher3.settings.NotificationDotsPreference>
+
+        <SwitchPreference
+            android:key="pref_smartspace"
+            android:title="@string/smartspace_preferences_in_settings"
+            android:summary="@string/smartspace_preferences_in_settings_desc"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <amirz.shade.settings.PredictionPreference
+            android:key="pref_predictions"
+            android:title="@string/title_app_suggestions"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_add_icon_to_home"
+            android:title="@string/auto_add_shortcuts_label"
+            android:summary="@string/auto_add_shortcuts_description"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_allowRotation"
+            android:title="@string/allow_rotation_title"
+            android:summary="@string/allow_rotation_desc"
+            android:defaultValue="@bool/allow_rotation"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_grid_options"
+            android:title="Enable grid options"
+            android:defaultValue="false"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="category_style"
+        android:title="@string/category_style">
+
+        <ListPreference
+            android:key="pref_device_theme"
+            android:title="@string/device_theme_tone"
+            android:summary="%s"
+            android:entries="@array/device_theme_entries"
+            android:entryValues="@array/device_theme_entry_values"
+            android:defaultValue=""
+            android:persistent="true" />
+
+        <ListPreference
+            android:key="pref_theme"
+            android:title="@string/theme_title"
+            android:summary="%s"
+            android:entries="@array/theme_entries"
+            android:entryValues="@array/theme_entry_values"
+            android:defaultValue=""
+            android:persistent="true" />
+
+        <amirz.shade.settings.ReloadingListPreference
+            android:key="pref_icon_pack"
+            android:title="@string/icon_pack"
+            android:summary="@string/loading"
+            android:defaultValue=""
+            android:persistent="true" />
+
+        <ListPreference
+            android:key="pref_override_icon_shape"
+            android:title="@string/icon_shape"
+            android:summary="%s"
+            android:entries="@array/icon_shape_override_paths_names"
+            android:entryValues="@array/icon_shape_override_paths_values"
+            android:defaultValue="@string/icon_shape_override_path_circle"
+            android:persistent="true" />
+
+        <ListPreference
+            android:key="pref_font"
+            android:title="@string/font"
+            android:summary="%s"
+            android:entries="@array/font_entries"
+            android:entryValues="@array/font_entry_values"
+            android:defaultValue="google_sans"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="category_customization"
+        android:title="@string/category_customization">
+
+        <amirz.shade.settings.ReloadingListPreference
+            android:key="pref_dock_search"
+            android:title="@string/dock_search"
+            android:summary="@string/loading"
+            android:defaultValue=""
+            android:persistent="true" />
+
+        <amirz.shade.settings.ReloadingListPreference
+            android:key="pref_feed_provider"
+            android:title="@string/feed_provider"
+            android:summary="@string/loading"
+            android:defaultValue=""
+            android:persistent="true" />
+
+        <ListPreference
+            android:key="idp_grid_name"
+            android:title="@string/grid_division"
+            android:summary="%s"
+            android:entries="@array/grid_division_names"
+            android:entryValues="@array/grid_division_values"
+            android:defaultValue="normal"
+            android:persistent="true" />
+
+        <SwitchPreference
+            android:key="pref_transition"
+            android:title="@string/fading_transition"
+            android:summary="@string/fading_transition_desc"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:key="category_about"
+        android:title="@string/category_about">
+
+        <Preference
+            android:key="pref_app_version"
+            android:title="@string/about_app_version"
+            android:persistent="false">
+            <intent android:action="android.settings.APPLICATION_DETAILS_SETTINGS" />
+        </Preference>
+
+        <Preference
+            android:key="pref_contact"
+            android:title="@string/about_contact"
+            android:summary="@string/about_contact_desc"
+            android:persistent="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/about_contact_url" />
+        </Preference>
+
+        <Preference
+            android:key="pref_donate"
+            android:title="@string/about_donate"
+            android:summary="@string/about_donate_desc"
+            android:persistent="false">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/about_donate_url" />
+        </Preference>
+
+    </PreferenceCategory>
+
+    <androidx.preference.PreferenceScreen
+        android:key="pref_developer_options"
+        android:persistent="false"
+        android:title="Developer Options"
+        android:fragment="com.android.launcher3.settings.DeveloperOptionsFragment"/>
+
+</androidx.preference.PreferenceScreen>

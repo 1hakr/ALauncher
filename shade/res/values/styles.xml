@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light Theme -->
+    <style name="AppTheme" parent="@style/LauncherTheme">
+        <!-- Default Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Light</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@color/smartspace_text_shadow_color</item>
+        <item name="shadeColorSearchBar">?popupColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.DarkMainColor" parent="@style/LauncherTheme.DarkMainColor">
+        <!-- Dark Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Light</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@color/smartspace_text_shadow_color</item>
+        <item name="shadeColorSearchBar">?popupColorPrimary</item>
+    </style>
+
+    <style name="AppTheme.DarkText" parent="@style/LauncherTheme.DarkText">
+        <!-- Light Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Light</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@android:color/transparent</item>
+        <item name="shadeColorSearchBar">?popupColorPrimary</item>
+    </style>
+
+    <!-- Dark Theme -->
+    <style name="AppTheme.Dark" parent="@style/LauncherTheme.Dark">
+        <!-- Default Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@color/smartspace_text_shadow_color</item>
+        <item name="shadeColorSearchBar">?shadeColorDarkSearchBar</item>
+        <item name="workspaceStatusBarScrim">@drawable/workspace_bg_dark</item>
+    </style>
+
+    <!-- Dark Theme Alt-->
+    <style name="AppTheme.Dark.Alt" parent="@style/LauncherTheme.Dark">
+        <!-- Default Wallpaper -->
+        <item name="android:textColorSecondary">#FFFFFFFF</item>
+    </style>
+
+    <!-- Light Theme Alt-->
+    <style name="AppTheme.Alt" parent="@style/LauncherTheme">
+        <!-- Default Wallpaper -->
+        <item name="android:textColorSecondary">@color/color_secondary_text_default_material_light</item>
+        <item name="shadeColorSearchBar">#FFF</item>
+        <item name="popupColorPrimary">#3C4043</item>
+        <item name="shadeTextColor">@color/color_secondary_text_default_material_light</item>
+        <item name="popupColorSecondary">#5F6368</item> <!-- Gray 700 -->
+    </style>
+
+    <style name="AppTheme.Dark.DarkMainColor" parent="@style/LauncherTheme.Dark.DarkMainColor">
+        <!-- Dark Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@color/smartspace_text_shadow_color</item>
+        <item name="shadeColorSearchBar">?shadeColorDarkSearchBar</item>
+        <item name="workspaceStatusBarScrim">@drawable/workspace_bg_dark</item>
+    </style>
+
+    <style name="AppTheme.Dark.DarkText" parent="@style/LauncherTheme.Dark.DarkText">
+        <!-- Light Wallpaper -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+        <item name="smartspaceTextShadowColor">@android:color/transparent</item>
+        <item name="shadeColorSearchBar">?shadeColorDarkSearchBar</item>
+    </style>
+
+    <!-- Theme for the widget container. Overridden on API 26. -->
+    <style name="WidgetContainerTheme" parent="@android:style/Theme.DeviceDefault.Settings">
+        <item name="android:colorEdgeEffect">?android:attr/textColorSecondaryInverse</item>
+        <item name="android:textColorPrimary">?android:attr/textColorPrimaryInverse</item>
+        <item name="android:textColorSecondary">?android:attr/textColorSecondaryInverse</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_material_light</item>
+        <item name="android:textColorSecondaryInverse">@color/secondary_text_material_light</item>
+    </style>
+
+    <!-- Dark version is the same on all APIs. -->
+    <style name="WidgetContainerTheme.Dark" parent="AppTheme.Dark">
+        <item name="android:colorEdgeEffect">?android:attr/textColorSecondary</item>
+        <item name="android:colorPrimaryDark">#616161</item> <!-- Gray 700 -->
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert</item>
+    </style>
+
+    <!-- Fix navigation bar before Oreo. -->
+    <style name="HomeSettingsTheme" parent="@android:style/Theme.DeviceDefault.Settings" />
+    <style name="HomeSettingsTheme.Light" parent="@android:style/Theme.DeviceDefault.Light" />
+    <style name="HomeSettingsTheme.Dark" parent="@android:style/Theme.DeviceDefault" />
+
+    <!-- Theme for the settings activity. -->
+    <style name="Shade.SettingsTheme" parent="@style/HomeSettingsTheme">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Auto</item>
+        <item name="android:textViewStyle">@style/Shade.SettingsTheme.TextView</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+    </style>
+
+    <style name="Shade.SettingsTheme.Light" parent="@style/HomeSettingsTheme.Light">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Auto</item>
+        <item name="android:textViewStyle">@style/Shade.SettingsTheme.TextView</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+    </style>
+
+    <style name="Shade.SettingsTheme.Dark" parent="@style/HomeSettingsTheme.Dark">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+        <item name="android:alertDialogTheme">@style/Shade.SettingsTheme.DialogAlert.Auto</item>
+        <item name="android:textViewStyle">@style/Shade.SettingsTheme.TextView</item>
+        <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
+    </style>
+
+    <style name="Shade.SettingsTheme.DialogAlert" parent="android:Theme.DeviceDefault.Dialog.Alert">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+    </style>
+
+    <style name="Shade.SettingsTheme.DialogAlert.Light" parent="android:Theme.DeviceDefault.Light.Dialog.Alert">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+    </style>
+
+    <!-- Overridden in values-night. -->
+    <style name="Shade.SettingsTheme.DialogAlert.Auto" parent="Shade.SettingsTheme.DialogAlert.Light" />
+
+    <style name="Shade.SettingsTheme.TextView" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Theme for the individual preferences in settings fragments. -->
+    <style name="Shade.PreferenceTheme" parent="PreferenceThemeOverlay">
+        <item name="android:textAppearanceListItem">@android:style/TextAppearance.Material.Subhead</item>
+    </style>
+
+    <!-- Theme for the Add To Home screen popup in Chrome. -->
+    <style name="AppItemActivityTheme" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="widgetsTheme">@style/WidgetContainerTheme</item>
+        <item name="android:colorAccent">?shadeColorAccent</item>
+    </style>
+
+    <!-- Various popups -->
+    <style name="Shade.DialogAlert" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+    </style>
+
+    <style name="Shade.DialogAlert.Light" parent="android:Theme.Material.Light.Dialog.Alert">
+        <item name="android:colorAccent">?shadeColorAccent</item>
+    </style>
+
+    <!-- Fading transition -->
+    <style name="ShadeAnimations" parent="android:Animation.Activity">
+        <item name="android:taskToFrontEnterAnimation">@anim/enter_launcher</item>
+        <item name="android:taskToFrontExitAnimation">@anim/exit_app</item>
+        <item name="android:taskToBackEnterAnimation">@anim/enter_app</item>
+        <item name="android:taskToBackExitAnimation">@anim/exit_launcher</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/enter_launcher</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/exit_app</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/enter_app</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/exit_launcher</item>
+    </style>
+
+    <!-- At A Glance and Unread -->
+    <style name="TextShade">
+        <item name="android:letterSpacing">@dimen/smartspaceLetterSpacing</item>
+        <item name="android:textColor">?attr/workspaceTextColor</item>
+        <item name="android:shadowColor">?attr/smartspaceTextShadowColor</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+
+        <item name="ambientShadowBlur">@dimen/smartspaceAmbientShadowBlur</item>
+        <item name="ambientShadowColor">?attr/workspaceAmbientShadowColor</item>
+        <item name="keyShadowBlur">@dimen/smartspaceKeyShadowBlur</item>
+        <item name="keyShadowColor">?attr/workspaceKeyShadowColor</item>
+        <item name="keyShadowOffset">@dimen/smartspaceKeyShadowOffset</item>
+    </style>
+
+    <style name="TextShade.Title" parent="TextShade">
+        <item name="android:textSize">24sp</item>
+        <item name="android:shadowRadius">12</item>
+    </style>
+
+    <style name="TextShade.SubTitle" parent="TextShade">
+        <item name="android:textSize">16sp</item>
+        <item name="android:shadowRadius">9</item>
+    </style>
+
+    <style name="ShortcutTheme" parent="android:Theme.DeviceDefault.Light" />
+
+    <style name="TimeoutTheme" parent="android:Theme.DeviceDefault.NoActionBar" />
+
+    <style name="ToolbarTheme" parent="@android:style/Theme.Material.Light">
+        <item name="android:colorControlNormal">@android:color/white</item>
+    </style>
+
+    <style name="DefaultTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:colorPrimaryDark">@color/colorAccentDark</item>
+        <item name="android:colorPrimary">@android:color/transparent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlNormal">@color/primary_text_default_material_dark</item>
+        <item name="android:colorControlActivated">@color/primary_text_default_material_dark</item>
+    </style>
+</resources>

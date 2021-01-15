@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base style that emulates pixel styling. -->
+    <style name="ShadeOverride">
+        <item name="shadeColorAllAppsOverlay">#00BFAD</item>
+        <item name="shadeColorAccent">@color/colorAccent</item>
+        <item name="shadeColorDarkSearchBar">#3C4043</item>
+    </style>
+
+    <!-- Shade overrides for a special touch. -->
+    <style name="ShadeOverride.Shade" parent="ShadeOverride">
+        <item name="shadeColorAllAppsOverlay">#639CFB</item>
+        <item name="shadeColorAccent">@color/colorBlue</item>
+    </style>
+
+    <!-- Individual accents overriding the Shade base. -->
+    <style name="ShadeOverride.Campfire" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#E65100</item>
+        <item name="shadeColorAccent">#D32F2F</item>
+    </style>
+
+    <style name="ShadeOverride.Sunset" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#F7DE55</item>
+        <item name="shadeColorAccent">#FF8B27</item>
+    </style>
+
+    <style name="ShadeOverride.Forest" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#689F38</item>
+        <item name="shadeColorAccent">#388E3C</item>
+    </style>
+
+    <style name="ShadeOverride.Ocean" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#2f5fBf</item>
+        <item name="shadeColorAccent">#03A9F4</item>
+    </style>
+
+    <style name="ShadeOverride.Twilight" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#5628B0</item>
+        <item name="shadeColorAccent">#855CCC</item>
+    </style>
+
+    <style name="ShadeOverride.Blossom" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#FF338F</item>
+        <item name="shadeColorAccent">#C51162</item>
+    </style>
+
+    <style name="ShadeOverride.Sunrise" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#FFB74D</item>
+        <item name="shadeColorAccent">#FFD600</item>
+    </style>
+
+    <style name="ShadeOverride.Midnight" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#262626</item>
+        <item name="shadeColorAccent">#0F0F0F</item>
+    </style>
+
+    <style name="ShadeOverride.Transparent" parent="ShadeOverride.Shade">
+        <item name="shadeColorAllAppsOverlay">#00FFFFFF</item>
+        <item name="shadeColorAccent">@color/colorAccent</item>
+    </style>
+</resources>

@@ -1,3 +1,2 @@
-include ":app", ':companion', ':television'
-
-
+include ':IconLoader', ':companion'
+project(':IconLoader').projectDir = new File(rootDir, 'iconloaderlib')

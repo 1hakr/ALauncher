@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="shade_app_name" translatable="false">ALauncher Pro</string>
+    <string name="shade_app_name_short" translatable="false">ALauncher Pro</string>
+    <string name="settings_title" translatable="false">ALauncher Pro settings</string>
+    <string name="about_review" translatable="false">"Like ALauncher Pro?"</string>
+    <string name="about_donate_url" translatable="false">market://details?id=dev.dworks.apps.alauncher.pro</string>
+</resources>
