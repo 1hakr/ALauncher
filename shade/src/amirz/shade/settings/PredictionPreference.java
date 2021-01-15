@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,13 +19,10 @@ import androidx.preference.SwitchPreference;
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
-import com.android.launcher3.notification.NotificationListener;
 
 import amirz.shade.ShadeSettings;
 
 import static android.content.Context.APP_OPS_SERVICE;
-import static com.android.launcher3.settings.SettingsActivity.EXTRA_FRAGMENT_ARG_KEY;
-import static com.android.launcher3.settings.SettingsActivity.EXTRA_SHOW_FRAGMENT_ARGS;
 
 public class PredictionPreference extends SwitchPreference
         implements ShadeSettings.OnResumePreferenceCallback {
@@ -105,7 +101,15 @@ public class PredictionPreference extends SwitchPreference
         Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.fromParts("package",
                 context.getPackageName(), null))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        Intent simpleIntent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (amirz.helpers.Settings.isIntentAvailable(context, intent)) {
+            context.startActivity(intent);
+        } else if (amirz.helpers.Settings.isIntentAvailable(context, simpleIntent)) {
+            context.startActivity(intent);
+        } else {
+            amirz.helpers.Settings.showSnackBar(context, "No suitable app found!");
+        }
     }
 
     public static class UsageAccessConfirmation

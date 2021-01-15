@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -23,6 +24,8 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.graphics.IconPalette;
 import com.android.launcher3.util.Themes;
+
+import java.util.List;
 
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
@@ -54,6 +57,10 @@ public class Settings {
 
     public static void showSnackBar(Context context, int resId) {
         Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
+    }
+
+    public static void showSnackBar(Context context, String text) {
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
     }
 
     public static int getNotificationColor(Context context) {
@@ -208,5 +215,12 @@ public class Settings {
             int textColor = Themes.getAttrColor(icon.getContext(), R.attr.workspaceTextColor);
             icon.setTextColor(textColor);
         }
+    }
+
+    public static boolean isIntentAvailable(Context context, Intent intent) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<ResolveInfo> list =
+                packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 }
