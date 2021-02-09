@@ -37,7 +37,6 @@
             android:gravity="start"
             android:singleLine="true"
             android:maxLines="1"
-            android:textColor="?attr/shadeTextColor"
             android:textSize="14sp" />
 
         <!-- The original dimensions of the widget (can't be the same text as above due to different
@@ -48,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:textColor="?attr/shadeTextColor"
             android:textSize="14sp"
             android:alpha="0.8" />
     </LinearLayout>
