@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.style.TtsSpan.TextBuilder;
-import android.widget.Toast;
 
 import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
@@ -44,7 +43,7 @@ public class DefaultLauncher {
         ResolveInfo resolveActivity = activity.getPackageManager().resolveActivity(
                 intent, 0);
         if(resolveActivity != null && Objects.equals(resolveActivity.activityInfo.processName, BuildConfig.APPLICATION_ID)){
-            Toast.makeText(activity, R.string.launcher_is_already_default, Toast.LENGTH_SHORT).show();
+            amirz.helpers.Settings.showSnackBar(activity, R.string.launcher_is_already_default);
         }
         HomeState homeState = (LAUNCHER_PACKAGE.equals(resolveActivity.activityInfo.applicationInfo.packageName)
                 && LAUNCHER_CLASS.equals(resolveActivity.activityInfo.name)) ? HomeState.GEL_IS_DEFAULT
@@ -102,7 +101,7 @@ public class DefaultLauncher {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                activity.finish();
+                                //activity.finish();
                             }
                         })
                 .setOnCancelListener(new DialogInterface.OnCancelListener() {

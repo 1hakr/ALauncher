@@ -1,5 +1,6 @@
 package amirz.shade.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AppOpsManager;
 import android.app.Dialog;
@@ -97,7 +98,7 @@ public class PredictionPreference extends SwitchPreference
         }
     }
 
-    private static void openSetting(Context context) {
+    private static void openSetting(Activity context) {
         Intent intent = new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS, Uri.fromParts("package",
                 context.getPackageName(), null))
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -130,9 +131,9 @@ public class PredictionPreference extends SwitchPreference
 
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            Context context = getActivity();
-            setEnabled(context, true);
-            openSetting(context);
+            Activity activity = getActivity();
+            setEnabled(activity, true);
+            openSetting(activity);
         }
     }
 

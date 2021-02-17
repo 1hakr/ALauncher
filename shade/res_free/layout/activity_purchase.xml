@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -12,20 +11,9 @@
         <FrameLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="128dp"
+            android:layout_height="80dp"
             android:background="@color/colorAccent"
             android:elevation="4dp">
-
-            <Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/colorAccent"
-                android:contentInsetLeft="@dimen/second_keyline_default"
-                android:contentInsetStart="@dimen/second_keyline_default"
-                android:titleTextColor="@android:color/white"
-                android:minHeight="?android:attr/actionBarSize"
-                android:theme="@style/ToolbarTheme" />
 
         </FrameLayout>
 

@@ -1,47 +1,70 @@
 package dev.dworks.apps.alauncher;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.launcher3.R;
 
 import amirz.App;
 import amirz.helpers.Settings;
+import amirz.shade.ShadeFont;
+import amirz.shade.customization.ShadeStyle;
 import needle.Needle;
 import needle.UiRelatedTask;
+
+import static dev.dworks.apps.alauncher.AppFlavour.BILLING_ACTION;
 
 public class PurchaseActivity extends Activity {
 
     public static final String TAG = PurchaseActivity.class.getSimpleName();
+    private Button purchaseButton;
+    private String purchaseText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ShadeFont.override(this);
+        ShadeStyle.override(this);
+        ShadeStyle.overrideTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
 
-        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitleTextAppearance(this, android.R.style.TextAppearance_Material_Widget_ActionBar_Title);
         int color = ContextCompat.getColor(this, R.color.colorAccent);
-        mToolbar.setBackgroundColor(color);
-        setActionBar(mToolbar);
+        ColorDrawable colorDrawable = new ColorDrawable(color);
+        getActionBar().setBackgroundDrawable(colorDrawable);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle(getString(R.string.support_app));
+        getActionBar().setElevation(0);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentDark));
+
+        purchaseText = getString(R.string.purchase);
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        updatePrice();
+                    }
+                },  new IntentFilter(BILLING_ACTION));
+        App.getInstance().initializeBilling(this);
         initControls();
-        App.getInstance().initializeBilling();
     }
 
     private void initControls() {
 
         Button restoreButton = (Button) findViewById(R.id.restore_button);
-        Button purchaseButton = (Button) findViewById(R.id.purchase_button);
+        purchaseButton = (Button) findViewById(R.id.purchase_button);
         restoreButton.setEnabled(true);
         purchaseButton.setEnabled(true);
 
@@ -52,6 +75,7 @@ public class PurchaseActivity extends Activity {
             }
         });
 
+        updatePrice();
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,13 +88,22 @@ public class PurchaseActivity extends Activity {
         });
     }
 
+    private void updatePrice() {
+        if(!AppFlavour.isBillingSupported()){
+            return;
+        }
+        String purchaseId = AppFlavour.getPurchaseId();
+        String price = App.getInstance().getPurchasePrice(purchaseId);
+        if (!TextUtils.isEmpty(price)) {
+            purchaseButton.setText(purchaseText + " with " + price);
+        }
+    }
+
     private void restorePurchase() {
-        Settings.showSnackBar(this, R.string.restoring_purchase);
         Needle.onBackgroundThread().execute(new UiRelatedTask<Boolean>(){
             @Override
             protected Boolean doWork() {
-                App.getInstance().loadOwnedPurchases();
-                App.getInstance().onPurchaseHistoryRestored();
+                App.getInstance().loadPurchaseItems(PurchaseActivity.this);
                 return true;
             }
 
@@ -90,13 +123,6 @@ public class PurchaseActivity extends Activity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!App.getInstance().handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -109,7 +135,7 @@ public class PurchaseActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        App.getInstance().releaseBillingProcessor();
+        App.getInstance().releaseBilling();
         super.onDestroy();
     }
 }

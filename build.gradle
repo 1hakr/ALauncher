@@ -6,7 +6,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.9'
     }
 }
@@ -16,7 +16,7 @@ ext {
     targetSdkVersion = 29
     minSdkVersion = 24
     versionMajor = 2
-    versionMinor = 2
+    versionMinor = 3
     versionPatch = 0
 }
 
@@ -208,8 +208,8 @@ dependencies {
     // Required for AOSP to compile. This is already included in the sysui_shared.jar
     withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation "org.mockito:mockito-core:2.23.0"
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'org.mockito:mockito-core:3.7.7'
     androidTestImplementation 'com.google.dexmaker:dexmaker:1.2'
     androidTestImplementation 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

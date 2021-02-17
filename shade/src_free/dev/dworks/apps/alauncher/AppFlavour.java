@@ -5,85 +5,160 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.widget.Toast;
 
-import com.android.launcher3.BuildConfig;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.Purchase;
 import com.android.launcher3.R;
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.SkuDetails;
-import com.anjlab.android.iab.v3.TransactionDetails;
 
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.List;
 
-import needle.Needle;
+import amirz.App;
+import amirz.helpers.Settings;
+import dev.dworks.apps.alauncher.misc.BillingHelper;
 
 /**
  * Created by HaKr on 16/05/17.
  */
 
-public abstract class AppFlavour extends Application implements BillingProcessor.IBillingHandler {
+public abstract class AppFlavour extends Application implements BillingHelper.BillingListener {
 	private static final String PURCHASE_PRODUCT_ID = "purchase_product_id";
-    public static final String PURCH_ID = BuildConfig.APPLICATION_ID + ".purch";
+    public static final String PURCH_ID = "dev.dworks.apps.alauncher.purch";
     public static final String PURCHASED = "purchased";
     private static final int IAP_ID_CODE = 1;
+	public static final String BILLING_ACTION = "BillingInitialized";
 
-	private BillingProcessor bp;
-	private ConcurrentHashMap<String, SkuDetails> skuDetails = new ConcurrentHashMap<>();
 	private String currentProductId = "";
+	private BillingHelper billingHelper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 	}
 
-	public void initializeBilling() {
-		getBillingProcessor();
+	public static boolean isPurchased() {
+		return false;//PreferenceUtils.getBooleanPrefs(PURCHASED) || BuildConfig.DEBUG;
 	}
 
-	public static boolean isPurchased() {
-		return PreferenceUtils.getBooleanPrefs(PURCHASED);
+	public void initializeBilling(Activity activity) {
+		List<String> skuList = new ArrayList<>();
+		skuList.add(getPurchaseId());
+		billingHelper = new BillingHelper(this, this);
+		billingHelper.setSkuInAppList(skuList);
+		billingHelper.setCurrentActivity(activity);
+		billingHelper.initialize();
+	}
+
+	public void releaseBilling() {
+		if(null == billingHelper){
+			return;
+		}
+		billingHelper.endConnection();
+	}
+
+	public void loadPurchaseItems(Activity activity){
+		billingHelper.getOwnedItems();
+	}
+
+	public String getPurchasePrice(String productId){
+		return billingHelper.getSkuPrice(productId);
 	}
 
 	@Override
-	public void onBillingInitialized() {
-		loadOwnedPurchases();
-		reloadPurchase();
+	public void onSkuListResponse(ArrayMap<String, com.android.billingclient.api.SkuDetails> skuDetailsMap) {
+		LocalBroadcastManager.getInstance(getApplicationContext())
+				.sendBroadcast(new Intent(BILLING_ACTION));
 	}
 
-	public void loadOwnedPurchases() {
-		if(!isBillingSupported() || null == bp
-				|| (bp != null && !bp.isInitialized())){
-			return;
+	@Override
+	public void onPurchaseHistoryResponse(List<Purchase> purchasedList) {
+		boolean isPurchased = false;
+		String currentId = getPurchasedProductId();
+		for (Purchase purchase: purchasedList) {
+			if(currentId.equals(purchase.getSku())){
+				isPurchased  = true;
+				break;
+			}
 		}
-		bp.loadOwnedPurchasesFromGoogle();
+		PreferenceUtils.set(PURCHASED, isPurchased);
+		LocalBroadcastManager.getInstance(getApplicationContext())
+				.sendBroadcast(new Intent(BILLING_ACTION));
 	}
 
-	public void reloadPurchase() {
-		if(!isBillingSupported() || null == bp
-				|| (bp != null && !bp.isInitialized())){
-			return;
-		}
-        Needle.onBackgroundThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                getPurchSkuDetails();
-                boolean isPurchased = getBillingProcessor().isPurchased(getPurchasedProductId());
-                PreferenceUtils.set(PURCHASED, isPurchased);
-            }
-        });
+	@Override
+	public void onPurchaseCompleted(Activity activity, Purchase purchaseItem) {
+		Settings.showSnackBar(activity, R.string.thank_you);
+		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSku());
+		PreferenceUtils.set(PURCHASED, true);
 	}
 
-	private void getPurchSkuDetails() {
-		SkuDetails details = getBillingProcessor().getPurchaseListingDetails(getPurchaseId());
-		if(null == details){
-			return;
+	@Override
+	public void onPurchaseError(Activity activity, int errorCode) {
+		String message = "";
+		String action = "";
+		switch (errorCode){
+			case BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED:
+				if(!TextUtils.isEmpty(currentProductId)) {
+					PreferenceUtils.set(PURCHASE_PRODUCT_ID, currentProductId);
+				}
+				message = "Purchase restored";
+				break;
+			case BillingClient.BillingResponseCode.USER_CANCELED:
+				message = "Payment flow cancelled";
+				break;
+			case BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE:
+			case BillingClient.BillingResponseCode.BILLING_UNAVAILABLE:
+				message = "Billing not available. Contact Developer";
+				action = "Contact";
+				break;
+			case BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED:
+				message = "In App Purchase not available. Buy Pro App directly.";
+				action = "Buy";
+				break;
+			default:
+				message = "Something went wrong! error code="+ errorCode+". Contact Developer";
+				action = "Contact";
+				break;
 		}
-		skuDetails.put(details.productId, details);
+		if(null != activity) {
+			if(TextUtils.isEmpty(action)) {
+				Settings.showSnackBar(activity, message);
+			} else {
+				Settings.showSnackBar(activity, message, action, new Runnable() {
+					@Override
+					public void run() {
+						billingErrorAction(activity, errorCode);
+					}
+				});
+			}
+		} else {
+			try {
+				Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+			} catch (Exception e){ }
+		}
+	}
+
+	private void billingErrorAction(Activity activity, int errorCode){
+		switch (errorCode){
+			case BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED:
+				Settings.openProAppLink(activity);
+				break;
+			default:
+				Settings.showSnackBar(activity, "Billing error:"+errorCode);
+				break;
+		}
+	}
+
+	public static boolean isBillingSupported() {
+		return BillingHelper.isBillingAvailable(App.getInstance().getApplicationContext());
 	}
 
 	public static String getPurchaseId(){
-		return PURCH_ID + ".pro" + IAP_ID_CODE;
+		return PURCH_ID+ ".pro" + IAP_ID_CODE;
 	}
 
 	public static String getPurchasedProductId(){
@@ -91,80 +166,12 @@ public abstract class AppFlavour extends Application implements BillingProcessor
 		return !TextUtils.isEmpty(productId) ? productId : getPurchaseId();
 	}
 
-
-	@Override
-	public void onProductPurchased(String productId, TransactionDetails details) {
-		Toast.makeText(getApplicationContext(), R.string.thank_you, Toast.LENGTH_SHORT).show();
-		PreferenceUtils.set(PURCHASE_PRODUCT_ID, productId);
-		PreferenceUtils.set(PURCHASED, true);
-		reloadPurchase();
-	}
-
-	@Override
-	public void onPurchaseHistoryRestored() {
-		reloadPurchase();
-	}
-
-	private static boolean isProVersion() {
-		return isPurchased();
-	}
-
-	@Override
-	public void onBillingError(int errorCode, Throwable throwable) {
-		switch (errorCode){
-			case Constants.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED:
-				if(!TextUtils.isEmpty(currentProductId)) {
-					PreferenceUtils.set(PURCHASE_PRODUCT_ID, currentProductId);
-					reloadPurchase();
-				}
-				break;
-			case Constants.BILLING_RESPONSE_RESULT_USER_CANCELED:
-			case Constants.BILLING_RESPONSE_RESULT_SERVICE_UNAVAILABLE:
-				break;
-			default:
-				try {
-					Toast.makeText(getApplicationContext(), "Something went wrong! error code="+ errorCode
-							+ " , Contact Developer", Toast.LENGTH_LONG).show();
-
-				} catch (Exception e){ }
-				break;
-		}
-	}
-
-	public BillingProcessor getBillingProcessor() {
-		if(!isBillingSupported()){
-			return null;
-		}
-		if(null == bp) {
-			bp = BillingProcessor.newBillingProcessor(this,
-					BuildConfig.PLAYSTORE_LICENSE_KEY, BuildConfig.MERCHANT_ID, this);
-		}
-		if(!bp.isInitialized()) {
-			bp.initialize();
-		}
-		return bp;
-	}
-
-	public boolean handleActivityResult(int requestCode, int resultCode, Intent data) {
-		return null != bp && bp.handleActivityResult(requestCode, resultCode, data);
-	}
-
-	public void releaseBillingProcessor() {
-		if(null != bp){
-			bp.release();
-		}
-	}
-
-	public boolean isBillingSupported() {
-		return BillingProcessor.isIabServiceAvailable(getApplicationContext());
-	}
-
 	public void purchase(Activity activity, String productId){
 		if(isBillingSupported()) {
 			currentProductId = productId;
-			getBillingProcessor().subscribe(activity, productId);
+			billingHelper.launchBillingFLow(activity, productId);
 		} else {
-			Toast.makeText(activity, "Billing not supported", Toast.LENGTH_SHORT).show();
+			Settings.showSnackBar(activity, "Billing not supported");
 		}
 	}
 

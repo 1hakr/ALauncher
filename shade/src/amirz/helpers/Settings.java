@@ -1,5 +1,6 @@
 package amirz.helpers;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -14,7 +15,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Process;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.Launcher;
@@ -29,6 +29,7 @@ import java.util.List;
 
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
+import dev.dworks.apps.alauncher.misc.Snackbar;
 
 import static com.android.launcher3.LauncherState.ALL_APPS;
 
@@ -55,12 +56,16 @@ public class Settings {
         return Utilities.getPrefs(context);
     }
 
-    public static void showSnackBar(Context context, int resId) {
-        Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
+    public static void showSnackBar(Activity context, int resId) {
+        Snackbar.show(context, resId);
     }
 
-    public static void showSnackBar(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    public static void showSnackBar(Activity context, String text) {
+        Snackbar.show(context, text);
+    }
+
+    public static void showSnackBar(Activity context, String text, String action, Runnable runnable) {
+        Snackbar.show(context, text, action, runnable);
     }
 
     public static int getNotificationColor(Context context) {
@@ -222,5 +227,14 @@ public class Settings {
         List<ResolveInfo> list =
                 packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
+    }
+
+    public static void openProAppLink(Activity activity){
+        Intent intentMarketAll = new Intent("android.intent.action.VIEW");
+        String url = activity.getString(R.string.about_donate_url);
+        intentMarketAll.setData(Uri.parse(url));
+        if(isIntentAvailable(activity, intentMarketAll)) {
+            activity.startActivity(intentMarketAll);
+        }
     }
 }
