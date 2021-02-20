@@ -14,8 +14,8 @@
      limitations under the License.
 -->
 
-<androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Preference
         android:icon="@drawable/ic_support"
@@ -70,6 +70,7 @@
                 android:title="@string/dock_search"
                 android:summary="@string/loading"
                 android:defaultValue=""
+                app:showPro="true"
                 android:persistent="true" />
 
             <amirz.shade.settings.ReloadingListPreference
@@ -85,13 +86,15 @@
             android:icon="@drawable/ic_theme"
             android:key="pref_screen_style"
             android:title="@string/category_style">
-            <ListPreference
+
+            <amirz.shade.settings.ListPreference
                 android:key="pref_device_theme"
                 android:title="@string/device_theme_tone"
                 android:summary="%s"
                 android:entries="@array/device_theme_entries"
                 android:entryValues="@array/device_theme_entry_values"
                 android:defaultValue="system"
+                app:showPro="true"
                 android:persistent="true" />
 
             <amirz.shade.settings.ColorListPreference
@@ -101,6 +104,7 @@
                 android:entries="@array/theme_entries"
                 android:entryValues="@array/theme_entry_values"
                 android:defaultValue=""
+                app:showPro="true"
                 android:persistent="true" />
 
             <ListPreference
@@ -123,15 +127,17 @@
                 android:title="@string/icon_pack"
                 android:summary="@string/loading"
                 android:defaultValue=""
+                app:showPro="true"
                 android:persistent="true" />
 
-            <ListPreference
+            <amirz.shade.settings.ListPreference
                 android:key="pref_override_icon_shape"
                 android:title="@string/icon_shape"
                 android:summary="%s"
                 android:entries="@array/icon_shape_override_paths_names"
                 android:entryValues="@array/icon_shape_override_paths_values"
                 android:defaultValue="@string/icon_shape_override_path_circle"
+                app:showPro="true"
                 android:persistent="true" />
 
         </PreferenceScreen>
@@ -156,13 +162,14 @@
                 android:summary="@string/double_tap_lock_desc"
                 android:title="@string/double_tap_lock" />
 
-            <ListPreference
+            <amirz.shade.settings.ListPreference
                 android:defaultValue="nothing"
                 android:entries="@array/home_action_names"
                 android:entryValues="@array/home_action_values"
                 android:key="pref_home_action"
                 android:persistent="true"
                 android:summary="%s"
+                app:showPro="true"
                 android:title="@string/home_action" />
         </PreferenceScreen>
 

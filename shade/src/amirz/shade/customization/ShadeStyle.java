@@ -1,13 +1,18 @@
 package amirz.shade.customization;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.util.Themes;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,4 +68,13 @@ public class ShadeStyle {
                 : defaultValue;
     }
 
+    public static int getPrimaryColor(Context context){
+        String[] themes = context.getResources().getStringArray(R.array.theme_entry_values);
+        String theme = Utilities.getPrefs(context).getString(KEY_THEME, "");
+        if(TextUtils.isEmpty(theme) || theme.equals("transparent")) {
+            return ContextCompat.getColor(context, R.color.colorAccent);
+        }
+        int index = Arrays.asList(themes).indexOf(theme);
+        return Color.parseColor(COLORS[index]);
+    }
 }

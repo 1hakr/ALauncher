@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.preference.ListPreference;
 import androidx.preference.ListPreferenceDialogFragment;
 
 import com.android.launcher3.R;

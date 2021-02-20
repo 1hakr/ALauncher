@@ -6,11 +6,15 @@
     <string name="app_pro" translatable="false">ALauncher Pro</string>
     <string name="about_review" translatable="false">"Like ALauncher?"</string>
     <string name="about_donate_url" translatable="false">market://details?id=dev.dworks.apps.alauncher</string>
+    <string name="app_pro_title" translatable="false">Unlock FULL version</string>
     <string name="app_pro_content" translatable="false">
         \n
         • One purchase, unlimited devices\n
-        • use shortcuts\n
-        • Use gestures\n
+        • Change themes, accent colors\n
+        • Change icon shapes\n
+        • Lock or hide apps\n
+        • Customize home action\n
+        • Use icon packs\n
         • No Ads \n
         \n
         If you like ALauncher please consider \npurchasing ALauncher Pro
@@ -20,6 +24,6 @@
     <string name="purchase" translatable="false">Purchase</string>
     <string name="restore" translatable="false">Restore</string>
     <string name="thank_you" translatable="false">Thank you!</string>
-    <string name="support_app" translatable="false">Support ALauncher</string>
+    <string name="support_app" translatable="false">ALauncher Pro</string>
     <string name="restored_previous_purchase_please_restart" translatable="false">Restored previous purchase.</string>
 </resources>

@@ -291,4 +291,8 @@ public class Settings {
 
         activity.startActivity(Intent.createChooser(result, title));
     }
+
+    public static boolean isProVersion(){
+        return BuildConfig.FLAVOR.contains("Pro");
+    }
 }

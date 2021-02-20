@@ -23,6 +23,7 @@ import com.android.launcher3.views.Snackbar;
 
 import java.net.URISyntaxException;
 
+import amirz.App;
 import amirz.helpers.AppsLockerDatabase;
 import amirz.helpers.SecurityHelper;
 import amirz.shade.ShadeLauncher;
@@ -148,6 +149,10 @@ public class ShadeShortcutFactory extends SystemShortcutFactory {
         public View.OnClickListener createOnClickListener(
                 Launcher launcher, ItemInfo itemInfo) {
             return view -> {
+                if(!App.isPurchased()){
+                    App.getInstance().openPurchaseActivity(launcher);
+                    return;
+                }
                 boolean isHidden = HiddenAppsDatabase.isHidden(launcher, itemInfo);
                 HiddenAppsDatabase.setHidden(launcher, itemInfo, !isHidden);
                 UnreadSession.getInstance(launcher).forceUpdate(); // Show or hide notifications.
@@ -222,6 +227,10 @@ public class ShadeShortcutFactory extends SystemShortcutFactory {
         public View.OnClickListener createOnClickListener(
                 Launcher launcher, ItemInfo itemInfo) {
             return view -> {
+                if(!App.isPurchased()){
+                    App.getInstance().openPurchaseActivity(launcher);
+                    return;
+                }
                 SecurityHelper securityHelper = new SecurityHelper(launcher);
                 if(!securityHelper.isDeviceSecure()){
                     Runnable onSetupClicked = () -> {

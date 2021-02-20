@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.launcher3.R;
@@ -40,15 +40,19 @@ public class PurchaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase);
 
-        int color = ContextCompat.getColor(this, R.color.colorAccent);
+        int color = ShadeStyle.getPrimaryColor(this);
         ColorDrawable colorDrawable = new ColorDrawable(color);
         getActionBar().setBackgroundDrawable(colorDrawable);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setTitle(getString(R.string.support_app));
         getActionBar().setElevation(0);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccentDark));
+        getWindow().setStatusBarColor(getStatusBarColor(color));
 
+        View background = findViewById(R.id.app_bar);
+        background.setBackgroundColor(color);
+        purchaseButton = (Button) findViewById(R.id.purchase_button);
+        purchaseButton.setTextColor(color);
         purchaseText = getString(R.string.purchase);
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
@@ -64,7 +68,6 @@ public class PurchaseActivity extends Activity {
     private void initControls() {
 
         Button restoreButton = (Button) findViewById(R.id.restore_button);
-        purchaseButton = (Button) findViewById(R.id.purchase_button);
         restoreButton.setEnabled(true);
         purchaseButton.setEnabled(true);
 
@@ -137,5 +140,18 @@ public class PurchaseActivity extends Activity {
     public void onDestroy() {
         App.getInstance().releaseBilling();
         super.onDestroy();
+    }
+
+    public static int getStatusBarColor(int color1) {
+        int color2 = Color.parseColor("#000000");
+        return blendColors(color1, color2, 0.9f);
+    }
+
+    public static int blendColors(int color1, int color2, float ratio) {
+        final float inverseRation = 1f - ratio;
+        float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
+        float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
+        float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 }

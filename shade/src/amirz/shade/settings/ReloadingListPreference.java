@@ -3,8 +3,6 @@ package amirz.shade.settings;
 import android.content.Context;
 import android.util.AttributeSet;
 
-import androidx.preference.ListPreference;
-
 import java.util.function.Function;
 
 import amirz.shade.ShadeSettings;

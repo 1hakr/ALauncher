@@ -12,6 +12,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 
 import java.util.ArrayList;
@@ -41,7 +42,8 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 	}
 
 	public static boolean isPurchased() {
-		return false;//PreferenceUtils.getBooleanPrefs(PURCHASED) || BuildConfig.DEBUG;
+		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED)
+				|| BuildConfig.DEBUG;
 	}
 
 	public void initializeBilling(Activity activity) {

@@ -11,4 +11,8 @@
     <attr name="shadeDialogCornerRadius" format="dimension" />
 
     <attr name="shadeTextColor" format="color" />
+
+    <declare-styleable name="Preference">
+        <attr name="showPro" format="boolean" />
+    </declare-styleable>
 </resources>
