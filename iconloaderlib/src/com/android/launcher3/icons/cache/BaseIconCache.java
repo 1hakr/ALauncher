@@ -32,7 +32,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import android.os.LocaleList;
 import android.os.Looper;
 import android.os.Process;
 import android.os.UserHandle;
@@ -164,7 +163,7 @@ public abstract class BaseIconCache {
     private Drawable getFullResIcon(Resources resources, int iconId) {
         if (resources != null && iconId != 0) {
             try {
-                return resources.getDrawableForDensity(iconId, mIconDpi);
+                return resources.getDrawableForDensity(iconId, mIconDpi, null);
             } catch (Resources.NotFoundException e) { }
         }
         return getFullResDefaultActivityIcon(mIconDpi);

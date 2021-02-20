@@ -22,12 +22,12 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.android.launcher3.BaseRecyclerView;
-import com.android.launcher3.R;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
+
+import com.android.launcher3.BaseRecyclerView;
+import com.android.launcher3.R;
 
 /**
  * The widgets recycler view.
@@ -121,7 +121,7 @@ public class WidgetsRecyclerView extends BaseRecyclerView implements OnItemTouch
         }
 
         View child = getChildAt(0);
-        int rowIndex = getChildPosition(child);
+        int rowIndex = getChildAdapterPosition(child);
         int y = (child.getMeasuredHeight() * rowIndex);
         int offset = getLayoutManager().getDecoratedTop(child);
 

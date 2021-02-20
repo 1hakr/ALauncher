@@ -16,8 +16,6 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.anim.Interpolators.DEACCEL_1_5;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -49,6 +47,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 
 import androidx.annotation.IntDef;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.ViewCompat;
 
 import com.android.launcher3.LauncherSettings.Favorites;
@@ -77,6 +76,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Stack;
+
+import static com.android.launcher3.anim.Interpolators.DEACCEL_1_5;
 
 public class CellLayout extends ViewGroup implements Transposable {
     public static final int WORKSPACE_ACCESSIBILITY_DRAG = 2;
@@ -225,7 +226,7 @@ public class CellLayout extends ViewGroup implements Transposable {
         setAlwaysDrawnWithCacheEnabled(false);
         final Resources res = getResources();
 
-        mBackground = res.getDrawable(R.drawable.bg_celllayout);
+        mBackground = ContextCompat.getDrawable(getContext(), R.drawable.bg_celllayout);
         mBackground.setCallback(this);
         mBackground.setAlpha(0);
 

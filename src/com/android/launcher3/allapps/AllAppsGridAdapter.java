@@ -26,9 +26,7 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.TextView;
 
-import androidx.core.view.accessibility.AccessibilityEventCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import androidx.core.view.accessibility.AccessibilityRecordCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -102,13 +100,11 @@ public class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.
 
             // Ensure that we only report the number apps for accessibility not including other
             // adapter views
-            final AccessibilityRecordCompat record = AccessibilityEventCompat
-                    .asRecord(event);
-            record.setItemCount(mApps.getNumFilteredApps());
-            record.setFromIndex(Math.max(0,
-                    record.getFromIndex() - getRowsNotForAccessibility(record.getFromIndex())));
-            record.setToIndex(Math.max(0,
-                    record.getToIndex() - getRowsNotForAccessibility(record.getToIndex())));
+            event.setItemCount(mApps.getNumFilteredApps());
+            event.setFromIndex(Math.max(0,
+                    event.getFromIndex() - getRowsNotForAccessibility(event.getFromIndex())));
+            event.setToIndex(Math.max(0,
+                    event.getToIndex() - getRowsNotForAccessibility(event.getToIndex())));
         }
 
         @Override

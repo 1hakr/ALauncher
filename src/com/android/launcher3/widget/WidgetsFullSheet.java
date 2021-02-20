@@ -209,13 +209,13 @@ public class WidgetsFullSheet extends BaseWidgetSheet implements Insettable, Tex
             mOpenCloseAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mRecyclerView.setLayoutFrozen(false);
+                    mRecyclerView.suppressLayout(false);
                     mAdapter.setApplyBitmapDeferred(false, mRecyclerView);
                     mOpenCloseAnimator.removeListener(this);
                 }
             });
             post(() -> {
-                mRecyclerView.setLayoutFrozen(true);
+                mRecyclerView.suppressLayout(true);
                 mOpenCloseAnimator.start();
                 mContent.animate().alpha(1).setDuration(FADE_IN_DURATION);
             });

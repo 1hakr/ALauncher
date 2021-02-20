@@ -134,7 +134,6 @@ public class UserEventDispatcher implements ResourceBasedOverride {
     // intentHash                       required
     // --------------------------------------------------------------
 
-    @Deprecated
     public void logAppLaunch(View v, Intent intent) {
         LauncherEvent event = newLauncherEvent(newTouchAction(Action.Touch.TAP),
                 newItemTarget(v, mInstantAppResolver), newTarget(Target.Type.CONTAINER));

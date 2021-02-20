@@ -16,10 +16,6 @@
 
 package com.android.launcher3.dragndrop;
 
-import static com.android.launcher3.LauncherState.NORMAL;
-import static com.android.launcher3.states.RotationHelper.REQUEST_LOCK;
-import static com.android.launcher3.states.RotationHelper.REQUEST_NONE;
-
 import android.content.ClipDescription;
 import android.content.Intent;
 import android.graphics.Point;
@@ -31,16 +27,21 @@ import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.DragSource;
 import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.states.InternalStateHandler;
-import com.android.launcher3.testing.TestProtocol;
 import com.android.launcher3.widget.PendingItemDragHelper;
 
 import java.util.UUID;
+
+import static com.android.launcher3.LauncherState.NORMAL;
+import static com.android.launcher3.states.RotationHelper.REQUEST_LOCK;
+import static com.android.launcher3.states.RotationHelper.REQUEST_NONE;
 
 /**
  * {@link DragSource} for handling drop from a different window.
@@ -149,7 +150,7 @@ public abstract class BaseItemDragListener extends InternalStateHandler implemen
         mLauncher.getDragLayer().setAlpha(1);
 
         dragObject.dragView.setColor(
-                mLauncher.getResources().getColor(R.color.delete_target_hover_tint));
+                ContextCompat.getColor(mLauncher, R.color.delete_target_hover_tint));
     }
 
     @Override

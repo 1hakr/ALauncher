@@ -31,6 +31,8 @@ import android.util.Property;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.R;
 
 /**
@@ -98,7 +100,7 @@ public abstract class FocusIndicatorHelper implements
         mContainer = container;
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        int color = container.getResources().getColor(R.color.focused_background);
+        int color = ContextCompat.getColor(mContainer.getContext(), R.color.focused_background);
         mMaxAlpha = Color.alpha(color);
         mPaint.setColor(0xFF000000 | color);
 

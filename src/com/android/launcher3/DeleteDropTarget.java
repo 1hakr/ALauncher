@@ -16,13 +16,12 @@
 
 package com.android.launcher3;
 
-import static com.android.launcher3.userevent.nano.LauncherLogProto.Action.Touch.TAP;
-import static com.android.launcher3.userevent.nano.LauncherLogProto.ControlType.UNDO;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import com.android.launcher3.accessibility.LauncherAccessibilityDelegate;
 import com.android.launcher3.dragndrop.DragOptions;
@@ -31,6 +30,9 @@ import com.android.launcher3.model.ModelWriter;
 import com.android.launcher3.userevent.nano.LauncherLogProto.ControlType;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 import com.android.launcher3.views.Snackbar;
+
+import static com.android.launcher3.userevent.nano.LauncherLogProto.Action.Touch.TAP;
+import static com.android.launcher3.userevent.nano.LauncherLogProto.ControlType.UNDO;
 
 public class DeleteDropTarget extends ButtonDropTarget {
 
@@ -48,7 +50,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
     protected void onFinishInflate() {
         super.onFinishInflate();
         // Get the hover color
-        mHoverColor = getResources().getColor(R.color.delete_target_hover_tint);
+        mHoverColor = ContextCompat.getColor(getContext(), R.color.delete_target_hover_tint);
 
         setDrawable(R.drawable.ic_remove_shadow);
     }

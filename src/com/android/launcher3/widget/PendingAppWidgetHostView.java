@@ -31,6 +31,8 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.FastBitmapDrawable;
 import com.android.launcher3.icons.IconCache;
@@ -141,7 +143,7 @@ public class PendingAppWidgetHostView extends LauncherAppWidgetHostView
                 mSettingIconDrawable = null;
             } else if (isReadyForClickSetup()) {
                 mCenterDrawable = drawableFactory.newIcon(getContext(), info);
-                mSettingIconDrawable = getResources().getDrawable(R.drawable.ic_setting).mutate();
+                mSettingIconDrawable = ContextCompat.getDrawable(getContext(), R.drawable.ic_setting).mutate();
                 updateSettingColor(info.iconColor);
             } else {
                 mCenterDrawable = DrawableFactory.INSTANCE.get(getContext())

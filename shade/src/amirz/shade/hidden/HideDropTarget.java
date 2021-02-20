@@ -21,6 +21,8 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.ButtonDropTarget;
 import com.android.launcher3.DropTarget;
@@ -49,7 +51,7 @@ public class HideDropTarget extends ButtonDropTarget {
     protected void onFinishInflate() {
         super.onFinishInflate();
         // Get the hover color
-        mHoverColor = getResources().getColor(R.color.delete_target_hover_tint);
+        mHoverColor = ContextCompat.getColor(getContext(), R.color.delete_target_hover_tint);
 
         setDrawable(R.drawable.ic_eye_hide_shadow);
     }

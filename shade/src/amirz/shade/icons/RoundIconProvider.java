@@ -74,7 +74,7 @@ public class RoundIconProvider extends IconProvider {
                 int resId = res.getIdentifier(appIcon, null, pkg);
                 return res.getDrawableForDensity(resId == 0
                         ? Integer.parseInt(appIcon.substring(1))
-                        : resId, iconDpi);
+                        : resId, iconDpi, null);
             }
         } catch (Exception e) {
             e.printStackTrace();

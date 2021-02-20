@@ -42,7 +42,6 @@ import androidx.annotation.Nullable;
 
 import com.android.launcher3.LauncherProvider.SqlArguments;
 import com.android.launcher3.LauncherSettings.Favorites;
-import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.icons.GraphicsUtils;
 import com.android.launcher3.icons.LauncherIcons;
 import com.android.launcher3.qsb.QsbContainerView;
@@ -443,7 +442,7 @@ public class AutoInstallsLayout {
                 return -1;
             }
 
-            Drawable icon = mIconRes.getDrawable(iconId);
+            Drawable icon = mIconRes.getDrawable(iconId, null);
             if (icon == null) {
                 if (LOGD) Log.d(TAG, "Ignoring shortcut, can't load icon");
                 return -1;

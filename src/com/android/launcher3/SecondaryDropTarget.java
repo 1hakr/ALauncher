@@ -17,6 +17,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.Launcher.OnResumeCallback;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.dragndrop.DragOptions;
@@ -76,7 +78,7 @@ public class SecondaryDropTarget extends ButtonDropTarget implements OnAlarmList
         mCurrentAccessibilityAction = action;
 
         if (action == UNINSTALL) {
-            mHoverColor = getResources().getColor(R.color.uninstall_target_hover_tint);
+            mHoverColor = ContextCompat.getColor(getContext(), R.color.uninstall_target_hover_tint);
             setDrawable(R.drawable.ic_uninstall_shadow);
             updateText(R.string.uninstall_drop_target_label);
         } else {

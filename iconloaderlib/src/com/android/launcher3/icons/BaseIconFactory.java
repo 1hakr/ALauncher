@@ -1,10 +1,5 @@
 package com.android.launcher3.icons;
 
-import static android.graphics.Paint.DITHER_FLAG;
-import static android.graphics.Paint.FILTER_BITMAP_FLAG;
-
-import static com.android.launcher3.icons.ShadowGenerator.BLUR_FACTOR;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,6 +19,10 @@ import android.os.Process;
 import android.os.UserHandle;
 
 import androidx.annotation.NonNull;
+
+import static android.graphics.Paint.DITHER_FLAG;
+import static android.graphics.Paint.FILTER_BITMAP_FLAG;
+import static com.android.launcher3.icons.ShadowGenerator.BLUR_FACTOR;
 
 /**
  * This class will be moved to androidx library. There shouldn't be any dependency outside
@@ -342,7 +341,7 @@ public class BaseIconFactory implements AutoCloseable {
         return Resources.getSystem().getDrawableForDensity(
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                         ? android.R.drawable.sym_def_app_icon : android.R.mipmap.sym_def_app_icon,
-                iconDpi);
+                iconDpi, null);
     }
 
     /**

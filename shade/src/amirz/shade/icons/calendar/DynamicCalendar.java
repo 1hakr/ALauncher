@@ -22,7 +22,7 @@ public class DynamicCalendar {
             Resources resourcesForApplication = pm.getResourcesForApplication(DynamicCalendar.CALENDAR);
             int dayResId = DynamicCalendar.getDayResId(metaData, resourcesForApplication);
             if (dayResId != 0) {
-                return resourcesForApplication.getDrawableForDensity(dayResId, iconDpi);
+                return resourcesForApplication.getDrawableForDensity(dayResId, iconDpi, null);
             }
         } catch (PackageManager.NameNotFoundException ignored) {
         }

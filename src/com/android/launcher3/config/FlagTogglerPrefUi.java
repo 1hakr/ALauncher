@@ -19,20 +19,22 @@ package com.android.launcher3.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Process;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.launcher3.R;
-
+import androidx.core.text.HtmlCompat;
 import androidx.preference.PreferenceDataStore;
 import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.SwitchPreference;
+
+import com.android.launcher3.R;
 import com.android.launcher3.config.BaseFlags.BaseTogglableFlag;
 import com.android.launcher3.uioverrides.TogglableFlag;
+
+import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 
 /**
  * Dev-build only UI allowing developers to toggle flag settings. See {@link FeatureFlags}.
@@ -103,8 +105,8 @@ public final class FlagTogglerPrefUi {
     private void updateSummary(SwitchPreference switchPreference, BaseTogglableFlag flag) {
         String onWarning = flag.getDefaultValue() ? "" : "<b>OVERRIDDEN</b><br>";
         String offWarning = flag.getDefaultValue() ? "<b>OVERRIDDEN</b><br>" : "";
-        switchPreference.setSummaryOn(Html.fromHtml(onWarning + flag.getDescription()));
-        switchPreference.setSummaryOff(Html.fromHtml(offWarning + flag.getDescription()));
+        switchPreference.setSummaryOn(HtmlCompat.fromHtml(onWarning + flag.getDescription(), FROM_HTML_MODE_LEGACY));
+        switchPreference.setSummaryOff(HtmlCompat.fromHtml(offWarning + flag.getDescription(), FROM_HTML_MODE_LEGACY));
     }
 
     private void updateMenu() {

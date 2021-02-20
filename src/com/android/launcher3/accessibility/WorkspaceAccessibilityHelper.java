@@ -21,6 +21,8 @@ import android.graphics.Rect;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.FolderInfo;
@@ -30,8 +32,6 @@ import com.android.launcher3.R;
 import com.android.launcher3.WorkspaceItemInfo;
 import com.android.launcher3.accessibility.LauncherAccessibilityDelegate.DragType;
 import com.android.launcher3.dragndrop.DragLayer;
-
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
 /**
  * Implementation of {@link DragAndDropAccessibilityDelegate} to support DnD on workspace.
@@ -146,7 +146,7 @@ public class WorkspaceAccessibilityHelper extends DragAndDropAccessibilityDelega
         mTempCords[0] = mTempCords[1] = 0;
         float scale = dragLayer.getDescendantCoordRelativeToSelf(mView, mTempCords);
 
-        node.getBoundsInParent(mTempRect);
+        node.getBoundsInScreen(mTempRect);
         mTempRect.left = mTempCords[0] + (int) (mTempRect.left * scale);
         mTempRect.right = mTempCords[0] + (int) (mTempRect.right * scale);
         mTempRect.top = mTempCords[1] + (int) (mTempRect.top * scale);
