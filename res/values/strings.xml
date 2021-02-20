@@ -181,7 +181,7 @@
     <!-- Text for wallpaper change button -->
     <string name="styles_wallpaper_button_text">Styles &amp; wallpapers</string>
     <!-- Text for settings button -->
-    <string name="settings_button_text">Home settings</string>
+    <string name="settings_button_text">Settings</string>
     <!-- Message shown when a feature is disabled by the administrator -->
     <string name="msg_disabled_by_admin">Disabled by your admin</string>
 

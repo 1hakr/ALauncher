@@ -102,8 +102,10 @@ class UsageTracker {
         int sortedTimeLimit = Math.min(sortedTime.size(), 100);
         int sortedUsedLimit = Math.min(sortedTime.size(), 100);
         List<UsageStats> sorted = new ArrayList<UsageStats>(sortedTime.values()).subList(0, sortedTimeLimit);
-        List<UsageStats> sortedExtras = new ArrayList<UsageStats>(sortedUsed.values()).subList(0, sortedUsedLimit);
-        sorted.retainAll(sortedExtras);
+        if(!sortedUsed.isEmpty()) {
+            List<UsageStats> sortedExtras = new ArrayList<UsageStats>(sortedUsed.values()).subList(0, sortedUsedLimit);
+            sorted.retainAll(sortedExtras);
+        }
         Set<String> packages = new HashSet<>();
         packages.addAll(getHotSeatPackages());
         for (UsageStats stat : sorted) {
