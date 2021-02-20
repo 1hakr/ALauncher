@@ -13,10 +13,13 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Process;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.launcher3.BubbleTextView;
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherFiles;
 import com.android.launcher3.R;
@@ -25,12 +28,17 @@ import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.graphics.IconPalette;
 import com.android.launcher3.util.Themes;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
 import dev.dworks.apps.alauncher.misc.Snackbar;
 
+import static android.content.Intent.ACTION_SENDTO;
 import static com.android.launcher3.LauncherState.ALL_APPS;
 
 public class Settings {
@@ -42,6 +50,8 @@ public class Settings {
     public static final String KEY_HOME_ACTION = "pref_home_action";
     public static final String KEY_SWIPE_DOWN = "pref_swipe_down";
     public static final String KEY_DOUBLE_TAP_LOCK = "pref_double_tap_lock";
+
+    public static final String SUPPORT_EMAIL = "support@dworks.io";
 
     public Settings(Context context) {
         mSharedPreferences = context.getSharedPreferences(
@@ -236,5 +246,49 @@ public class Settings {
         if(isIntentAvailable(activity, intentMarketAll)) {
             activity.startActivity(intentMarketAll);
         }
+    }
+
+    private static String getDeviceDetails(){
+        Date currentDate = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        String deviceModelName = "";
+        if (model.startsWith(manufacturer)) {
+            deviceModelName =  model;
+        } else {
+            deviceModelName = manufacturer + " " + model;
+        }
+        String versionName = BuildConfig.VERSION_NAME;
+        String deviceDetails = "";
+        deviceDetails += "App package: " + BuildConfig.APPLICATION_ID + " \n";
+        deviceDetails += "Build version: " + versionName + " \n";
+        deviceDetails += "Current date: " + dateFormat.format(currentDate) + " \n";
+        deviceDetails += "Device: " + deviceModelName + " \n";
+        deviceDetails += "OS version: Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ") \n \n";
+        deviceDetails += "\nFeedback: \n";
+        return deviceDetails;
+    }
+
+    public static void openFeedback(Activity activity){
+        sendEmail(activity, "Send Feedback", "ALauncher Feedback", getDeviceDetails());
+    }
+
+    public static void sendError(Activity activity, String details){
+        sendEmail(activity, "Report Error", "ALauncher Error", details);
+    }
+
+    public static void sendEmail(Activity activity, String title, String subject, String details){
+        final Intent result = new Intent(ACTION_SENDTO);
+        result.setData(Uri.parse("mailto:"));
+        result.putExtra(Intent.EXTRA_EMAIL, new String[]{SUPPORT_EMAIL});
+        result.putExtra(Intent.EXTRA_SUBJECT, subject);
+        String text = subject + " v" + BuildConfig.VERSION_NAME;
+        if(!TextUtils.isEmpty(details)){
+            text = details;
+        }
+        result.putExtra(Intent.EXTRA_TEXT, text);
+
+        activity.startActivity(Intent.createChooser(result, title));
     }
 }

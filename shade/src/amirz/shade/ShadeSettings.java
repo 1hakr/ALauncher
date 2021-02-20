@@ -48,7 +48,6 @@ import static amirz.shade.ShadeLauncherCallbacks.KEY_FEED_PROVIDER;
 import static amirz.shade.customization.DockSearch.KEY_DOCK_SEARCH;
 import static amirz.shade.customization.IconShapeOverride.KEY_ICON_SHAPE;
 import static amirz.shade.customization.ShadeStyle.KEY_THEME;
-import static android.content.Intent.ACTION_SENDTO;
 import static com.android.launcher3.util.Themes.KEY_DEVICE_THEME;
 
 public class ShadeSettings extends SettingsActivity {
@@ -288,13 +287,7 @@ public class ShadeSettings extends SettingsActivity {
                     new DefaultLauncher(getActivity()).launchHomeOrClearDefaultsDialog();
                     break;
                 case KEY_CONTACT:
-                    final Intent result = new Intent(ACTION_SENDTO);
-                    result.setData(Uri.parse("mailto:"));
-                    result.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@dworks.io"});
-                    result.putExtra(Intent.EXTRA_SUBJECT, "ALauncher Feedback" );
-                    result.putExtra(Intent.EXTRA_TEXT, "ALauncher Feedback" +  " v" + BuildConfig.VERSION_NAME);
-
-                    startActivity(Intent.createChooser(result, "Send Feedback"));
+                    Settings.openFeedback(getActivity());
                     break;
             }
             return false;
