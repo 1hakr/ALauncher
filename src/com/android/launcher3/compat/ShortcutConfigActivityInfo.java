@@ -30,13 +30,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Process;
 import android.os.UserHandle;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.android.launcher3.LauncherSettings;
+import com.android.launcher3.R;
 import com.android.launcher3.WorkspaceItemInfo;
 import com.android.launcher3.icons.ComponentWithLabel;
 import com.android.launcher3.icons.IconCache;
-import com.android.launcher3.LauncherSettings;
-import com.android.launcher3.R;
+
+import amirz.helpers.Settings;
 
 import static android.content.Context.LAUNCHER_APPS_SERVICE;
 
@@ -86,9 +87,9 @@ public abstract class ShortcutConfigActivityInfo implements ComponentWithLabel {
             activity.startActivityForResult(intent, requestCode);
             return true;
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(activity, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Settings.showSnackBar(activity, R.string.activity_not_found);
         } catch (SecurityException e) {
-            Toast.makeText(activity, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Settings.showSnackBar(activity, R.string.activity_not_found);
             Log.e(TAG, "Launcher does not have the permission to launch " + intent +
                     ". Make sure to create a MAIN intent-filter for the corresponding activity " +
                     "or use the exported attribute for this activity.", e);
@@ -155,7 +156,7 @@ public abstract class ShortcutConfigActivityInfo implements ComponentWithLabel {
                 activity.startIntentSenderForResult(is, requestCode, null, 0, 0, 0);
                 return true;
             } catch (IntentSender.SendIntentException e) {
-                Toast.makeText(activity, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+                Settings.showSnackBar(activity, R.string.activity_not_found);
                 return false;
             }
         }

@@ -58,7 +58,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.OvershootInterpolator;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -142,6 +141,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Predicate;
+
+import amirz.helpers.Settings;
 
 import static android.content.pm.ActivityInfo.CONFIG_ORIENTATION;
 import static android.content.pm.ActivityInfo.CONFIG_SCREEN_SIZE;
@@ -822,8 +823,8 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns,
                 startActivitySafely(v, intent, null, null);
             } else {
                 // TODO: Show a snack bar with link to settings
-                Toast.makeText(this, getString(R.string.msg_no_phone_permission,
-                        getString(R.string.derived_app_name)), Toast.LENGTH_SHORT).show();
+                Settings.showSnackBar(this, getString(R.string.msg_no_phone_permission,
+                        getString(R.string.derived_app_name)));
             }
         }
         if (mLauncherCallbacks != null) {

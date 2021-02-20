@@ -27,7 +27,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -182,7 +181,7 @@ public class OptionsPopupView extends ArrowPopup
     @Nullable
     public static WidgetsFullSheet openWidgets(Launcher launcher) {
         if (launcher.getPackageManager().isSafeMode()) {
-            Toast.makeText(launcher, R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
+            Snackbar.show(launcher, R.string.safemode_widget_error);
             return null;
         } else {
             return WidgetsFullSheet.show(launcher, true /* animated */);
@@ -206,7 +205,7 @@ public class OptionsPopupView extends ArrowPopup
     public static boolean startWallpaperPicker(View v) {
         Launcher launcher = Launcher.getLauncher(v.getContext());
         if (!Utilities.isWallpaperAllowed(launcher)) {
-            Toast.makeText(launcher, R.string.msg_disabled_by_admin, Toast.LENGTH_SHORT).show();
+            Snackbar.show(launcher, R.string.msg_disabled_by_admin);
             return false;
         }
         Intent intent = new Intent(Intent.ACTION_SET_WALLPAPER)

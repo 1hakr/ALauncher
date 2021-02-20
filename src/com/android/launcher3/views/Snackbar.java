@@ -19,6 +19,7 @@ package com.android.launcher3.views;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -57,7 +58,25 @@ public class Snackbar extends AbstractFloatingView {
         inflate(context, R.layout.snackbar, this);
     }
 
+    public static void show(Launcher launcher, int labelStringResId) {
+        Resources res = launcher.getResources();
+        String labelText = res.getString(labelStringResId);
+        show(launcher, labelText, "", null, null);
+    }
+
+    public static void show(Launcher launcher, String labelText) {
+        show(launcher, labelText, "", null, null);
+    }
+
     public static void show(Launcher launcher, int labelStringResId, int actionStringResId,
+                            Runnable onDismissed, Runnable onActionClicked) {
+        Resources res = launcher.getResources();
+        String labelText = res.getString(labelStringResId);
+        String actionText = res.getString(actionStringResId);
+        show(launcher, labelText, actionText, onDismissed, onActionClicked);
+    }
+
+    public static void show(Launcher launcher, String labelText, String actionText,
             Runnable onDismissed, Runnable onActionClicked) {
         closeOpenViews(launcher, true, TYPE_SNACKBAR);
         Snackbar snackbar = new Snackbar(launcher, null);
@@ -88,10 +107,10 @@ public class Snackbar extends AbstractFloatingView {
 
         TextView labelView = snackbar.findViewById(R.id.label);
         TextView actionView = snackbar.findViewById(R.id.action);
-        String labelText = res.getString(labelStringResId);
-        String actionText = res.getString(actionStringResId);
+        float actionWidth = !TextUtils.isEmpty(actionText)
+                ? actionView.getPaint().measureText(actionText) : 0;
         int totalContentWidth = (int) (labelView.getPaint().measureText(labelText)
-                + actionView.getPaint().measureText(actionText))
+                + actionWidth)
                 + labelView.getPaddingRight() + labelView.getPaddingLeft()
                 + actionView.getPaddingRight() + actionView.getPaddingLeft()
                 + padding * 2;

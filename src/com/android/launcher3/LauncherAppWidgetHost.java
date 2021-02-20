@@ -16,8 +16,6 @@
 
 package com.android.launcher3;
 
-import static android.app.Activity.RESULT_CANCELED;
-
 import android.appwidget.AppWidgetHost;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -27,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.util.SparseArray;
-import android.widget.Toast;
 
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.widget.DeferredAppWidgetHostView;
@@ -36,6 +33,10 @@ import com.android.launcher3.widget.custom.CustomWidgetManager;
 
 import java.util.ArrayList;
 import java.util.function.IntConsumer;
+
+import amirz.helpers.Settings;
+
+import static android.app.Activity.RESULT_CANCELED;
 
 
 /**
@@ -287,7 +288,7 @@ public class LauncherAppWidgetHost extends AppWidgetHost {
         try {
             startAppWidgetConfigureActivityForResult(activity, widgetId, 0, requestCode, null);
         } catch (ActivityNotFoundException | SecurityException e) {
-            Toast.makeText(activity, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Settings.showSnackBar(activity, R.string.activity_not_found);
             sendActionCancelled(activity, requestCode);
         }
     }

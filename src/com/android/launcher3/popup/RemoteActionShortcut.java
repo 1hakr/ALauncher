@@ -32,6 +32,8 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.userevent.nano.LauncherLogProto;
 
+import amirz.helpers.Settings;
+
 public class RemoteActionShortcut extends SystemShortcut<BaseDraggingActivity> {
     private static final String TAG = "RemoteActionShortcut";
     private static final boolean DEBUG = Utilities.IS_DEBUG_DEVICE;
@@ -65,17 +67,15 @@ public class RemoteActionShortcut extends SystemShortcut<BaseDraggingActivity> {
                             if (resultData != null && !resultData.isEmpty()) {
                                 Log.e(TAG, "Remote action returned result: " + actionIdentity
                                         + " : " + resultData);
-                                Toast.makeText(activity, resultData, Toast.LENGTH_SHORT).show();
+                                Settings.showSnackBar(activity, resultData);
                             }
                         },
                         new Handler(Looper.getMainLooper()));
             } catch (PendingIntent.CanceledException e) {
                 Log.e(TAG, "Remote action canceled: " + actionIdentity, e);
-                Toast.makeText(activity, activity.getString(
+                Settings.showSnackBar(activity, activity.getString(
                         R.string.remote_action_failed,
-                        mAction.getTitle()),
-                        Toast.LENGTH_SHORT)
-                        .show();
+                        mAction.getTitle()));
             }
 
             activity.getUserEventDispatcher().logActionOnControl(LauncherLogProto.Action.Touch.TAP,

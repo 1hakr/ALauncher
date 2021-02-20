@@ -28,7 +28,6 @@ import android.os.UserHandle;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -40,6 +39,8 @@ import com.android.launcher3.uioverrides.DisplayRotationListener;
 import com.android.launcher3.uioverrides.WallpaperColorInfo;
 import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.util.Themes;
+
+import amirz.helpers.Settings;
 
 /**
  * Extension of BaseActivity allowing support for drag-n-drop
@@ -140,7 +141,7 @@ public abstract class BaseDraggingActivity extends BaseActivity
     public boolean startActivitySafely(View v, Intent intent, @Nullable ItemInfo item,
             @Nullable String sourceContainer) {
         if (mIsSafeModeEnabled && !PackageManagerHelper.isSystemApp(this, intent)) {
-            Toast.makeText(this, R.string.safemode_shortcut_error, Toast.LENGTH_SHORT).show();
+            Settings.showSnackBar(this, R.string.safemode_shortcut_error);
             return false;
         }
 
@@ -175,7 +176,7 @@ public abstract class BaseDraggingActivity extends BaseActivity
             getStatsLogManager().logAppLaunch(v, intent);
             return true;
         } catch (NullPointerException|ActivityNotFoundException|SecurityException e) {
-            Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Settings.showSnackBar(this, R.string.activity_not_found);
             Log.e(TAG, "Unable to launch. tag=" + item + " intent=" + intent, e);
         }
         return false;

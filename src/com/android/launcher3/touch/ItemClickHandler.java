@@ -15,18 +15,7 @@
  */
 package com.android.launcher3.touch;
 
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_BY_PUBLISHER;
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_LOCKED_USER;
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_QUIET_USER;
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_SAFEMODE;
-import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_SUSPENDED;
-import static com.android.launcher3.Launcher.REQUEST_BIND_PENDING_APPWIDGET;
-import static com.android.launcher3.Launcher.REQUEST_RECONFIGURE_APPWIDGET;
-import static com.android.launcher3.model.AppLaunchTracker.CONTAINER_ALL_APPS;
-
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.LauncherApps;
 import android.content.pm.PackageInstaller.SessionInfo;
@@ -36,7 +25,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -57,8 +45,18 @@ import com.android.launcher3.folder.Folder;
 import com.android.launcher3.folder.FolderIcon;
 import com.android.launcher3.util.PackageManagerHelper;
 import com.android.launcher3.views.FloatingIconView;
+import com.android.launcher3.views.Snackbar;
 import com.android.launcher3.widget.PendingAppWidgetHostView;
 import com.android.launcher3.widget.WidgetAddFlowHandler;
+
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_BY_PUBLISHER;
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_LOCKED_USER;
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_QUIET_USER;
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_SAFEMODE;
+import static com.android.launcher3.ItemInfoWithIcon.FLAG_DISABLED_SUSPENDED;
+import static com.android.launcher3.Launcher.REQUEST_BIND_PENDING_APPWIDGET;
+import static com.android.launcher3.Launcher.REQUEST_RECONFIGURE_APPWIDGET;
+import static com.android.launcher3.model.AppLaunchTracker.CONTAINER_ALL_APPS;
 
 /**
  * Class for handling clicks on workspace and all-apps items
@@ -119,7 +117,7 @@ public class ItemClickHandler {
      */
     private static void onClickPendingWidget(PendingAppWidgetHostView v, Launcher launcher) {
         if (launcher.getPackageManager().isSafeMode()) {
-            Toast.makeText(launcher, R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
+            Snackbar.show(launcher, R.string.safemode_widget_error);
             return;
         }
 
@@ -208,7 +206,7 @@ public class ItemClickHandler {
             } else {
                 if (!TextUtils.isEmpty(shortcut.disabledMessage)) {
                     // Use a message specific to this shortcut, if it has one.
-                    Toast.makeText(launcher, shortcut.disabledMessage, Toast.LENGTH_SHORT).show();
+                    Snackbar.show(launcher, shortcut.disabledMessage.toString());
                     return;
                 }
                 // Otherwise just use a generic error message.
@@ -219,7 +217,7 @@ public class ItemClickHandler {
                         (shortcut.runtimeStatusFlags & FLAG_DISABLED_LOCKED_USER) != 0) {
                     error = R.string.shortcut_not_available;
                 }
-                Toast.makeText(launcher, error, Toast.LENGTH_SHORT).show();
+                Snackbar.show(launcher, error);
                 return;
             }
         }
