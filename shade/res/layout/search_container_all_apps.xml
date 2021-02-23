@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:drawablePadding="@dimen/qsb_widget_padding"
             android:drawableStart="@drawable/ic_allapps_search"
             android:fontFamily="sans-serif"
