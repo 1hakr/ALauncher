@@ -36,7 +36,7 @@ import java.util.Locale;
 
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
-import dev.dworks.apps.alauncher.misc.Snackbar;
+import amirz.shade.util.Snackbar;
 
 import static android.content.Intent.ACTION_SENDTO;
 import static com.android.launcher3.LauncherState.ALL_APPS;

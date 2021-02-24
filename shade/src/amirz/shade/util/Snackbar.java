@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.dworks.apps.alauncher.misc;
+package amirz.shade.util;
 
 import android.app.Activity;
 import android.content.Context;
