@@ -50,6 +50,8 @@
     <!-- App lock-->
 <!--    <uses-permission android:name="android.permission.USE_BIOMETRIC" />-->
 
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
     <uses-permission android:name="${packageName}.permission.ACCESSIBILITY" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
