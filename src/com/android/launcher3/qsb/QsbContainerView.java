@@ -318,7 +318,7 @@ public class QsbContainerView extends FrameLayout {
                                 .putExtra(EXTRA_APPWIDGET_ID, mQsbWidgetHost.allocateAppWidgetId())
                                 .putExtra(EXTRA_APPWIDGET_PROVIDER, mWidgetInfo.provider),
                         REQUEST_BIND_QSB));
-                setupButton.callOnClick();
+                //setupButton.callOnClick();
             }
             return v;
         }
