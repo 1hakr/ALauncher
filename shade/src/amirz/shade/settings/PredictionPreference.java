@@ -107,7 +107,7 @@ public class PredictionPreference extends SwitchPreference
         if (amirz.helpers.Settings.isIntentAvailable(context, intent)) {
             context.startActivity(intent);
         } else if (amirz.helpers.Settings.isIntentAvailable(context, simpleIntent)) {
-            context.startActivity(intent);
+            context.startActivity(simpleIntent);
         } else {
             amirz.helpers.Settings.showSnackBar(context, "No suitable app found!");
         }
