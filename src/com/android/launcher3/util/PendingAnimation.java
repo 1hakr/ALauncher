@@ -20,7 +20,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Utility class to keep track of a running animation.

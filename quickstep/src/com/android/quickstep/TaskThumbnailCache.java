@@ -34,7 +34,7 @@ import com.android.systemui.shared.recents.model.ThumbnailData;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 public class TaskThumbnailCache {
 

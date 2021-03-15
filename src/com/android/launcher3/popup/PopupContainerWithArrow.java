@@ -66,7 +66,7 @@ import com.android.launcher3.views.BaseDragLayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
+import androidx.core.util.Predicate;
 
 import amirz.helpers.Settings;
 

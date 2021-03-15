@@ -61,7 +61,7 @@ import com.android.quickstep.util.NavBarPosition;
 import com.android.quickstep.util.RecentsAnimationListenerSet;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.shared.system.InputMonitorCompat;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Input consumer for handling events originating from an activity other than Launcher

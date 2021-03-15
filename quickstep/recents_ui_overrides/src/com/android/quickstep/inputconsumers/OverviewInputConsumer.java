@@ -33,7 +33,7 @@ import com.android.quickstep.OverviewCallbacks;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 import com.android.systemui.shared.system.InputMonitorCompat;
 
-import java.util.function.Predicate;
+import androidx.core.util.Predicate;
 
 /**
  * Input consumer for handling touch on the recents/Launcher activity.

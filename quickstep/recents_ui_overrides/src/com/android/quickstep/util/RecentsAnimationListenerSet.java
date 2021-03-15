@@ -31,7 +31,7 @@ import com.android.systemui.shared.system.RecentsAnimationListener;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 
 import java.util.Set;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Wrapper around {@link RecentsAnimationListener} which delegates callbacks to multiple listeners

@@ -68,7 +68,7 @@ import com.android.systemui.shared.system.InputConsumerController;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 import com.android.systemui.shared.system.SyncRtSurfaceTransactionApplierCompat;
 
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Base class for swipe up handler with some utility methods

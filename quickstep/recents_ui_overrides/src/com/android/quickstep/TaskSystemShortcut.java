@@ -56,7 +56,7 @@ import com.android.systemui.shared.system.WindowManagerWrapper;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Represents a system shortcut that can be shown for a recent task.

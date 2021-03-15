@@ -43,7 +43,7 @@ import com.android.launcher3.graphics.PreloadIconDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
+import androidx.core.util.Predicate;
 
 /**
  * Manages the drawing and animations of {@link PreviewItemDrawingParams} for a {@link FolderIcon}.

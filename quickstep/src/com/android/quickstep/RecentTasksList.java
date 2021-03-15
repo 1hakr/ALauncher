@@ -35,7 +35,7 @@ import com.android.systemui.shared.system.TaskStackChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Manages the recent task list from the system, caching it as necessary.

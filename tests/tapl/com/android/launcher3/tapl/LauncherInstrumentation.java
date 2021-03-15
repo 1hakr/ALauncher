@@ -76,7 +76,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 import java.util.function.Function;
 
 /**

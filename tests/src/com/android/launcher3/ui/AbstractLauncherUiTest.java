@@ -77,7 +77,7 @@ import java.lang.annotation.Target;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 import java.util.function.Function;
 
 /**

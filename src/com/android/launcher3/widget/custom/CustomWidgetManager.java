@@ -41,7 +41,7 @@ import com.android.systemui.plugins.PluginListener;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * CustomWidgetManager handles custom widgets implemented as a plugin.

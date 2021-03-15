@@ -26,7 +26,7 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.util.Log;
 
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * {@link BroadcastReceiver} which watches configuration changes and

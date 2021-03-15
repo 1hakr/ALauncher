@@ -21,7 +21,7 @@ import android.util.SparseArray;
 import com.android.launcher3.config.FeatureFlags;
 
 import java.util.StringJoiner;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Utility class to help manage multiple callbacks based on different states.

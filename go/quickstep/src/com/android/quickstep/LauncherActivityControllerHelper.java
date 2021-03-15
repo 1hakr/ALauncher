@@ -27,7 +27,7 @@ import com.android.launcher3.userevent.nano.LauncherLogProto;
 import com.android.quickstep.views.IconRecentsView;
 
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * {@link ActivityControlHelper} for the in-launcher recents.

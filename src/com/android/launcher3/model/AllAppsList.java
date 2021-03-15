@@ -27,6 +27,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.os.LocaleListCompat;
+import androidx.core.util.Consumer;
 
 import com.android.launcher3.AppFilter;
 import com.android.launcher3.AppInfo;
@@ -44,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.android.launcher3.AppInfo.COMPONENT_KEY_COMPARATOR;
 import static com.android.launcher3.AppInfo.EMPTY_ARRAY;

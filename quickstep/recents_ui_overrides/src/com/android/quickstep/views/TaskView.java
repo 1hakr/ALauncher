@@ -75,7 +75,7 @@ import com.android.systemui.shared.system.QuickStepContract;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * A task in the Recents view.

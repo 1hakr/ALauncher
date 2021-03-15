@@ -39,7 +39,7 @@ import com.android.launcher3.util.PackageUserKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 import androidx.annotation.VisibleForTesting;
 

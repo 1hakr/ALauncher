@@ -25,7 +25,7 @@ import com.android.systemui.shared.recents.model.Task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * This class is responsible for maintaining the list of tasks and the task content. The list must

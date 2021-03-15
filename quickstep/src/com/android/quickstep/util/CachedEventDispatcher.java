@@ -20,7 +20,7 @@ import static com.android.systemui.shared.system.InputChannelCompat.mergeMotionE
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Utility class to dispatch touch events to a different class. It stores the events locally

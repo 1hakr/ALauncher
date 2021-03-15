@@ -38,7 +38,7 @@ import com.android.systemui.shared.recents.model.TaskKeyLruCache;
 import com.android.systemui.shared.system.ActivityManagerWrapper;
 
 import java.util.Map;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Manages the caching of task icons and related data.

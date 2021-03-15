@@ -30,7 +30,7 @@ import com.android.quickstep.util.RemoteAnimationTargetSet;
 import com.android.quickstep.views.IconRecentsView;
 
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * {@link ActivityControlHelper} for recents when the default launcher is different than the

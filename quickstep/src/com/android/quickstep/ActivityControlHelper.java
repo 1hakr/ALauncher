@@ -40,7 +40,7 @@ import com.android.quickstep.util.ShelfPeekAnim;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Utility class which abstracts out the logical differences between Launcher and RecentsActivity.

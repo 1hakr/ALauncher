@@ -18,6 +18,8 @@ package com.android.launcher3.allapps;
 import android.content.Context;
 import android.content.pm.PackageManager;
 
+import androidx.core.content.ContextCompat;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.Utilities;
@@ -406,7 +408,7 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
     private boolean shouldShowWorkFooter() {
         return mIsWork && Utilities.ATLEAST_P &&
                 (DeepShortcutManager.getInstance(mLauncher).hasHostPermission()
-                        || mLauncher.checkSelfPermission("android.permission.MODIFY_QUIET_MODE")
+                        || ContextCompat.checkSelfPermission(mLauncher,"android.permission.MODIFY_QUIET_MODE")
                         == PackageManager.PERMISSION_GRANTED);
     }
 

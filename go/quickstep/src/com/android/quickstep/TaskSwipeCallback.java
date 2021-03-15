@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Callback for swipe input on {@link TaskHolder} views in the recents view.

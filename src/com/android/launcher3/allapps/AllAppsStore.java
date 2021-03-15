@@ -15,11 +15,11 @@
  */
 package com.android.launcher3.allapps;
 
-import static com.android.launcher3.AppInfo.COMPONENT_KEY_COMPARATOR;
-import static com.android.launcher3.AppInfo.EMPTY_ARRAY;
-
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.core.util.Consumer;
+import androidx.core.util.Predicate;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.BubbleTextView;
@@ -31,8 +31,9 @@ import com.android.launcher3.util.PackageUserKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+
+import static com.android.launcher3.AppInfo.COMPONENT_KEY_COMPARATOR;
+import static com.android.launcher3.AppInfo.EMPTY_ARRAY;
 
 /**
  * A utility class to maintain the collection of all apps.

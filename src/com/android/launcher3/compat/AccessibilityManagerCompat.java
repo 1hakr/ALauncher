@@ -26,7 +26,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.android.launcher3.testing.TestProtocol;
 import com.android.launcher3.Utilities;
 
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 public class AccessibilityManagerCompat {
 

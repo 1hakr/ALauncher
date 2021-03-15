@@ -40,7 +40,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Predicate;
+import androidx.core.util.Predicate;
 import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;

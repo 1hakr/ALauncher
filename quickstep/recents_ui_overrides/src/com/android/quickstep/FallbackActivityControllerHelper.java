@@ -41,7 +41,7 @@ import com.android.quickstep.views.RecentsView;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * {@link ActivityControlHelper} for recents when the default launcher is different than the

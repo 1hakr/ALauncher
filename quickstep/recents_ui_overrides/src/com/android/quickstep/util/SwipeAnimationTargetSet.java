@@ -25,7 +25,7 @@ import com.android.systemui.shared.recents.model.ThumbnailData;
 import com.android.systemui.shared.system.RecentsAnimationControllerCompat;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * Extension of {@link RemoteAnimationTargetSet} with additional information about swipe

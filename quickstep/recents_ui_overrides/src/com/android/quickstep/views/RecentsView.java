@@ -116,7 +116,7 @@ import com.android.systemui.shared.system.SyncRtSurfaceTransactionApplierCompat;
 import com.android.systemui.shared.system.TaskStackChangeListener;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * A list of recent tasks.

@@ -68,7 +68,7 @@ import com.android.quickstep.views.TaskView;
 import com.android.systemui.shared.system.RemoteAnimationTargetCompat;
 
 import java.util.function.BiPredicate;
-import java.util.function.Consumer;
+import androidx.core.util.Consumer;
 
 /**
  * {@link ActivityControlHelper} for the in-launcher recents.
