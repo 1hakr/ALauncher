@@ -271,7 +271,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
 
     //This is for Consumable product
     public void consumePurchase(Purchase purchase) {
-        if (isValidPurchase(purchase))) {
+        if (isValidPurchase(purchase)) {
 
             ConsumeParams consumeParams = ConsumeParams.newBuilder()
                     .setPurchaseToken(purchase.getPurchaseToken())

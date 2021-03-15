@@ -248,7 +248,7 @@ public class Settings {
         }
     }
 
-    private static String getDeviceDetails(){
+    private static String getDeviceDetails(Activity activity){
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         String manufacturer = Build.MANUFACTURER;
@@ -259,23 +259,32 @@ public class Settings {
         } else {
             deviceModelName = manufacturer + " " + model;
         }
+        Locale locale = null;
+        if(Utilities.ATLEAST_NOUGAT){
+            locale = activity.getResources().getConfiguration().getLocales().get(0);
+        } else {
+            locale = activity.getResources().getConfiguration().locale;
+        }
         String versionName = BuildConfig.VERSION_NAME;
         String deviceDetails = "";
         deviceDetails += "App package: " + BuildConfig.APPLICATION_ID + " \n";
-        deviceDetails += "Build version: " + versionName + " \n";
+        deviceDetails += "App version: " + versionName + " \n";
         deviceDetails += "Current date: " + dateFormat.format(currentDate) + " \n";
         deviceDetails += "Device: " + deviceModelName + " \n";
-        deviceDetails += "OS version: Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ") \n \n";
-        deviceDetails += "\nFeedback: \n";
+        deviceDetails += "OS version: Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ") \n";
+        if(null != locale) {
+            deviceDetails += "Country: " + locale.getDisplayCountry() + " \n";
+            deviceDetails += "Language: " + locale.getDisplayLanguage() + " \n";
+        }
         return deviceDetails;
     }
 
     public static void openFeedback(Activity activity){
-        sendEmail(activity, "Send Feedback", "ALauncher Feedback", getDeviceDetails());
+        sendEmail(activity, "Send Feedback", "ALauncher Feedback", getDeviceDetails(activity));
     }
 
     public static void sendError(Activity activity, String details){
-        sendEmail(activity, "Report Error", "ALauncher Error", details);
+        sendEmail(activity, "Report Error", "ALauncher Error", getDeviceDetails(activity) + details);
     }
 
     public static void sendEmail(Activity activity, String title, String subject, String details){
@@ -287,6 +296,7 @@ public class Settings {
         if(!TextUtils.isEmpty(details)){
             text = details;
         }
+        text += "\n\nFeedback: \n";
         result.putExtra(Intent.EXTRA_TEXT, text);
 
         activity.startActivity(Intent.createChooser(result, title));
