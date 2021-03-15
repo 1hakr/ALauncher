@@ -21,8 +21,6 @@ import amirz.App;
 import amirz.helpers.Settings;
 import amirz.shade.ShadeFont;
 import amirz.shade.customization.ShadeStyle;
-import needle.Needle;
-import needle.UiRelatedTask;
 
 import static dev.dworks.apps.alauncher.AppFlavour.BILLING_ACTION;
 
@@ -103,18 +101,7 @@ public class PurchaseActivity extends Activity {
     }
 
     private void restorePurchase() {
-        Needle.onBackgroundThread().execute(new UiRelatedTask<Boolean>(){
-            @Override
-            protected Boolean doWork() {
-                App.getInstance().loadPurchaseItems(PurchaseActivity.this);
-                return true;
-            }
-
-            @Override
-            protected void thenDoUiRelatedWork(Boolean aBoolean) {
-                onPurchaseRestored();
-            }
-        });
+        App.getInstance().loadPurchaseItems(PurchaseActivity.this);
     }
 
     public void onPurchaseRestored(){

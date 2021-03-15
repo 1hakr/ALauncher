@@ -27,6 +27,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class BillingHelper implements BillingClientStateListener, SkuDetailsResponseListener,
         PurchasesUpdatedListener {
 
@@ -37,6 +38,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
     private List<String> skuSubList = new ArrayList<>();
     private ArrayMap<String, SkuDetails> skuDetailsMap = new ArrayMap<>();
     private ArrayMap<String, Purchase> purchaseDetailsMap = new ArrayMap<>();
+    private boolean mSubscriptionSupported = false;
     private Activity mCurrentActivity;
 
     /**
@@ -55,6 +57,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
 
     public void setSkuSubList(List<String> skuSubList) {
         this.skuSubList = skuSubList;
+        this.mSubscriptionSupported = true;
     }
 
     public void initialize(){
@@ -121,15 +124,11 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
                     consumePurchase(purchase);
                 }
             }
-        }
-
-        if (responseCode == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED) {
+        } else if (responseCode == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED) {
             startConnection();
         } else if (responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             getOwnedItems();
-        }
-
-        if (mBillingListener != null) {
+        } else if (mBillingListener != null) {
             mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
         }
     }
@@ -145,7 +144,9 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
 
     public void getOwnedItems() {
         getPurchasedItems();
-        getSubscribedItems();
+        if(mSubscriptionSupported) {
+            getSubscribedItems();
+        }
     }
     /**
      * Get purchases details for all the items bought within your app.
@@ -153,14 +154,14 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
     public void getPurchasedItems() {
         Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP);
         List<Purchase> purchaseList = purchasesResult.getPurchasesList();
-        if(null == purchaseList){
+        if(null == purchaseList || purchaseList.isEmpty()){
             return;
         }
         synchronized (purchaseDetailsMap) {
             for (Purchase purchase : purchaseList) {
                 purchaseDetailsMap.put(purchase.getSku(), purchase);
             }
-            if (mBillingListener != null) {
+            if (mBillingListener != null && !purchaseList.isEmpty()) {
                 mBillingListener.onPurchaseHistoryResponse(purchaseList);
             }
         }
@@ -172,14 +173,14 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
     public void getSubscribedItems() {
         Purchase.PurchasesResult purchasesResult = mBillingClient.queryPurchases(BillingClient.SkuType.SUBS);
         List<Purchase> purchaseList = purchasesResult.getPurchasesList();
-        if(null == purchaseList){
+        if(null == purchaseList || purchaseList.isEmpty()){
             return;
         }
         synchronized (purchaseDetailsMap) {
             for (Purchase purchase : purchaseList) {
                 purchaseDetailsMap.put(purchase.getSku(), purchase);
             }
-            if (mBillingListener != null) {
+            if (mBillingListener != null && !purchaseList.isEmpty()) {
                 mBillingListener.onPurchaseHistoryResponse(purchaseList);
             }
         }
@@ -197,7 +198,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
      * Perform a network query to get In App SKU details and return the result asynchronously.
      */
     public void getSKUInAppDetails() {
-        if(null == skuInAppList || skuInAppList.size() == 0){
+        if(null == skuInAppList || skuInAppList.isEmpty()){
             return;
         }
         SkuDetailsParams skuParams = SkuDetailsParams.newBuilder()
@@ -211,7 +212,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
      * Perform a network query to get Sub SKU details and return the result asynchronously.
      */
     public void getSKUSubDetails() {
-        if(null == skuSubList || skuSubList.size() == 0){
+        if(null == skuSubList || skuSubList.isEmpty()){
             return;
         }
         SkuDetailsParams skuParams = SkuDetailsParams.newBuilder()
@@ -245,8 +246,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
 
     //This is for Non-Consumable product
     public void acknowledgePurchase(Purchase purchase) {
-        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED
-                && isSignatureValid(purchase)) {
+        if (isValidPurchase(purchase)) {
 
             AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
                     .setPurchaseToken(purchase.getPurchaseToken())
@@ -271,8 +271,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
 
     //This is for Consumable product
     public void consumePurchase(Purchase purchase) {
-        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED
-                && isSignatureValid(purchase)) {
+        if (isValidPurchase(purchase))) {
 
             ConsumeParams consumeParams = ConsumeParams.newBuilder()
                     .setPurchaseToken(purchase.getPurchaseToken())
@@ -318,7 +317,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
         }
     }
 
-    private boolean isSignatureValid(Purchase purchase) {
+    private static boolean isSignatureValid(Purchase purchase) {
         return BillingSecurity.verifyPurchase(BillingSecurity.BASE_64_ENCODED_PUBLIC_KEY,
                 purchase.getOriginalJson(), purchase.getSignature()) && BillingSecurity.verifyMerchant(purchase);
     }
@@ -333,6 +332,11 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
         final PackageManager packageManager = context.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentServices(getBindServiceIntent(), 0);
         return list != null && list.size() > 0;
+    }
+
+    public static boolean isValidPurchase(Purchase purchase){
+        return purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED
+                && isSignatureValid(purchase);
     }
 
     /**

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.widget.Toast;
@@ -21,6 +22,8 @@ import java.util.List;
 import amirz.App;
 import amirz.helpers.Settings;
 import dev.dworks.apps.alauncher.misc.BillingHelper;
+import needle.Needle;
+import needle.UiRelatedTask;
 
 /**
  * Created by HaKr on 16/05/17.
@@ -63,7 +66,23 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 	}
 
 	public void loadPurchaseItems(Activity activity){
-		billingHelper.getOwnedItems();
+		Needle.onBackgroundThread().execute(new UiRelatedTask<Boolean>(){
+			@Override
+			protected Boolean doWork() {
+				billingHelper.getOwnedItems();
+				return true;
+			}
+
+			@Override
+			protected void thenDoUiRelatedWork(Boolean aBoolean) {
+				if (App.isPurchased()) {
+					Settings.showSnackBar(activity, R.string.restored_previous_purchase_please_restart);
+					finishDelayed(activity);
+				} else {
+					Settings.showSnackBar(activity, R.string.could_not_restore_purchase);
+				}
+			}
+		});
 	}
 
 	public String getPurchasePrice(String productId){
@@ -81,7 +100,8 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 		boolean isPurchased = false;
 		String currentId = getPurchasedProductId();
 		for (Purchase purchase: purchasedList) {
-			if(currentId.equals(purchase.getSku())){
+			boolean valid = BillingHelper.isValidPurchase(purchase);
+			if(currentId.equals(purchase.getSku()) && valid){
 				isPurchased  = true;
 				break;
 			}
@@ -96,6 +116,7 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 		Settings.showSnackBar(activity, R.string.thank_you);
 		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSku());
 		PreferenceUtils.set(PURCHASED, true);
+		finishDelayed(activity);
 	}
 
 	@Override
@@ -166,6 +187,22 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 	public static String getPurchasedProductId(){
 		String productId = PreferenceUtils.getStringPrefs(PURCHASE_PRODUCT_ID);
 		return !TextUtils.isEmpty(productId) ? productId : getPurchaseId();
+	}
+
+	public static boolean isActivityAlive(Activity activity) {
+		return !(null == activity || activity.isDestroyed());
+	}
+
+	private static void finishDelayed(Activity activity){
+		if(!isActivityAlive(activity)){
+			return;
+		}
+		new Handler().postDelayed(new Runnable(){
+			@Override
+			public void run() {
+				activity.finish();
+			}
+		}, 4000);
 	}
 
 	public void purchase(Activity activity, String productId){
