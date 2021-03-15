@@ -50,7 +50,11 @@ public class LauncherAppTransitionManager implements ResourceBasedOverride {
                 height = bounds.height();
             }
         }
-        return ActivityOptions.makeClipRevealAnimation(v, left, top, width, height);
+        if (Utilities.ATLEAST_MARSHMALLOW) {
+            return ActivityOptions.makeClipRevealAnimation(v, left, top, width, height);
+        } else {
+            return ActivityOptions.makeScaleUpAnimation(v, 0, 0, width, height);
+        }
     }
 
     public boolean supportsAdaptiveIconAnimation() {

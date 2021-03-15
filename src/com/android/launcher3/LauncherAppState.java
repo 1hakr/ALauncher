@@ -115,7 +115,7 @@ public class LauncherAppState {
     }
 
     protected void onNotificationSettingsChanged(boolean areNotificationDotsEnabled) {
-        if (areNotificationDotsEnabled) {
+        if (areNotificationDotsEnabled && Utilities.ATLEAST_NOUGAT) {
             NotificationListener.requestRebind(new ComponentName(
                     mContext, NotificationListener.class));
         }

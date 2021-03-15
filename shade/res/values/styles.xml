@@ -121,11 +121,11 @@
         <item name="preferenceTheme">@style/Shade.PreferenceTheme</item>
     </style>
 
-    <style name="Shade.SettingsTheme.DialogAlert" parent="android:Theme.DeviceDefault.Dialog.Alert">
+    <style name="Shade.SettingsTheme.DialogAlert" parent="android:Theme.Material.Dialog.Alert">
         <item name="android:colorAccent">?shadeColorAccent</item>
     </style>
 
-    <style name="Shade.SettingsTheme.DialogAlert.Light" parent="android:Theme.DeviceDefault.Light.Dialog.Alert">
+    <style name="Shade.SettingsTheme.DialogAlert.Light" parent="android:Theme.Material.Light.Dialog.Alert">
         <item name="android:colorAccent">?shadeColorAccent</item>
     </style>
 

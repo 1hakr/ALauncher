@@ -16,7 +16,6 @@
 
 package com.android.launcher3.notification;
 
-import android.app.ActivityOptions;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -112,7 +111,11 @@ public class NotificationInfo implements View.OnClickListener {
         Bundle activityOptions = launcher.getAppTransitionManager()
                 .getActivityLaunchOptions(launcher, view).toBundle();
         try {
-            intent.send(null, 0, null, null, null, null, activityOptions);
+            if (Utilities.ATLEAST_MARSHMALLOW) {
+                intent.send(null, 0, null, null, null, null, activityOptions);
+            } else {
+                intent.send(null, 0, null, null, null, null);
+            }
             launcher.getUserEventDispatcher().logNotificationLaunch(view, intent);
         } catch (PendingIntent.CanceledException e) {
             e.printStackTrace();

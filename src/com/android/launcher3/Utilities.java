@@ -492,7 +492,11 @@ public final class Utilities {
     }
 
     public static boolean isWallpaperAllowed(Context context) {
-        return ((WallpaperManager)context.getSystemService(WALLPAPER_SERVICE)).isSetWallpaperAllowed();
+        if (ATLEAST_NOUGAT) {
+            WallpaperManager wm = (WallpaperManager)context.getSystemService(WALLPAPER_SERVICE);
+            return wm.isSetWallpaperAllowed();
+        }
+        return true;
     }
 
     public static boolean isBinderSizeError(Exception e) {

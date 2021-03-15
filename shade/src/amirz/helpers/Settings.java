@@ -239,15 +239,6 @@ public class Settings {
         return list.size() > 0;
     }
 
-    public static void openProAppLink(Activity activity){
-        Intent intentMarketAll = new Intent("android.intent.action.VIEW");
-        String url = activity.getString(R.string.about_donate_url);
-        intentMarketAll.setData(Uri.parse(url));
-        if(isIntentAvailable(activity, intentMarketAll)) {
-            activity.startActivity(intentMarketAll);
-        }
-    }
-
     private static String getDeviceDetails(Activity activity){
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -304,5 +295,57 @@ public class Settings {
 
     public static boolean isProVersion(){
         return BuildConfig.FLAVOR.contains("Pro");
+    }
+
+    public static boolean isGoogleBuild(){
+        return BuildConfig.FLAVOR.contains("Google");
+    }
+
+    public static boolean isAmazonBuild(){
+        return BuildConfig.FLAVOR.contains("Amazon");
+    }
+
+    public static final String AMAZON_SHORT_URL = "amzn://apps/android?p=";
+    public static final String GOOGLE_SHORT_URL = "market://details?id=";
+    public static final String AMAZON_APP_URL = "https://www.amazon.com/gp/mas/dl/android?p=";
+    public static final String GOOGLE_APP_URL = "https://play.google.com/store/apps/details?id=";
+
+    public static Uri getAppUri(){
+        return Uri.parse(getAppShortUrl());
+    }
+
+    public static String getAppShortUrl(){
+        String url = GOOGLE_SHORT_URL + BuildConfig.APPLICATION_ID;
+        if(isAmazonBuild()){
+            url = AMAZON_SHORT_URL + BuildConfig.APPLICATION_ID;
+        }
+        return url;
+    }
+
+    public static String getAppLongUrl(){
+        String url = GOOGLE_APP_URL + BuildConfig.APPLICATION_ID;
+        if(isAmazonBuild()){
+            url = AMAZON_APP_URL + BuildConfig.APPLICATION_ID;
+        }
+        return url;
+    }
+
+    public static void openPlaystore(Context çontext){
+        Intent intent = new Intent(Intent.ACTION_VIEW, getAppUri());
+        if(isIntentAvailable(çontext, intent)) {
+            çontext.startActivity(intent);
+        }
+    }
+
+    public static Uri getAppProStoreUri(){
+        String url = getAppLongUrl() + "dev.dworks.apps.alauncher.pro";
+        return Uri.parse(url);
+    }
+
+    public static void openProAppLink(Activity activity){
+        Intent intent = new Intent(Intent.ACTION_VIEW, getAppProStoreUri());
+        if(isIntentAvailable(activity, intent)) {
+            activity.startActivity(intent);
+        }
     }
 }

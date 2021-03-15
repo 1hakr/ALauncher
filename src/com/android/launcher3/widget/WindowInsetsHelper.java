@@ -42,7 +42,9 @@ public class WindowInsetsHelper {
     public static WindowInsetsCompat getRootWindowInsets(@NonNull View v) {
         if (Utilities.ATLEAST_MARSHMALLOW) {
             WindowInsets mTempRect = v.getRootWindowInsets();
-            return WindowInsetsCompat.toWindowInsetsCompat(mTempRect);
+            if(null != mTempRect) {
+                return WindowInsetsCompat.toWindowInsetsCompat(mTempRect);
+            }
         }
         if (!sReflectionSucceeded || !v.isAttachedToWindow()) {
             return null;
@@ -67,7 +69,7 @@ public class WindowInsetsHelper {
                     return insets;
                 }
             }
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             Log.w(TAG, "Failed to get insets from AttachInfo. " + e.getMessage(), e);
         }
         return null;

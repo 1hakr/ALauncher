@@ -5,7 +5,6 @@
     <string name="settings_title" translatable="false">ALauncher settings</string>
     <string name="app_pro" translatable="false">ALauncher Pro</string>
     <string name="about_review" translatable="false">"Like ALauncher?"</string>
-    <string name="about_donate_url" translatable="false">market://details?id=dev.dworks.apps.alauncher</string>
     <string name="app_pro_title" translatable="false">Unlock FULL version</string>
     <string name="app_pro_content" translatable="false">
         \n

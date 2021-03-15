@@ -16,9 +16,6 @@
 
 package com.android.launcher3.notification;
 
-import static com.android.launcher3.util.Executors.MODEL_EXECUTOR;
-import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
-
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -32,9 +29,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 
-import com.android.launcher3.Utilities;
 import androidx.annotation.Nullable;
 
+import com.android.launcher3.Utilities;
 import com.android.launcher3.util.IntSet;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.util.SecureSettingsObserver;
@@ -45,6 +42,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.android.launcher3.util.Executors.MODEL_EXECUTOR;
+import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
 
 /**
  * A {@link NotificationListenerService} that sends updates to its
@@ -316,7 +316,7 @@ public class NotificationListener extends NotificationListenerService {
                 }
             }
         }
-        if (sbn.isGroup() && newGroupKey != null) {
+        if (Utilities.ATLEAST_NOUGAT && sbn.isGroup() && newGroupKey != null) {
             // Maintain group info so we can cancel the summary when the last child is canceled.
             NotificationGroup notificationGroup = mNotificationGroupMap.get(newGroupKey);
             if (notificationGroup == null) {

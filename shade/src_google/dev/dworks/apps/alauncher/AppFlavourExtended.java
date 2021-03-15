@@ -2,7 +2,6 @@ package dev.dworks.apps.alauncher;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -29,7 +28,7 @@ import needle.UiRelatedTask;
  * Created by HaKr on 16/05/17.
  */
 
-public abstract class AppFlavour extends Application implements BillingHelper.BillingListener {
+public abstract class AppFlavourExtended extends Application implements BillingHelper.BillingListener {
 	private static final String PURCHASE_PRODUCT_ID = "purchase_product_id";
     public static final String PURCH_ID = "dev.dworks.apps.alauncher.purch";
     public static final String PURCHASED = "purchased";
@@ -212,9 +211,5 @@ public abstract class AppFlavour extends Application implements BillingHelper.Bi
 		} else {
 			Settings.showSnackBar(activity, "Billing not supported");
 		}
-	}
-
-	public void openPurchaseActivity(Context context){
-		context.startActivity(new Intent(context, PurchaseActivity.class));
 	}
 }

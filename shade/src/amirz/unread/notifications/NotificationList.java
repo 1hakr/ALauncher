@@ -132,6 +132,6 @@ public class NotificationList
     private int getRankedImportance() {
         return Utilities.ATLEAST_OREO
                 ? mTempRanking.getChannel().getImportance()
-                : mTempRanking.getImportance();
+                : Utilities.ATLEAST_NOUGAT ? mTempRanking.getImportance() : mTempRanking.getRank();
     }
 }

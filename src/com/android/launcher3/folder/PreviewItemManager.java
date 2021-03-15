@@ -16,11 +16,6 @@
 
 package com.android.launcher3.folder;
 
-import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.ENTER_INDEX;
-import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.EXIT_INDEX;
-import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
-import static com.android.launcher3.folder.FolderIcon.DROP_IN_ANIMATION_DURATION;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -29,11 +24,12 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.util.FloatProperty;
+import android.util.Property;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Predicate;
 
 import com.android.launcher3.Launcher;
 import com.android.launcher3.Utilities;
@@ -43,17 +39,21 @@ import com.android.launcher3.graphics.PreloadIconDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
-import androidx.core.util.Predicate;
+
+import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.ENTER_INDEX;
+import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.EXIT_INDEX;
+import static com.android.launcher3.folder.ClippedFolderIconLayoutRule.MAX_NUM_ITEMS_IN_PREVIEW;
+import static com.android.launcher3.folder.FolderIcon.DROP_IN_ANIMATION_DURATION;
 
 /**
  * Manages the drawing and animations of {@link PreviewItemDrawingParams} for a {@link FolderIcon}.
  */
 public class PreviewItemManager {
 
-    private static final FloatProperty<PreviewItemManager> CURRENT_PAGE_ITEMS_TRANS_X =
-            new FloatProperty<PreviewItemManager>("currentPageItemsTransX") {
+    private static final Property<PreviewItemManager, Float> CURRENT_PAGE_ITEMS_TRANS_X =
+            new Property<PreviewItemManager, Float>(Float.class,"currentPageItemsTransX") {
                 @Override
-                public void setValue(PreviewItemManager manager, float v) {
+                public void set(PreviewItemManager manager, Float v) {
                     manager.mCurrentPageItemsTransX = v;
                     manager.onParamsChanged();
                 }

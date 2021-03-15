@@ -19,11 +19,14 @@ package com.android.launcher3.popup;
 import android.app.PendingIntent;
 import android.app.RemoteAction;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.BaseDraggingActivity;
@@ -34,6 +37,7 @@ import com.android.launcher3.userevent.nano.LauncherLogProto;
 
 import amirz.helpers.Settings;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class RemoteActionShortcut extends SystemShortcut<BaseDraggingActivity> {
     private static final String TAG = "RemoteActionShortcut";
     private static final boolean DEBUG = Utilities.IS_DEBUG_DEVICE;

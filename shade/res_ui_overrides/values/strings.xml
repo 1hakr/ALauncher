@@ -3,7 +3,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="about_contact_email" translatable="false">mailto:support@dworks.io</string>
 
-    <string name="about_review_desc" translatable="false">Review on play store</string>
+    <string name="about_review_desc" translatable="false">Review on app store</string>
     <string name="about_info" translatable="false">Info</string>
     <string name="about_info_desc" translatable="false">@string/derived_app_name</string>
     <string name="restart_launcher"  translatable="false">Restart ALauncher</string>
@@ -25,7 +25,7 @@
     <string name="change_launcher" translatable="false">Set ALauncher as Home</string>
     <string name="change_launcher_desc" translatable="false">Change default launcher</string>
     <string name="subscription" translatable="false">Love ALauncher?</string>
-    <string name="subscription_desc" translatable="false">Support the development and receive updates</string>
+    <string name="subscription_desc" translatable="false">Unlock Pro version and support ALauncher</string>
     <string name="bridge_missing_message" translatable="false">
          The bridge to connect to the Google Feed could not be found.
         Please go to app description on Play Store to get the link for the bridge to download.

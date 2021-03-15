@@ -30,7 +30,7 @@ import needle.UiRelatedTask;
  * Created by HaKr on 16/05/17.
  */
 
-public abstract class AppFlavour extends Application implements BillingHelper.BillingListener {
+public abstract class AppFlavourExtended extends Application implements BillingHelper.BillingListener {
 	private static final String PURCHASE_PRODUCT_ID = "purchase_product_id";
 	public static final String PURCH_ID = BuildConfig.APPLICATION_ID + ".purch";
 	public static final String PURCHASED = "purchased";

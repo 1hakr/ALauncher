@@ -1,5 +1,6 @@
 package amirz;
 
+
 import dev.dworks.apps.alauncher.AppFlavour;
 
 public class App extends AppFlavour {

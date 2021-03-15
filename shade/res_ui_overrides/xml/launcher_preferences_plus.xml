@@ -21,14 +21,7 @@
         android:icon="@drawable/ic_support"
         android:key="pref_pro"
         android:summary="@string/subscription_desc"
-        android:title="@string/subscription">
-
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="dev.dworks.apps.alauncher.PurchaseActivity"
-            android:targetPackage="dev.dworks.apps.alauncher" />
-
-    </Preference>
+        android:title="@string/subscription" />
 
     <com.android.launcher3.settings.NotificationDotsPreference
         android:icon="@drawable/ic_notifications"
@@ -246,11 +239,7 @@
             android:key="pref_review"
             android:title="@string/about_review"
             android:summary="@string/about_review_desc"
-            android:persistent="false">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/about_donate_url" />
-        </Preference>
+            android:persistent="false" />
 
         <Preference
             android:icon="@drawable/ic_feedback"

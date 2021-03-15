@@ -28,7 +28,7 @@
         android:lines="1"
         android:ellipsize="end"
         android:textSize="@dimen/snackbar_max_text_size"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@android:color/white"
         style="@style/TextTitle"/>
     <TextView
         android:id="@+id/action"

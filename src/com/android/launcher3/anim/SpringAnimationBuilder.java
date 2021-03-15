@@ -18,17 +18,20 @@ package com.android.launcher3.anim;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.os.Build;
 import android.util.FloatProperty;
 
-import com.android.launcher3.util.DefaultDisplay;
-
 import androidx.annotation.FloatRange;
+import androidx.annotation.RequiresApi;
 import androidx.dynamicanimation.animation.SpringForce;
+
+import com.android.launcher3.util.DefaultDisplay;
 
 /**
  * Utility class to build an object animator which follows the same path as a spring animation for
  * an underdamped spring.
  */
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class SpringAnimationBuilder<T> extends FloatProperty<T> {
 
     private final T mTarget;

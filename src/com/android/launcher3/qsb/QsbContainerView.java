@@ -16,11 +16,6 @@
 
 package com.android.launcher3.qsb;
 
-import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_BIND;
-import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID;
-import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_PROVIDER;
-import static android.content.Context.SEARCH_SERVICE;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.SearchManager;
@@ -32,7 +27,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -43,7 +37,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.AppWidgetResizeFrame;
 import com.android.launcher3.InvariantDeviceProfile;
@@ -52,6 +45,13 @@ import com.android.launcher3.R;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.graphics.FragmentWithPreview;
+
+import java.util.List;
+
+import static android.appwidget.AppWidgetManager.ACTION_APPWIDGET_BIND;
+import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID;
+import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_PROVIDER;
+import static android.content.Context.SEARCH_SERVICE;
 
 /**
  * A frame layout which contains a QSB. This internally uses fragment to bind the view, which
@@ -69,7 +69,6 @@ public class QsbContainerView extends FrameLayout {
      * @param context
      * @return String
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Nullable
     public static String getSearchWidgetPackageName(@NonNull Context context) {
         String providerPkg = Settings.Global.getString(context.getContentResolver(),
@@ -98,8 +97,10 @@ public class QsbContainerView extends FrameLayout {
 
         AppWidgetProviderInfo defaultWidgetForSearchPackage = null;
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        for (AppWidgetProviderInfo info :
-                appWidgetManager.getInstalledProvidersForPackage(providerPkg, null)) {
+        List<AppWidgetProviderInfo> list = Utilities.ATLEAST_OREO
+                ? appWidgetManager.getInstalledProvidersForPackage(providerPkg, null)
+                : appWidgetManager.getInstalledProviders();
+        for (AppWidgetProviderInfo info : list) {
             if (info.provider.getPackageName().equals(providerPkg) && info.configure == null) {
                 if ((info.widgetCategory
                         & AppWidgetProviderInfo.WIDGET_CATEGORY_SEARCHBOX) != 0) {

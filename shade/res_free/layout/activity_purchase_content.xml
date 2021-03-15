@@ -64,13 +64,6 @@
                 android:padding="8dp">
 
                 <Button
-                    android:id="@+id/restore_button"
-                    style="@android:style/Widget.Material.Light.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/restore" />
-
-                <Button
                     android:id="@+id/purchase_button"
                     style="@android:style/Widget.Material.Light.Button.Borderless"
                     android:layout_width="wrap_content"

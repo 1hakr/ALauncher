@@ -1,14 +1,10 @@
 package com.android.launcher3;
 
-import static com.android.launcher3.util.SystemUiController.FLAG_DARK_NAV;
-import static com.android.launcher3.util.SystemUiController.UI_STATE_ROOT_VIEW;
-
 import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Insets;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
@@ -19,6 +15,9 @@ import android.view.WindowInsets;
 
 import java.util.Collections;
 import java.util.List;
+
+import static com.android.launcher3.util.SystemUiController.FLAG_DARK_NAV;
+import static com.android.launcher3.util.SystemUiController.UI_STATE_ROOT_VIEW;
 
 public class LauncherRootView extends InsettableFrameLayout {
 
@@ -63,15 +62,15 @@ public class LauncherRootView extends InsettableFrameLayout {
     private void handleSystemWindowInsets(Rect insets) {
         mConsumedInsets.setEmpty();
         boolean drawInsetBar = false;
-        if (Utilities.ATLEAST_NOUGAT && mLauncher.isInMultiWindowMode()
-                && (insets.left > 0 || insets.right > 0 || insets.bottom > 0)) {
+        boolean multiMode = Utilities.ATLEAST_NOUGAT && mLauncher.isInMultiWindowMode();
+        if (multiMode && (insets.left > 0 || insets.right > 0 || insets.bottom > 0)) {
             mConsumedInsets.left = insets.left;
             mConsumedInsets.right = insets.right;
             mConsumedInsets.bottom = insets.bottom;
             insets.set(0, insets.top, 0, 0);
             drawInsetBar = true;
-        } else  if ((insets.right > 0 || insets.left > 0) &&
-                getContext().getSystemService(ActivityManager.class).isLowRamDevice()) {
+        } else if ((insets.right > 0 || insets.left > 0)
+                && ((ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE)).isLowRamDevice()) {
             mConsumedInsets.left = insets.left;
             mConsumedInsets.right = insets.right;
             insets.set(0, insets.top, 0, insets.bottom);

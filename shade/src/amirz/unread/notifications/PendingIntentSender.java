@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.android.launcher3.Launcher;
+import com.android.launcher3.Utilities;
 
 public class PendingIntentSender {
     // Delay updates to keep the notification showing after pressing it.
@@ -22,7 +23,11 @@ public class PendingIntentSender {
                     Launcher launcher = Launcher.getLauncher(v.getContext());
                     Bundle b = launcher.getAppTransitionManager()
                             .getActivityLaunchOptions(launcher, v).toBundle();
-                    pi.send(null, 0, null, null, null, null, b);
+                    if (Utilities.ATLEAST_MARSHMALLOW) {
+                        pi.send(null, 0, null, null, null, null, b);
+                    } else {
+                        pi.send(null, 0, null, null, null, null);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

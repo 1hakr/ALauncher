@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ import amirz.helpers.Settings;
 import amirz.shade.ShadeFont;
 import amirz.shade.customization.ShadeStyle;
 
-import static dev.dworks.apps.alauncher.AppFlavour.BILLING_ACTION;
+import static dev.dworks.apps.alauncher.AppFlavourExtended.BILLING_ACTION;
 
 public class PurchaseActivity extends Activity {
 
@@ -64,18 +65,7 @@ public class PurchaseActivity extends Activity {
     }
 
     private void initControls() {
-
-        Button restoreButton = (Button) findViewById(R.id.restore_button);
-        restoreButton.setEnabled(true);
         purchaseButton.setEnabled(true);
-
-        restoreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                restorePurchase();
-            }
-        });
-
         updatePrice();
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +80,10 @@ public class PurchaseActivity extends Activity {
     }
 
     private void updatePrice() {
-        if(!AppFlavour.isBillingSupported()){
+        if(!App.isBillingSupported()){
             return;
         }
-        String purchaseId = AppFlavour.getPurchaseId();
+        String purchaseId = App.getPurchaseId();
         String price = App.getInstance().getPurchasePrice(purchaseId);
         if (!TextUtils.isEmpty(price)) {
             purchaseButton.setText(purchaseText + " with " + price);
@@ -104,12 +94,11 @@ public class PurchaseActivity extends Activity {
         App.getInstance().loadPurchaseItems(PurchaseActivity.this);
     }
 
-    public void onPurchaseRestored(){
-        if (App.isPurchased()) {
-            Settings.showSnackBar(this, R.string.restored_previous_purchase_please_restart);
-        } else {
-            Settings.showSnackBar(this, R.string.could_not_restore_purchase);
-        }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_purchase, menu);
+        return true;
     }
 
     @Override
@@ -117,6 +106,9 @@ public class PurchaseActivity extends Activity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_restore:
+                restorePurchase();
                 break;
         }
 
