@@ -31,6 +31,7 @@ import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.icons.IconCache;
 import com.android.launcher3.icons.LauncherIcons;
 import com.android.launcher3.notification.NotificationListener;
+import com.android.launcher3.util.IOUtils;
 import com.android.launcher3.util.MainThreadInitializedObject;
 import com.android.launcher3.util.Preconditions;
 import com.android.launcher3.util.SecureSettingsObserver;
@@ -181,7 +182,7 @@ public class LauncherAppState {
     private static LauncherProvider getLocalProvider(Context context) {
         ContentProviderClient cl = context.getContentResolver().acquireContentProviderClient(LauncherProvider.AUTHORITY);
         LauncherProvider provider = (LauncherProvider) cl.getLocalContentProvider();
-        cl.close();
+        IOUtils.closeSilently(cl);
         return provider;
     }
 }

@@ -16,10 +16,10 @@
 
 package com.android.launcher3.util;
 
+import android.content.ContentProviderClient;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.launcher3.Utilities;
 import com.android.launcher3.config.FeatureFlags;
 
 import java.io.ByteArrayOutputStream;
@@ -90,6 +90,15 @@ public class IOUtils {
                 if (FeatureFlags.IS_DOGFOOD_BUILD) {
                     Log.d(TAG, "Error closing", e);
                 }
+            }
+        }
+    }
+
+    public static void closeSilently(ContentProviderClient c) {
+        if (c != null) {
+            try {
+                c.close();
+            } catch (Throwable e) {
             }
         }
     }
