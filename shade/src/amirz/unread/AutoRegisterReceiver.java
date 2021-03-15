@@ -19,7 +19,11 @@ public abstract class AutoRegisterReceiver extends BroadcastReceiver {
     }
 
     public final void onPause(Context context) {
-        context.unregisterReceiver(this);
+        try {
+            context.unregisterReceiver(this);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override

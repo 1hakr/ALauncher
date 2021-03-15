@@ -49,6 +49,8 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import androidx.core.util.Predicate;
+
 import com.android.launcher3.Launcher.LauncherOverlay;
 import com.android.launcher3.LauncherAppWidgetHost.ProviderChangedListener;
 import com.android.launcher3.LauncherStateManager.AnimationConfig;
@@ -94,7 +96,6 @@ import com.android.launcher3.widget.PendingAppWidgetHostView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import androidx.core.util.Predicate;
 
 import static com.android.launcher3.LauncherAnimUtils.OVERVIEW_TRANSITION_MS;
 import static com.android.launcher3.LauncherAnimUtils.SPRING_LOADED_EXIT_DELAY;
@@ -3174,7 +3175,7 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
                 }
             } else if (info instanceof FolderInfo && v instanceof FolderIcon) {
                 FolderInfo fi = (FolderInfo) info;
-                if (fi.contents.stream().anyMatch(matcher)) {
+                if (fi.contents.stream().anyMatch(getPredicateCompat(matcher))) {
                     FolderDotInfo folderDotInfo = new FolderDotInfo();
                     for (WorkspaceItemInfo si : fi.contents) {
                         folderDotInfo.addDotInfo(mLauncher.getDotInfoForItem(si));
@@ -3192,6 +3193,16 @@ public class Workspace extends PagedView<WorkspacePageIndicator>
         if (folder != null) {
             folder.iterateOverItems(op);
         }
+    }
+
+    java.util.function.Predicate getPredicateCompat(Predicate matcher){
+        java.util.function.Predicate predicate = new java.util.function.Predicate() {
+            @Override
+            public boolean test(Object o) {
+                return matcher.test(o);
+            }
+        };
+        return predicate;
     }
 
     public void removeAbandonedPromise(String packageName, UserHandle user) {

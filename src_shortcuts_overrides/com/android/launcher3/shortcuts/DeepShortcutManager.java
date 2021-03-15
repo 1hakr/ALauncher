@@ -23,11 +23,13 @@ import android.content.pm.LauncherApps.ShortcutQuery;
 import android.content.pm.ShortcutInfo;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.android.launcher3.Utilities;
 
@@ -86,15 +88,17 @@ public class DeepShortcutManager {
      * (Runs on background thread)
      */
     public void unpinShortcut(final ShortcutKey key) {
-        String packageName = key.componentName.getPackageName();
-        String id = key.getId();
-        UserHandle user = key.user;
-        List<String> pinnedIds = extractIds(queryForPinnedShortcuts(packageName, user));
-        pinnedIds.remove(id);
-        try {
-            mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
-        } catch (SecurityException|IllegalStateException e) {
-            Log.w(TAG, "Failed to unpin shortcut", e);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            String packageName = key.componentName.getPackageName();
+            String id = key.getId();
+            UserHandle user = key.user;
+            List<String> pinnedIds = extractIds(queryForPinnedShortcuts(packageName, user));
+            pinnedIds.remove(id);
+            try {
+                mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
+            } catch (SecurityException | IllegalStateException e) {
+                Log.w(TAG, "Failed to unpin shortcut", e);
+            }
         }
     }
 
@@ -103,35 +107,42 @@ public class DeepShortcutManager {
      * (Runs on background thread)
      */
     public void pinShortcut(final ShortcutKey key) {
-        String packageName = key.componentName.getPackageName();
-        String id = key.getId();
-        UserHandle user = key.user;
-        List<String> pinnedIds = extractIds(queryForPinnedShortcuts(packageName, user));
-        pinnedIds.add(id);
-        try {
-            mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
-        } catch (SecurityException|IllegalStateException e) {
-            Log.w(TAG, "Failed to pin shortcut", e);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            String packageName = key.componentName.getPackageName();
+            String id = key.getId();
+            UserHandle user = key.user;
+            List<String> pinnedIds = extractIds(queryForPinnedShortcuts(packageName, user));
+            pinnedIds.add(id);
+            try {
+                mLauncherApps.pinShortcuts(packageName, pinnedIds, user);
+            } catch (SecurityException | IllegalStateException e) {
+                Log.w(TAG, "Failed to pin shortcut", e);
+            }
         }
     }
 
     public void startShortcut(String packageName, String id, Rect sourceBounds,
           Bundle startActivityOptions, UserHandle user) {
-        try {
-            mLauncherApps.startShortcut(packageName, id, sourceBounds,
-                    startActivityOptions, user);
-        } catch (SecurityException|IllegalStateException e) {
-            Log.e(TAG, "Failed to start shortcut", e);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            try {
+                mLauncherApps.startShortcut(packageName, id, sourceBounds,
+                        startActivityOptions, user);
+            } catch (SecurityException | IllegalStateException e) {
+                Log.e(TAG, "Failed to start shortcut", e);
+            }
         }
     }
 
     public Drawable getShortcutIconDrawable(ShortcutInfo shortcutInfo, int density) {
-        try {
-            return mLauncherApps.getShortcutIconDrawable(shortcutInfo, density);
-        } catch (SecurityException|IllegalStateException e) {
-            Log.e(TAG, "Failed to get shortcut icon", e);
-            return null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            try {
+                return mLauncherApps.getShortcutIconDrawable(shortcutInfo, density);
+            } catch (SecurityException | IllegalStateException e) {
+                Log.e(TAG, "Failed to get shortcut icon", e);
+                return null;
+            }
         }
+        return null;
     }
 
     /**
@@ -152,6 +163,7 @@ public class DeepShortcutManager {
         return query(FLAG_GET_ALL, null, null, null, user);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N_MR1)
     private static List<String> extractIds(List<ShortcutInfo> shortcuts) {
         List<String> shortcutIds = new ArrayList<>(shortcuts.size());
         for (ShortcutInfo shortcut : shortcuts) {

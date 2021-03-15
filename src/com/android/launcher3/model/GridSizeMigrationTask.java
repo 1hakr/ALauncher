@@ -1,9 +1,5 @@
 package com.android.launcher3.model;
 
-import static com.android.launcher3.LauncherSettings.Settings.EXTRA_VALUE;
-import static com.android.launcher3.Utilities.getPointString;
-import static com.android.launcher3.Utilities.parsePoint;
-
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,6 +12,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.util.Log;
 import android.util.SparseArray;
+
+import androidx.annotation.VisibleForTesting;
 
 import com.android.launcher3.InvariantDeviceProfile;
 import com.android.launcher3.ItemInfo;
@@ -39,9 +37,11 @@ import com.android.launcher3.util.PackageUserKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import androidx.core.util.Consumer;
+import java.util.Set;
 
-import androidx.annotation.VisibleForTesting;
+import static com.android.launcher3.LauncherSettings.Settings.EXTRA_VALUE;
+import static com.android.launcher3.Utilities.getPointString;
+import static com.android.launcher3.Utilities.parsePoint;
 
 /**
  * This class takes care of shrinking the workspace (by maximum of one row and one column), as a
@@ -972,9 +972,15 @@ public class GridSizeMigrationTask {
                 .getInstalledPackages(PackageManager.GET_UNINSTALLED_PACKAGES)) {
             validPackages.add(info.packageName);
         }
-        PackageInstallerCompat.getInstance(context)
-                .updateAndGetActiveSessionCache().keySet()
-                .forEach(packageUserKey -> validPackages.add(packageUserKey.mPackageName));
+        Set<PackageUserKey> set = PackageInstallerCompat.getInstance(context)
+                .updateAndGetActiveSessionCache().keySet();
+        if (Utilities.ATLEAST_NOUGAT) {
+            set.forEach(packageUserKey -> validPackages.add(packageUserKey.mPackageName));
+        } else {
+            for (PackageUserKey packageUserKey : set) {
+                validPackages.add(packageUserKey.mPackageName);
+            }
+        }
         return validPackages;
     }
 

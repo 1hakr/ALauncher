@@ -16,17 +16,18 @@
 
 package com.android.launcher3.graphics;
 
-import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
-
 import android.app.Notification;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+
 import com.android.launcher3.R;
 import com.android.launcher3.util.Themes;
 
-import androidx.core.graphics.ColorUtils;
+import static com.android.launcher3.icons.GraphicsUtils.setColorAlphaBound;
 
 /**
  * Contains colors based on the dominant color of an icon.
@@ -90,7 +91,7 @@ public class IconPalette {
      */
     private static int resolveColor(Context context, int color) {
         if (color == Notification.COLOR_DEFAULT) {
-            return context.getColor(R.color.notification_icon_default_color);
+            return ContextCompat.getColor(context, R.color.notification_icon_default_color);
         }
         return color;
     }

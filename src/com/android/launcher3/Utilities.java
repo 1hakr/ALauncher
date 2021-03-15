@@ -505,7 +505,9 @@ public final class Utilities {
      */
     public static void postAsyncCallback(Handler handler, Runnable callback) {
         Message msg = Message.obtain(handler, callback);
-        msg.setAsynchronous(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            msg.setAsynchronous(true);
+        }
         handler.sendMessage(msg);
     }
 

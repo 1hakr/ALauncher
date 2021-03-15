@@ -1,11 +1,11 @@
 package com.android.launcher3.popup;
 
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.graphics.drawable.Icon;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -13,12 +13,15 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.app.ActivityOptionsCompat;
+
 import com.android.launcher3.AbstractFloatingView;
 import com.android.launcher3.BaseDraggingActivity;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.WorkspaceItemInfo;
 import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.model.AppLaunchTracker;
@@ -84,13 +87,14 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity>
     }
 
     public void setIconAndLabelFor(View iconView, TextView labelView) {
-        if (mIcon != null) {
+        if (mIcon != null && Utilities.ATLEAST_MARSHMALLOW) {
             mIcon.loadDrawableAsync(iconView.getContext(),
                     iconView::setBackground,
                     new Handler(Looper.getMainLooper()));
         } else {
             iconView.setBackgroundResource(mIconResId);
         }
+
 
         if (mLabel != null) {
             labelView.setText(mLabel);
@@ -100,7 +104,7 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity>
     }
 
     public void setIconAndContentDescriptionFor(ImageView view) {
-        if (mIcon != null) {
+        if (mIcon != null && Utilities.ATLEAST_MARSHMALLOW) {
             mIcon.loadDrawableAsync(view.getContext(),
                     view::setImageDrawable,
                     new Handler(Looper.getMainLooper()));
@@ -165,8 +169,9 @@ public abstract class SystemShortcut<T extends BaseDraggingActivity>
             return (view) -> {
                 dismissTaskMenuView(activity);
                 Rect sourceBounds = activity.getViewBounds(view);
+                Bundle bundle = ActivityOptionsCompat.makeBasic().toBundle();
                 new PackageManagerHelper(activity).startDetailsActivityForInfo(
-                        itemInfo, sourceBounds, ActivityOptions.makeBasic().toBundle());
+                        itemInfo, sourceBounds, bundle);
                 activity.getUserEventDispatcher().logActionOnControl(Action.Touch.TAP,
                         ControlType.APPINFO_TARGET, view);
             };

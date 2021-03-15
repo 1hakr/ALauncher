@@ -1,22 +1,10 @@
 package com.android.launcher3.allapps;
 
-import static com.android.launcher3.LauncherState.ALL_APPS_CONTENT;
-import static com.android.launcher3.LauncherState.ALL_APPS_HEADER_EXTRA;
-import static com.android.launcher3.LauncherState.OVERVIEW;
-import static com.android.launcher3.LauncherState.VERTICAL_SWIPE_INDICATOR;
-import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_ALL_APPS_FADE;
-import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_ALL_APPS_HEADER_FADE;
-import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_OVERVIEW_SCALE;
-import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_VERTICAL_PROGRESS;
-import static com.android.launcher3.anim.Interpolators.FAST_OUT_SLOW_IN;
-import static com.android.launcher3.anim.Interpolators.LINEAR;
-import static com.android.launcher3.anim.PropertySetter.NO_ANIM_PROPERTY_SETTER;
-import static com.android.launcher3.util.SystemUiController.UI_STATE_ALL_APPS;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.util.FloatProperty;
 import android.view.animation.Interpolator;
+
+import androidx.dynamicanimation.animation.FloatPropertyCompat;
 
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.DeviceProfile.OnDeviceProfileChangeListener;
@@ -31,6 +19,19 @@ import com.android.launcher3.anim.PropertySetter;
 import com.android.launcher3.anim.SpringObjectAnimator;
 import com.android.launcher3.util.Themes;
 import com.android.launcher3.views.ScrimView;
+
+import static com.android.launcher3.LauncherState.ALL_APPS_CONTENT;
+import static com.android.launcher3.LauncherState.ALL_APPS_HEADER_EXTRA;
+import static com.android.launcher3.LauncherState.OVERVIEW;
+import static com.android.launcher3.LauncherState.VERTICAL_SWIPE_INDICATOR;
+import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_ALL_APPS_FADE;
+import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_ALL_APPS_HEADER_FADE;
+import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_OVERVIEW_SCALE;
+import static com.android.launcher3.anim.AnimatorSetBuilder.ANIM_VERTICAL_PROGRESS;
+import static com.android.launcher3.anim.Interpolators.FAST_OUT_SLOW_IN;
+import static com.android.launcher3.anim.Interpolators.LINEAR;
+import static com.android.launcher3.anim.PropertySetter.NO_ANIM_PROPERTY_SETTER;
+import static com.android.launcher3.util.SystemUiController.UI_STATE_ALL_APPS;
 
 /**
  * Handles AllApps view transition.
@@ -47,11 +48,11 @@ public class AllAppsTransitionController implements StateHandler, OnDeviceProfil
     private static final float SPRING_DAMPING_RATIO = 0.9f;
     private static final float SPRING_STIFFNESS = 600f;
 
-    public static final FloatProperty<AllAppsTransitionController> ALL_APPS_PROGRESS =
-            new FloatProperty<AllAppsTransitionController>("allAppsProgress") {
+    public static final FloatPropertyCompat<AllAppsTransitionController> ALL_APPS_PROGRESS =
+            new FloatPropertyCompat<AllAppsTransitionController>("allAppsProgress") {
 
         @Override
-        public Float get(AllAppsTransitionController controller) {
+        public float getValue(AllAppsTransitionController controller) {
             return controller.mProgress;
         }
 

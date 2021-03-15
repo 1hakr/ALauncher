@@ -16,7 +16,6 @@
 
 package com.android.launcher3.util;
 
-import android.app.AppOpsManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
@@ -40,12 +39,15 @@ import android.util.Log;
 import android.util.Pair;
 import android.widget.Toast;
 
+import androidx.core.app.AppOpsManagerCompat;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.LauncherAppWidgetInfo;
 import com.android.launcher3.PendingAddItemInfo;
 import com.android.launcher3.PromiseAppInfo;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.WorkspaceItemInfo;
 import com.android.launcher3.compat.LauncherAppsCompat;
 
@@ -103,6 +105,9 @@ public class PackageManagerHelper {
      * {@link android.app.admin.DevicePolicyManager#isPackageSuspended}.
      */
     public static boolean isAppSuspended(ApplicationInfo info) {
+        if(!Utilities.ATLEAST_NOUGAT){
+            return false;
+        }
         return (info.flags & ApplicationInfo.FLAG_SUSPENDED) != 0;
     }
 
@@ -133,7 +138,7 @@ public class PackageManagerHelper {
         }
 
         // On M and above also check AppOpsManager for compatibility mode permissions.
-        if (TextUtils.isEmpty(AppOpsManager.permissionToOp(target.activityInfo.permission))) {
+        if (TextUtils.isEmpty(AppOpsManagerCompat.permissionToOp(target.activityInfo.permission))) {
             // There is no app-op for this permission, which could have been disabled.
             return true;
         }

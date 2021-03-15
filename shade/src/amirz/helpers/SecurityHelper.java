@@ -91,7 +91,11 @@ public class SecurityHelper {
     }
 
     public boolean isDeviceSecure(){
-        return mKeyguardManager.isDeviceSecure();
+        if(Utilities.ATLEAST_MARSHMALLOW){
+            return mKeyguardManager.isDeviceSecure();
+        } else {
+            return mKeyguardManager.isKeyguardSecure();
+        }
     }
 
     public void authenticate(String title, String description, int requestCode){

@@ -17,6 +17,9 @@ package com.android.launcher3.logging;
 
 
 import android.util.Log;
+
+import com.android.launcher3.Utilities;
+
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -77,7 +80,9 @@ public class EventLogArray {
     }
 
     public void clear() {
-        Arrays.setAll(logs, (i) -> null);
+        if(Utilities.ATLEAST_NOUGAT) {
+            Arrays.setAll(logs, (i) -> null);
+        }
     }
 
     public void dump(String prefix, PrintWriter writer) {

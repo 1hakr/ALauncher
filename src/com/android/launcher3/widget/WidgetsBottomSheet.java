@@ -22,8 +22,8 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.IntProperty;
 import android.util.Pair;
+import android.util.Property;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,10 +48,10 @@ import java.util.List;
  */
 public class WidgetsBottomSheet extends BaseWidgetSheet implements Insettable {
 
-    private static final IntProperty<View> PADDING_BOTTOM =
-            new IntProperty<View>("paddingBottom") {
+    private static final Property<View, Integer> PADDING_BOTTOM =
+            new Property<View, Integer>(Integer.class, "paddingBottom") {
                 @Override
-                public void setValue(View view, int paddingBottom) {
+                public void set(View view, Integer paddingBottom) {
                     view.setPadding(view.getPaddingLeft(), view.getPaddingTop(),
                             view.getPaddingRight(), paddingBottom);
                 }

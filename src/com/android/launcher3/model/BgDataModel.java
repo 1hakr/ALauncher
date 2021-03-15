@@ -387,6 +387,9 @@ public class BgDataModel {
             }
         }
 
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.N_MR1) {
+            return;
+        }
         // Now add the new shortcuts to the map.
         for (ShortcutInfo shortcut : shortcuts) {
             boolean shouldShowInContainer = shortcut.isEnabled()

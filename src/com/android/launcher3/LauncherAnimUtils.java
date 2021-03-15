@@ -17,7 +17,6 @@
 package com.android.launcher3;
 
 import android.graphics.drawable.Drawable;
-import android.util.FloatProperty;
 import android.util.Property;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -48,15 +47,15 @@ public class LauncherAnimUtils {
                 }
             };
 
-    public static final FloatProperty<View> SCALE_PROPERTY =
-            new FloatProperty<View>("scale") {
+    public static final Property<View, Float> SCALE_PROPERTY =
+            new Property<View, Float>(Float.class, "scale") {
                 @Override
                 public Float get(View view) {
                     return view.getScaleX();
                 }
 
                 @Override
-                public void setValue(View view, float scale) {
+                public void set(View view, Float scale) {
                     view.setScaleX(scale);
                     view.setScaleY(scale);
                 }
@@ -93,11 +92,11 @@ public class LauncherAnimUtils {
                 }
             };
 
-    public static final FloatProperty<View> VIEW_TRANSLATE_X =
-            View.TRANSLATION_X instanceof FloatProperty ? (FloatProperty) View.TRANSLATION_X
-                    : new FloatProperty<View>("translateX") {
+    public static final Property<View, Float> VIEW_TRANSLATE_X =
+            View.TRANSLATION_X instanceof Property ? (Property) View.TRANSLATION_X
+                    : new Property<View, Float>(Float.class, "translateX") {
                         @Override
-                        public void setValue(View view, float v) {
+                        public void set(View view, Float v) {
                             view.setTranslationX(v);
                         }
 
@@ -107,11 +106,11 @@ public class LauncherAnimUtils {
                         }
                     };
 
-    public static final FloatProperty<View> VIEW_TRANSLATE_Y =
-            View.TRANSLATION_Y instanceof FloatProperty ? (FloatProperty) View.TRANSLATION_Y
-                    : new FloatProperty<View>("translateY") {
+    public static final Property<View, Float> VIEW_TRANSLATE_Y =
+            View.TRANSLATION_Y instanceof Property ? (Property) View.TRANSLATION_Y
+                    : new Property<View, Float>(Float.class, "translateY") {
                         @Override
-                        public void setValue(View view, float v) {
+                        public void set(View view, Float v) {
                             view.setTranslationY(v);
                         }
 

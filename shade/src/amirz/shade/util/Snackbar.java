@@ -26,14 +26,16 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.view.WindowInsetsCompat;
+
 import com.android.launcher3.R;
 import com.android.launcher3.anim.Interpolators;
 import com.android.launcher3.compat.AccessibilityManagerCompat;
+import com.android.launcher3.widget.WindowInsetsHelper;
 
 import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
 import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
@@ -110,7 +112,8 @@ public class Snackbar extends LinearLayout {
         int minMarginLeftRight = res.getDimensionPixelSize(R.dimen.snackbar_min_margin_left_right);
         int marginBottom = res.getDimensionPixelSize(R.dimen.snackbar_margin_bottom);
         Rect insets = new Rect();
-        WindowInsets mTempRect = activity.getWindow().getDecorView().getRootWindowInsets();
+        View view = activity.getWindow().getDecorView();
+        WindowInsetsCompat mTempRect = WindowInsetsHelper.getRootWindowInsets(view);
         if(null != mTempRect) {
             insets.set(mTempRect.getSystemWindowInsetLeft(), mTempRect.getSystemWindowInsetTop(),
                     mTempRect.getSystemWindowInsetRight(), mTempRect.getSystemWindowInsetBottom());

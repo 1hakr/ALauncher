@@ -37,6 +37,7 @@ import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherState;
 import com.android.launcher3.LauncherStateManager;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 import com.android.launcher3.allapps.FloatingHeaderRow;
 import com.android.launcher3.allapps.FloatingHeaderView;
 import com.android.launcher3.anim.PropertySetter;
@@ -44,6 +45,8 @@ import com.android.launcher3.util.Themes;
 
 import amirz.helpers.Settings;
 
+import static android.text.Layout.DEFAULT_LINESPACING_ADDITION;
+import static android.text.Layout.DEFAULT_LINESPACING_MULTIPLIER;
 import static com.android.launcher3.LauncherState.ALL_APPS;
 
 /**
@@ -216,13 +219,29 @@ public class AppsDividerView extends View implements LauncherStateManager.StateL
                     getResources().getDimensionPixelSize(R.dimen.all_apps_label_text_size));
 
             CharSequence allAppsLabelText = getResources().getText(R.string.all_apps_label);
-            mAllAppsLabelLayout = StaticLayout.Builder.obtain(
-                    allAppsLabelText, 0, allAppsLabelText.length(), mPaint,
-                    Math.round(mPaint.measureText(allAppsLabelText.toString())))
-                    .setAlignment(Layout.Alignment.ALIGN_CENTER)
-                    .setMaxLines(1)
-                    .setIncludePad(true)
-                    .build();
+            int width = Math.round(mPaint.measureText(allAppsLabelText.toString()));
+            if(Utilities.ATLEAST_MARSHMALLOW) {
+                mAllAppsLabelLayout = StaticLayout.Builder.obtain(
+                        allAppsLabelText, 0, allAppsLabelText.length(), mPaint,
+                        width)
+                        .setAlignment(Layout.Alignment.ALIGN_CENTER)
+                        .setMaxLines(1)
+                        .setIncludePad(true)
+                        .build();
+            } else {
+                return new StaticLayout(
+                        allAppsLabelText,
+                        0,
+                        allAppsLabelText.length(),
+                        mPaint,
+                        width,
+                        Layout.Alignment.ALIGN_CENTER,
+                        DEFAULT_LINESPACING_MULTIPLIER,
+                        DEFAULT_LINESPACING_ADDITION,
+                        true,
+                        null,
+                        0);
+            }
         }
         return mAllAppsLabelLayout;
     }

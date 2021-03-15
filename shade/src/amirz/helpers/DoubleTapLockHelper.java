@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.android.launcher3.Launcher;
+import com.android.launcher3.Utilities;
 
 public class DoubleTapLockHelper {
 
@@ -19,6 +20,9 @@ public class DoubleTapLockHelper {
     }
 
     public static boolean isTimeoutLockEnabled(Context context){
+        if(!Utilities.ATLEAST_MARSHMALLOW){
+            return false;
+        }
         return android.provider.Settings.System.canWrite(context);
     }
 

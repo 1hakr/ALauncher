@@ -15,13 +15,6 @@
  */
 package com.android.launcher3.uioverrides.dynamicui;
 
-import static android.app.WallpaperManager.FLAG_SYSTEM;
-
-import static android.content.Context.WALLPAPER_SERVICE;
-import static com.android.launcher3.Utilities.getDevicePrefs;
-import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_TEXT;
-import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_THEME;
-
 import android.app.WallpaperInfo;
 import android.app.WallpaperManager;
 import android.app.job.JobInfo;
@@ -48,13 +41,20 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.annotation.Nullable;
+import androidx.core.graphics.ColorUtils;
+
+import com.android.launcher3.Utilities;
 import com.android.launcher3.icons.ColorExtractor;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.core.graphics.ColorUtils;
+import static android.app.WallpaperManager.FLAG_SYSTEM;
+import static android.content.Context.WALLPAPER_SERVICE;
+import static com.android.launcher3.Utilities.getDevicePrefs;
+import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_TEXT;
+import static com.android.launcher3.uioverrides.dynamicui.WallpaperColorsCompat.HINT_SUPPORTS_DARK_THEME;
 
 public class WallpaperManagerCompatVL extends WallpaperManagerCompat {
 
@@ -143,8 +143,21 @@ public class WallpaperManagerCompatVL extends WallpaperManagerCompat {
     }
 
     private static final int getWallpaperId(Context context) {
+        if (!Utilities.ATLEAST_NOUGAT) {
+            Drawable wallpaper = WallpaperManager.getInstance(context).getDrawable();
+            if (wallpaper != null) {
+                Bitmap bm = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+                Canvas cv = new Canvas(bm);
+                wallpaper.setBounds(0, 0, cv.getWidth(), cv.getHeight());
+                wallpaper.draw(cv);
+                int c = bm.getPixel(0, 0);
+                bm.recycle();
+                return c;
+            }
+            return -1;
+        }
         try {
-            return ((WallpaperManager)context.getSystemService(WALLPAPER_SERVICE)).getWallpaperId(FLAG_SYSTEM);
+            return ((WallpaperManager) context.getSystemService(WALLPAPER_SERVICE)).getWallpaperId(FLAG_SYSTEM);
         } catch (RuntimeException ignored) {
             return -1;
         }
@@ -223,25 +236,27 @@ public class WallpaperManagerCompatVL extends WallpaperManagerCompat {
                 // For live wallpaper, extract colors from thumbnail
                 drawable = info.loadThumbnail(getPackageManager());
             } else {
-                try (ParcelFileDescriptor fd = wm.getWallpaperFile(FLAG_SYSTEM)) {
-                    BitmapRegionDecoder decoder = BitmapRegionDecoder
-                            .newInstance(fd.getFileDescriptor(), false);
+                if (Utilities.ATLEAST_NOUGAT) {
+                    try (ParcelFileDescriptor fd = wm.getWallpaperFile(FLAG_SYSTEM)) {
+                        BitmapRegionDecoder decoder = BitmapRegionDecoder
+                                .newInstance(fd.getFileDescriptor(), false);
 
-                    int requestedArea = decoder.getWidth() * decoder.getHeight();
-                    BitmapFactory.Options options = new BitmapFactory.Options();
+                        int requestedArea = decoder.getWidth() * decoder.getHeight();
+                        BitmapFactory.Options options = new BitmapFactory.Options();
 
-                    if (requestedArea > MAX_WALLPAPER_EXTRACTION_AREA) {
-                        double areaRatio =
-                                (double) requestedArea / MAX_WALLPAPER_EXTRACTION_AREA;
-                        double nearestPowOf2 =
-                                Math.floor(Math.log(areaRatio) / (2 * Math.log(2)));
-                        options.inSampleSize = (int) Math.pow(2, nearestPowOf2);
+                        if (requestedArea > MAX_WALLPAPER_EXTRACTION_AREA) {
+                            double areaRatio =
+                                    (double) requestedArea / MAX_WALLPAPER_EXTRACTION_AREA;
+                            double nearestPowOf2 =
+                                    Math.floor(Math.log(areaRatio) / (2 * Math.log(2)));
+                            options.inSampleSize = (int) Math.pow(2, nearestPowOf2);
+                        }
+                        Rect region = new Rect(0, 0, decoder.getWidth(), decoder.getHeight());
+                        bitmap = decoder.decodeRegion(region, options);
+                        decoder.recycle();
+                    } catch (IOException | NullPointerException | SecurityException e) {
+                        Log.e(TAG, "Fetching partial bitmap failed, trying old method", e);
                     }
-                    Rect region = new Rect(0, 0, decoder.getWidth(), decoder.getHeight());
-                    bitmap = decoder.decodeRegion(region, options);
-                    decoder.recycle();
-                } catch (IOException | NullPointerException | SecurityException e) {
-                    Log.e(TAG, "Fetching partial bitmap failed, trying old method", e);
                 }
                 if (bitmap == null) {
                     drawable = wm.getDrawable();

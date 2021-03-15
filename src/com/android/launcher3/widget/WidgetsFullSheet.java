@@ -96,6 +96,7 @@ public class WidgetsFullSheet extends BaseWidgetSheet implements Insettable, Tex
         }
         mFallbackSearchViewText.addTextChangedListener(this);
         mFallbackSearchViewText.setOnFocusChangeListener(this);
+        mFallbackSearchViewText.setHintTextColor(Themes.getShadeColorAccent(getContext()));
 
         int bgColor = Themes.getAttrColor(getContext(), R.attr.shadeColorSearchBar);
         int overlay = Themes.getAttrColor(getContext(), R.attr.shadeColorAllAppsOverlay);

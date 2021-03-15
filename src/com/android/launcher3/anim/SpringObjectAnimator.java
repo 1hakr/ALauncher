@@ -15,10 +15,6 @@
  */
 package com.android.launcher3.anim;
 
-import static androidx.dynamicanimation.animation.FloatPropertyCompat.createFloatPropertyCompat;
-
-import static com.android.launcher3.config.FeatureFlags.QUICKSTEP_SPRINGS;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
@@ -26,14 +22,18 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.FloatProperty;
 import android.util.Log;
-
-import java.util.ArrayList;
+import android.util.Property;
 
 import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener;
+import androidx.dynamicanimation.animation.FloatPropertyCompat;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import static com.android.launcher3.config.FeatureFlags.QUICKSTEP_SPRINGS;
 
 /**
  * This animator allows for an object's property to be be controlled by an {@link ObjectAnimator} or
@@ -55,16 +55,16 @@ public class SpringObjectAnimator<T> extends ValueAnimator {
     private boolean mAnimatorEnded = true;
     private boolean mEnded = true;
 
-    public SpringObjectAnimator(T object, FloatProperty<T> property, float minimumVisibleChange,
-            float damping, float stiffness, float... values) {
-        mSpring = new SpringAnimation(object, createFloatPropertyCompat(property));
+    public SpringObjectAnimator(T object, FloatPropertyCompat<T> property, float minimumVisibleChange,
+                                float damping, float stiffness, float... values) {
+        mSpring = new SpringAnimation(object, property);
         mSpring.setMinimumVisibleChange(minimumVisibleChange);
         mSpring.setSpring(new SpringForce(0)
                 .setDampingRatio(damping)
                 .setStiffness(stiffness));
         mSpring.setStartVelocity(0.01f);
         mProperty = new SpringProperty<>(property, mSpring);
-        mObjectAnimator = ObjectAnimator.ofFloat(object, mProperty, values);
+        mObjectAnimator = ObjectAnimator.ofFloat(object, getProperty(mProperty), values);
         mValues = values;
         mListeners = new ArrayList<>();
         setFloatValues(values);
@@ -114,8 +114,9 @@ public class SpringObjectAnimator<T> extends ValueAnimator {
 
         // If springs are disabled, ignore value of mSpringEnded
         if (mAnimatorEnded && (mSpringEnded || !QUICKSTEP_SPRINGS.get()) && !mEnded) {
-            for (AnimatorListener l : mListeners) {
-                l.onAnimationEnd(this);
+            Iterator<AnimatorListener> iterator = new ArrayList<>(mListeners).iterator();
+            while (iterator.hasNext()) {
+                iterator.next().onAnimationEnd(this);
             }
             mEnded = true;
         }
@@ -272,14 +273,14 @@ public class SpringObjectAnimator<T> extends ValueAnimator {
         mObjectAnimator.setCurrentPlayTime(playTime);
     }
 
-    public static class SpringProperty<T> extends FloatProperty<T> {
+    public static class SpringProperty<T> extends FloatPropertyCompat<T> {
 
         boolean useSpring = false;
-        final FloatProperty<T> mProperty;
+        final FloatPropertyCompat<T> mProperty;
         final SpringAnimation mSpring;
 
-        public SpringProperty(FloatProperty<T> property, SpringAnimation spring) {
-            super(property.getName());
+        public SpringProperty(FloatPropertyCompat<T> property, SpringAnimation spring) {
+            super(property.toString());
             mProperty = property;
             mSpring = spring;
         }
@@ -289,8 +290,8 @@ public class SpringObjectAnimator<T> extends ValueAnimator {
         }
 
         @Override
-        public Float get(T object) {
-            return mProperty.get(object);
+        public float getValue(T object) {
+            return mProperty.getValue(object);
         }
 
         @Override
@@ -301,5 +302,19 @@ public class SpringObjectAnimator<T> extends ValueAnimator {
                 mProperty.setValue(object, progress);
             }
         }
+    }
+
+    public Property<T, Float> getProperty(FloatPropertyCompat<T> property) {
+        return new Property<T, Float>(Float.class, property.toString()) {
+            @Override
+            public Float get(T object) {
+                return property.getValue(object);
+            }
+
+            @Override
+            public void set(T object, Float value) {
+                property.setValue(object, value);
+            }
+        };
     }
 }
