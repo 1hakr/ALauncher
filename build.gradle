@@ -13,11 +13,11 @@ buildscript {
 
 ext {
     compileSdkVersion = 30
-    targetSdkVersion = 29
+    targetSdkVersion = 30
     minSdkVersion = 21
     versionMajor = 2
     versionMinor = 4
-    versionPatch = 0
+    versionPatch = 1
 }
 
 private Integer generateVersionCode(Integer variant) {
@@ -58,7 +58,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            applicationIdSuffix ".debug"
+            //applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
 

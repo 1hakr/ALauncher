@@ -246,6 +246,12 @@ public class ShadeSettings extends SettingsActivity {
                     }
                 }
             }
+            if(App.isPurchased()) {
+                Preference purchase = findPreference(KEY_PRO);
+                if (null != purchase) {
+                    getPreferenceScreen().removePreference(purchase);
+                }
+            }
         }
 
         @Override

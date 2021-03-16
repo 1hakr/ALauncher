@@ -70,10 +70,15 @@ public class PurchaseActivity extends Activity {
         purchaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(App.isPurchased()){
-                    Settings.showSnackBar(PurchaseActivity.this, R.string.thank_you);
+                if(App.isBillingSupported()){
+                    if(App.isPurchased()){
+                        Settings.showSnackBar(PurchaseActivity.this, getString(R.string.thank_you));
+                        App.finishDelayed(PurchaseActivity.this);
+                    } else {
+                        App.getInstance().purchase(PurchaseActivity.this, App.getPurchaseId());
+                    }
                 } else {
-                    App.getInstance().purchase(PurchaseActivity.this, App.getPurchaseId());
+                    Settings.openProAppLink(PurchaseActivity.this);
                 }
             }
         });

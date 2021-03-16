@@ -46,8 +46,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	public static boolean isPurchased() {
-		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED)
-				|| BuildConfig.DEBUG;
+		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED);
 	}
 
 	public void initializeBilling(Activity activity) {
@@ -196,7 +195,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 		return !(null == activity || activity.isDestroyed());
 	}
 
-	private static void finishDelayed(Activity activity){
+	protected static void finishDelayed(Activity activity){
 		if(!isActivityAlive(activity)){
 			return;
 		}
@@ -205,7 +204,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 			public void run() {
 				activity.finish();
 			}
-		}, 4000);
+		}, 2000);
 	}
 
 	public void purchase(Activity activity, String productId){

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 3
         versionName versionCode + ".0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

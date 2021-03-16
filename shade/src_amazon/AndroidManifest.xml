@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <application tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
-        <receiver android:name="com.amazon.device.iap.ResponseReceiver" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <receiver
+            android:name="com.amazon.device.iap.ResponseReceiver"
+            android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY">
             <intent-filter>
-                <action
-                    android:name="com.amazon.inapp.purchasing.NOTIFY"
-                    android:permission="com.amazon.inapp.purchasing.Permission.NOTIFY" />
+                <action android:name="com.amazon.inapp.purchasing.NOTIFY" />
             </intent-filter>
         </receiver>
     </application>

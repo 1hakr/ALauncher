@@ -12,7 +12,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
-import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
 
 import java.util.ArrayList;
@@ -44,8 +43,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	public static boolean isPurchased() {
-		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED)
-				|| BuildConfig.DEBUG;
+		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED);
 	}
 
 	public void initializeBilling(Activity activity) {
@@ -99,7 +97,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 		boolean isPurchased = false;
 		String currentId = getPurchasedProductId();
 		for (Purchase purchase: purchasedList) {
-			boolean valid = BillingHelper.isValidPurchase(purchase);
+			boolean valid = purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED;
 			if(currentId.equals(purchase.getSku()) && valid){
 				isPurchased  = true;
 				break;
@@ -111,11 +109,13 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	@Override
-	public void onPurchaseCompleted(Activity activity, Purchase purchaseItem) {
-		Settings.showSnackBar(activity, R.string.thank_you);
+	public void onPurchaseCompleted(Activity activity, Purchase purchaseItem, boolean restore) {
 		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSku());
 		PreferenceUtils.set(PURCHASED, true);
-		finishDelayed(activity);
+		if(!restore) {
+			Settings.showSnackBar(activity, R.string.thank_you);
+			finishDelayed(activity);
+		}
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 				Settings.openProAppLink(activity);
 				break;
 			default:
-				Settings.showSnackBar(activity, "Billing error:"+errorCode);
+				Settings.sendError(activity, "Billing error:"+errorCode);
 				break;
 		}
 	}
@@ -192,7 +192,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 		return !(null == activity || activity.isDestroyed());
 	}
 
-	private static void finishDelayed(Activity activity){
+	public static void finishDelayed(Activity activity){
 		if(!isActivityAlive(activity)){
 			return;
 		}
@@ -201,7 +201,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 			public void run() {
 				activity.finish();
 			}
-		}, 4000);
+		}, 2000);
 	}
 
 	public void purchase(Activity activity, String productId){

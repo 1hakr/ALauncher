@@ -116,20 +116,26 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
         int responseCode = billingResult.getResponseCode();
         if (responseCode == BillingClient.BillingResponseCode.OK && purchases != null) {
             //here when purchase completed
-            for (Purchase purchase : purchases) {
-                String type = purchase.getSku();
-                if(skuInAppList.contains(type)){
-                    acknowledgePurchase(purchase);
-                } else if(skuSubList.contains(type)){
-                    consumePurchase(purchase);
-                }
-            }
+            processPurchases(purchases, false);
         } else if (responseCode == BillingClient.BillingResponseCode.SERVICE_DISCONNECTED) {
             startConnection();
         } else if (responseCode == BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED) {
             getOwnedItems();
         } else if (mBillingListener != null) {
             mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
+        }
+    }
+
+    private void processPurchases(List<Purchase> purchases, boolean restore){
+        for (Purchase purchase : purchases) {
+            String type = purchase.getSku();
+            if (isValidPurchase(purchase)) {
+                if (skuInAppList.contains(type)) {
+                    acknowledgePurchase(purchase, restore);
+                } else if (skuSubList.contains(type)) {
+                    consumePurchase(purchase, restore);
+                }
+            }
         }
     }
 
@@ -162,6 +168,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
                 purchaseDetailsMap.put(purchase.getSku(), purchase);
             }
             if (mBillingListener != null && !purchaseList.isEmpty()) {
+                processPurchases(purchaseList, true);
                 mBillingListener.onPurchaseHistoryResponse(purchaseList);
             }
         }
@@ -181,6 +188,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
                 purchaseDetailsMap.put(purchase.getSku(), purchase);
             }
             if (mBillingListener != null && !purchaseList.isEmpty()) {
+                processPurchases(purchaseList, true);
                 mBillingListener.onPurchaseHistoryResponse(purchaseList);
             }
         }
@@ -245,52 +253,46 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
     }
 
     //This is for Non-Consumable product
-    public void acknowledgePurchase(Purchase purchase) {
-        if (isValidPurchase(purchase)) {
+    public void acknowledgePurchase(Purchase purchase, boolean restore) {
+        AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
+                .setPurchaseToken(purchase.getPurchaseToken())
+                .build();
+        mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
+            @Override
+            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
+                int responseCode = billingResult.getResponseCode();
+                if(responseCode == BillingClient.BillingResponseCode.OK){
 
-            AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder()
-                    .setPurchaseToken(purchase.getPurchaseToken())
-                    .build();
-            mBillingClient.acknowledgePurchase(acknowledgePurchaseParams, new AcknowledgePurchaseResponseListener() {
-                @Override
-                public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
-                    int responseCode = billingResult.getResponseCode();
-                    if(responseCode == BillingClient.BillingResponseCode.OK){
-
-                    } else if (mBillingListener != null) {
-                        mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
-                    }
+                } else if (mBillingListener != null) {
+                    mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
                 }
-            });
-
-            if (mBillingListener != null) {
-                mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase);
             }
+        });
+
+        if (mBillingListener != null) {
+            mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase, restore);
         }
     }
 
     //This is for Consumable product
-    public void consumePurchase(Purchase purchase) {
-        if (isValidPurchase(purchase)) {
+    public void consumePurchase(Purchase purchase, boolean restore) {
+        ConsumeParams consumeParams = ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.getPurchaseToken())
+                .build();
+        mBillingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
+            @Override
+            public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
+                int responseCode = billingResult.getResponseCode();
+                if(responseCode == BillingClient.BillingResponseCode.OK){
 
-            ConsumeParams consumeParams = ConsumeParams.newBuilder()
-                    .setPurchaseToken(purchase.getPurchaseToken())
-                    .build();
-            mBillingClient.consumeAsync(consumeParams, new ConsumeResponseListener() {
-                @Override
-                public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
-                    int responseCode = billingResult.getResponseCode();
-                    if(responseCode == BillingClient.BillingResponseCode.OK){
-
-                    } else if (mBillingListener != null) {
-                        mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
-                    }
+                } else if (mBillingListener != null) {
+                    mBillingListener.onPurchaseError(mCurrentActivity, responseCode);
                 }
-            });
-
-            if (mBillingListener != null) {
-                mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase);
             }
+        });
+
+        if (mBillingListener != null) {
+            mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase, restore);
         }
     }
 
@@ -355,7 +357,7 @@ public class BillingHelper implements BillingClientStateListener, SkuDetailsResp
     public interface BillingListener {
         void onSkuListResponse(ArrayMap<String, SkuDetails> skuDetailsMap);
         void onPurchaseHistoryResponse(List<Purchase> purchasedList);
-        void onPurchaseCompleted(Activity activity, Purchase purchaseItem);
+        void onPurchaseCompleted(Activity activity, Purchase purchaseItem, boolean restore);
         void onPurchaseError(Activity activity, int errorCode);
     }
 }
