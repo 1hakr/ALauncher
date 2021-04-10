@@ -293,6 +293,10 @@ public class Settings {
         activity.startActivity(Intent.createChooser(result, title));
     }
 
+    public static boolean isActivityAlive(Activity activity) {
+        return !(null == activity || activity.isDestroyed());
+    }
+
     public static boolean isProVersion(){
         return BuildConfig.FLAVOR.contains("Pro");
     }

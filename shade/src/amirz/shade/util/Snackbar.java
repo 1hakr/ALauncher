@@ -37,6 +37,8 @@ import com.android.launcher3.anim.Interpolators;
 import com.android.launcher3.compat.AccessibilityManagerCompat;
 import com.android.launcher3.widget.WindowInsetsHelper;
 
+import amirz.helpers.Settings;
+
 import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
 import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
 
@@ -204,6 +206,9 @@ public class Snackbar extends LinearLayout {
     }
 
     private static ViewGroup getParentView(Activity activity){
+        if(!Settings.isActivityAlive(activity)){
+            return null;
+        }
         ViewGroup layer = activity.findViewById(R.id.content_view);
         if(null == layer) {
             layer = activity.findViewById(android.R.id.content);
@@ -213,6 +218,9 @@ public class Snackbar extends LinearLayout {
 
     public static void closeOpenViews(Activity activity, boolean animate) {
         ViewGroup dragLayer = getParentView(activity);
+        if(null == dragLayer){
+            return;
+        }
         // Iterate in reverse order. AbstractFloatingView is added later to the dragLayer,
         // and will be one of the last views.
         for (int i = dragLayer.getChildCount() - 1; i >= 0; i--) {

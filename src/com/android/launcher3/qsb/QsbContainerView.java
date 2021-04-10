@@ -275,7 +275,9 @@ public class QsbContainerView extends FrameLayout {
 
         @Override
         public void onDestroy() {
-            mQsbWidgetHost.stopListening();
+            try {
+                mQsbWidgetHost.stopListening();
+            } catch (Throwable e){}
             super.onDestroy();
         }
 

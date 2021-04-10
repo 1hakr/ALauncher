@@ -112,7 +112,7 @@ public class ShadeLauncher extends Launcher {
     public boolean startActivitySecurely(View v, Intent intent, ItemInfo item,
                                          @Nullable String sourceContainer) {
         boolean isAppSecured = AppsLockerDatabase.isLocked(this, item);
-        boolean isUnlocked = null != item ? mUnlockedAppsList.contains(item.getTargetComponent()) : true;
+        boolean isUnlocked = null == item || mUnlockedAppsList.contains(item.getTargetComponent());
         if(!isAppSecured || isUnlocked || !mSecurityHelper.isDeviceSecure()) {
             return super.startActivitySafely(v, intent, item, sourceContainer);
         }

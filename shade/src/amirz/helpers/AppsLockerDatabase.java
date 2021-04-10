@@ -18,6 +18,9 @@ public class AppsLockerDatabase {
     private static final String KEY_HIDDEN = "pref_locked_apps";
 
     public static boolean isLocked(Context context, ComponentName app, UserHandle user) {
+        if(null == app){
+            return false;
+        }
         Set<String> hiddenSet = Utilities.getPrefs(context)
                 .getStringSet(KEY_HIDDEN, Collections.emptySet());
         return hiddenSet.contains(new ComponentKey(app, user).toString());
