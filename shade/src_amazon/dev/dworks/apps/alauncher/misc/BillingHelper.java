@@ -136,22 +136,18 @@ public class BillingHelper implements PurchasingListener {
     }
 
     //This is for Non-Consumable product
-    public void acknowledgePurchase(Receipt purchase) {
-        if (isSignatureValid(purchase)) {
-            PurchasingService.notifyFulfillment(purchase.getReceiptId(), FulfillmentResult.FULFILLED);
-            if (mBillingListener != null) {
-                mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase);
-            }
+    public void acknowledgePurchase(Receipt receipt, boolean restore) {
+        PurchasingService.notifyFulfillment(receipt.getReceiptId(), FulfillmentResult.FULFILLED);
+        if (mBillingListener != null) {
+            mBillingListener.onPurchaseCompleted(mCurrentActivity, receipt, restore);
         }
     }
 
     //This is for Consumable product
-    public void consumePurchase(Receipt purchase) {
-        if (isSignatureValid(purchase)) {
-            PurchasingService.notifyFulfillment(purchase.getReceiptId(), FulfillmentResult.FULFILLED);
-            if (mBillingListener != null) {
-                mBillingListener.onPurchaseCompleted(mCurrentActivity, purchase);
-            }
+    public void consumePurchase(Receipt receipt, boolean restore) {
+        PurchasingService.notifyFulfillment(receipt.getReceiptId(), FulfillmentResult.FULFILLED);
+        if (mBillingListener != null) {
+            mBillingListener.onPurchaseCompleted(mCurrentActivity, receipt, restore);
         }
     }
 
@@ -206,9 +202,11 @@ public class BillingHelper implements PurchasingListener {
             final Set<String> unavailableSkus = response.getUnavailableSkus();
             Map<String, Product> productData = response.getProductData();
             synchronized (skuDetailsMap) {
-                for (Map.Entry<String, Product> entry : productData.entrySet()) {
-                    Product product = productData.get(entry.getKey());
-                    skuDetailsMap.put(product.getSku(), product);
+                if(null != productData && !productData.isEmpty()) {
+                    for (Map.Entry<String, Product> entry : productData.entrySet()) {
+                        Product product = productData.get(entry.getKey());
+                        skuDetailsMap.put(product.getSku(), product);
+                    }
                 }
                 if (mBillingListener != null) {
                     mBillingListener.onSkuListResponse(skuDetailsMap);
@@ -226,15 +224,21 @@ public class BillingHelper implements PurchasingListener {
         if (status == PurchaseResponse.RequestStatus.SUCCESSFUL) {
             //here when purchase completed
             receipt = response.getReceipt();
-            if (receipt.getProductType() == ProductType.SUBSCRIPTION) {
-                consumePurchase(receipt);
-            } else {
-                acknowledgePurchase(receipt);
+            if (isSignatureValid(receipt)) {
+                processPurchase(receipt, false);
             }
         } else if (status == ALREADY_PURCHASED) {
             getOwnedItems();
         } else if (mBillingListener != null) {
             mBillingListener.onPurchaseError(mCurrentActivity, status);
+        }
+    }
+
+    private void processPurchase(Receipt receipt, boolean restore){
+        if (receipt.getProductType() == ProductType.SUBSCRIPTION) {
+            consumePurchase(receipt, restore);
+        } else {
+            acknowledgePurchase(receipt, restore);
         }
     }
 
@@ -246,13 +250,13 @@ public class BillingHelper implements PurchasingListener {
         final PurchaseUpdatesResponse.RequestStatus status = response.getRequestStatus();
         if (status == PurchaseUpdatesResponse.RequestStatus.SUCCESSFUL) {
             Receipt[] receiptsList = response.getReceipts().toArray(new Receipt[0]);
-            if(receiptsList.length == 0){
-                return;
-            }
             synchronized (purchaseDetailsMap) {
-                for (Receipt receipt : receiptsList) {
-                    if (receipt != null && !receipt.isCanceled()) {
-                        purchaseDetailsMap.put(receipt.getSku(), receipt);
+                if(null != receiptsList && receiptsList.length != 0) {
+                    for (Receipt receipt : receiptsList) {
+                        if (receipt != null && !receipt.isCanceled()) {
+                            purchaseDetailsMap.put(receipt.getSku(), receipt);
+                            processPurchase(receipt, true);
+                        }
                     }
                 }
                 if (mBillingListener != null) {
@@ -270,7 +274,7 @@ public class BillingHelper implements PurchasingListener {
     public interface BillingListener {
         void onSkuListResponse(ArrayMap<String, Product> skuDetailsMap);
         void onPurchaseHistoryResponse(List<Receipt> purchasedList);
-        void onPurchaseCompleted(Activity activity, Receipt purchaseItem);
+        void onPurchaseCompleted(Activity activity, Receipt purchaseItem, boolean restore);
         void onPurchaseError(Activity activity, PurchaseResponse.RequestStatus errorCode);
     }
 }

@@ -188,12 +188,8 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 		return !TextUtils.isEmpty(productId) ? productId : getPurchaseId();
 	}
 
-	public static boolean isActivityAlive(Activity activity) {
-		return !(null == activity || activity.isDestroyed());
-	}
-
 	public static void finishDelayed(Activity activity){
-		if(!isActivityAlive(activity)){
+		if(!Settings.isActivityAlive(activity)){
 			return;
 		}
 		new Handler().postDelayed(new Runnable(){
