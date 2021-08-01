@@ -95,12 +95,14 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	@Override
 	public void onPurchaseHistoryResponse(List<Purchase> purchasedList) {
 		boolean isPurchased = false;
-		String currentId = getPurchasedProductId();
-		for (Purchase purchase: purchasedList) {
-			boolean valid = purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED;
-			if(currentId.equals(purchase.getSku()) && valid){
-				isPurchased  = true;
-				break;
+		if(null != purchasedList && !purchasedList.isEmpty()) {
+			String currentId = getPurchasedProductId();
+			for (Purchase purchase : purchasedList) {
+				boolean valid = purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED;
+				if (currentId.equals(purchase.getSkus().get(0)) && valid) {
+					isPurchased = true;
+					break;
+				}
 			}
 		}
 		PreferenceUtils.set(PURCHASED, isPurchased);
@@ -110,7 +112,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 
 	@Override
 	public void onPurchaseCompleted(Activity activity, Purchase purchaseItem, boolean restore) {
-		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSku());
+		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSkus().get(0));
 		PreferenceUtils.set(PURCHASED, true);
 		if(!restore) {
 			Settings.showSnackBar(activity, R.string.thank_you);
@@ -119,7 +121,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	@Override
-	public void onPurchaseError(Activity activity, int errorCode) {
+	public void onPurchaseError(Activity activity, int errorCode, String errorMessage) {
 		String message = "";
 		String action = "";
 		switch (errorCode){
@@ -142,7 +144,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 				action = "Buy";
 				break;
 			default:
-				message = "Something went wrong! error code="+ errorCode+". Contact Developer";
+				message = "Something went wrong! error code="+ errorCode+"."+ errorMessage +". Contact Developer";
 				action = "Contact";
 				break;
 		}

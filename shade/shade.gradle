@@ -86,12 +86,8 @@ android {
         implementation 'com.zsoltsafrany:needle:1.0.0'
         freeImplementation "androidx.cardview:cardview:1.0.0"
 
-        googleImplementation 'com.android.billingclient:billing:3.0.3'
+        googleImplementation 'com.android.billingclient:billing:4.0.0'
         amazonImplementation fileTree(dir: 'libs', include: ['in-app-purchasing-2.0.76.jar'])
-    }
-    
-    dexOptions {
-        javaMaxHeapSize "3g"
     }
 }
 
