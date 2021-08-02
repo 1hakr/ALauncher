@@ -363,17 +363,19 @@ public class UserEventDispatcher implements ResourceBasedOverride {
     }
 
     public void logDeepShortcutsOpen(View icon) {
-        LogContainerProvider provider = StatsLogUtils.getLaunchProviderRecursive(icon);
-        if (icon == null || !(icon.getTag() instanceof ItemInfo || provider == null)) {
-            return;
-        }
-        ItemInfo info = (ItemInfo) icon.getTag();
-        LauncherEvent event = newLauncherEvent(newTouchAction(Action.Touch.LONGPRESS),
-                newItemTarget(info, mInstantAppResolver), newTarget(Target.Type.CONTAINER));
-        provider.fillInLogContainerData(icon, info, event.srcTarget[0], event.srcTarget[1]);
-        dispatchUserEvent(event, null);
+        try {
+            LogContainerProvider provider = StatsLogUtils.getLaunchProviderRecursive(icon);
+            if (icon == null || !(icon.getTag() instanceof ItemInfo || provider == null)) {
+                return;
+            }
+            ItemInfo info = (ItemInfo) icon.getTag();
+            LauncherEvent event = newLauncherEvent(newTouchAction(Action.Touch.LONGPRESS),
+                    newItemTarget(info, mInstantAppResolver), newTarget(Target.Type.CONTAINER));
+            provider.fillInLogContainerData(icon, info, event.srcTarget[0], event.srcTarget[1]);
+            dispatchUserEvent(event, null);
 
-        resetElapsedContainerMillis("deep shortcut open");
+            resetElapsedContainerMillis("deep shortcut open");
+        } catch (Exception e){}
     }
 
     public void logDragNDrop(DropTarget.DragObject dragObj, View dropTargetAsView) {

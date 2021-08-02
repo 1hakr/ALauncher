@@ -1,5 +1,7 @@
 package amirz.shade.appprediction;
 
+import static android.content.Context.USAGE_STATS_SERVICE;
+
 import android.annotation.SuppressLint;
 import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
@@ -21,8 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import static android.content.Context.USAGE_STATS_SERVICE;
 
 class UsageTracker {
     private static final int MAX_ENTRIES = 30;
@@ -100,7 +100,7 @@ class UsageTracker {
             return sortedList;
         }
         int sortedTimeLimit = Math.min(sortedTime.size(), 100);
-        int sortedUsedLimit = Math.min(sortedTime.size(), 100);
+        int sortedUsedLimit = Math.min(sortedUsed.size(), 100);
         List<UsageStats> sorted = new ArrayList<UsageStats>(sortedTime.values()).subList(0, sortedTimeLimit);
         if(!sortedUsed.isEmpty()) {
             List<UsageStats> sortedExtras = new ArrayList<UsageStats>(sortedUsed.values()).subList(0, sortedUsedLimit);

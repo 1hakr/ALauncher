@@ -1,5 +1,8 @@
 package amirz.helpers;
 
+import static android.content.Intent.ACTION_SENDTO;
+import static com.android.launcher3.LauncherState.ALL_APPS;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -37,9 +40,6 @@ import java.util.Locale;
 import amirz.shade.customization.DockSearch;
 import amirz.shade.search.AllAppsQsb;
 import amirz.shade.util.Snackbar;
-
-import static android.content.Intent.ACTION_SENDTO;
-import static com.android.launcher3.LauncherState.ALL_APPS;
 
 public class Settings {
     private final SharedPreferences mSharedPreferences;
@@ -150,7 +150,11 @@ public class Settings {
                                                 .showAppDetailsForProfile(new ComponentName(GOOGLE_QSB, ".SearchActivity"),
                                                         Process.myUserHandle(), null, null);
                                     } catch (PackageManager.NameNotFoundException ignored) {
-                                        launcher.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(provider)));
+                                        try {
+                                            launcher.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(provider)));
+                                        } catch (Exception ee){
+
+                                        }
                                     }
                                 }
                             }

@@ -16,6 +16,9 @@
 
 package amirz.shade.util;
 
+import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
+import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -38,9 +41,6 @@ import com.android.launcher3.compat.AccessibilityManagerCompat;
 import com.android.launcher3.widget.WindowInsetsHelper;
 
 import amirz.helpers.Settings;
-
-import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_CONTROLS;
-import static android.view.accessibility.AccessibilityManager.FLAG_CONTENT_TEXT;
 
 /**
  * A toast-like UI at the bottom of the screen with a label, button action, and dismiss action.
@@ -103,7 +103,9 @@ public class Snackbar extends LinearLayout {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                layer.addView(snackbar);
+                if(null != layer) {
+                    layer.addView(snackbar);
+                }
             }
         });
 
