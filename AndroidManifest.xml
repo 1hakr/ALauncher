@@ -53,7 +53,8 @@
             android:resumeWhilePausing="true"
             android:taskAffinity=""
             android:enabled="true"
-            tools:node="remove">
+            tools:node="remove"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />

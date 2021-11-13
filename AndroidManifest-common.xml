@@ -82,7 +82,8 @@
         <receiver
             android:name="com.android.launcher3.InstallShortcutReceiver"
             android:permission="com.android.launcher.permission.INSTALL_SHORTCUT"
-            android:enabled="@bool/enable_install_shortcut_api" >
+            android:enabled="@bool/enable_install_shortcut_api"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.android.launcher.action.INSTALL_SHORTCUT" />
             </intent-filter>
@@ -90,14 +91,15 @@
 
         <!-- Intent received when a session is committed -->
         <receiver
-            android:name="com.android.launcher3.SessionCommitReceiver" >
+            android:name="com.android.launcher3.SessionCommitReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.content.pm.action.SESSION_COMMITTED" />
             </intent-filter>
         </receiver>
 
         <!-- Intent received used to initialize a restored widget -->
-        <receiver android:name="com.android.launcher3.AppWidgetsRestoredReceiver" >
+        <receiver android:name="com.android.launcher3.AppWidgetsRestoredReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_HOST_RESTORED"/>
             </intent-filter>
@@ -113,6 +115,7 @@
             android:name="com.android.launcher3.notification.NotificationListener"
             android:label="@string/notification_dots_service_title"
             android:enabled="@bool/notification_dots_enabled"
+            android:exported="false"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
@@ -126,7 +129,8 @@
             android:theme="@style/AppItemActivityTheme"
             android:excludeFromRecents="true"
             android:autoRemoveFromRecents="true"
-            android:label="@string/action_add_to_workspace" >
+            android:label="@string/action_add_to_workspace"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
                 <action android:name="android.content.pm.action.CONFIRM_PIN_APPWIDGET" />
@@ -170,7 +174,8 @@
             android:name="com.android.launcher3.settings.SettingsActivity"
             android:label="@string/settings_button_text"
             android:theme="@style/HomeSettingsTheme"
-            android:autoRemoveFromRecents="true">
+            android:autoRemoveFromRecents="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.DEFAULT" />
