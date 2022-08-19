@@ -45,7 +45,8 @@ public class StartActivityParams implements Parcelable {
 
     public StartActivityParams(Activity activity, int requestCode) {
         this(activity.createPendingResult(requestCode, new Intent(),
-                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT), requestCode);
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_UPDATE_CURRENT
+                        | PendingIntent.FLAG_IMMUTABLE), requestCode);
     }
 
     public StartActivityParams(PendingIntent pendingIntent, int requestCode) {
