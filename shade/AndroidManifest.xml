@@ -146,7 +146,6 @@
         <!-- The service for the home button overlay -->
         <service
             android:name="amirz.gesture.GestureService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
@@ -160,7 +159,6 @@
         <!-- The service for double tap to sleep and opening recents. -->
         <service
             android:name="amirz.shade.services.GlobalActionService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:enabled="@bool/atleast_p"
             android:exported="false">
             <intent-filter>

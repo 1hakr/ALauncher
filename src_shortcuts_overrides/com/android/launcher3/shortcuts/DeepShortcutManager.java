@@ -194,7 +194,7 @@ public class DeepShortcutManager {
         try {
             return new QueryResult(mLauncherApps.getShortcuts(q, user));
         } catch (SecurityException|IllegalStateException e) {
-            Log.e(TAG, "Failed to query for shortcuts", e);
+            //Log.e(TAG, "Failed to query for shortcuts", e);
             return QueryResult.FAILURE;
         }
     }

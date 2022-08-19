@@ -49,29 +49,29 @@
                     android:text="@string/app_pro_title"
                     android:textAppearance="@android:style/TextAppearance.Material.Title" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+                    <Button
+                        android:id="@+id/purchase_button"
+                        style="@android:style/Widget.Material.Light.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/purchase"
+                        android:textColor="@color/colorAccent"/>
+
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="@string/app_pro_content"
                     android:textAppearance="@android:style/TextAppearance.Material.Body1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <Button
-                    android:id="@+id/purchase_button"
-                    style="@android:style/Widget.Material.Light.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/purchase"
-                    android:textColor="@color/colorAccent"/>
-
             </LinearLayout>
 
 

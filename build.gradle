@@ -16,8 +16,8 @@ ext {
     targetSdkVersion = 33
     minSdkVersion = 21
     versionMajor = 2
-    versionMinor = 4
-    versionPatch = 4
+    versionMinor = 5
+    versionPatch = 0
 }
 
 private Integer generateVersionCode(Integer variant) {

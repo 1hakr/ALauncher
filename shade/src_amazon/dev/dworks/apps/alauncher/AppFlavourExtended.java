@@ -53,7 +53,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 		List<String> skuList = new ArrayList<>();
 		skuList.add(getPurchaseId());
 		billingHelper = new BillingHelper(this, this);
-		billingHelper.setSkuInAppList(skuList);
+		billingHelper.setProductInAppList(skuList);
 		billingHelper.setCurrentActivity(activity);
 		billingHelper.initialize();
 	}
@@ -86,11 +86,11 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	public String getPurchasePrice(String productId){
-		return billingHelper.getSkuPrice(productId);
+		return billingHelper.getProductPrice(productId);
 	}
 
 	@Override
-	public void onSkuListResponse(ArrayMap<String, Product> skuDetailsMap) {
+	public void onProductListResponse(ArrayMap<String, Product> productDetailsMap) {
 		LocalBroadcastManager.getInstance(getApplicationContext())
 				.sendBroadcast(new Intent(BILLING_ACTION));
 	}
@@ -111,7 +111,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	@Override
-	public void onPurchaseCompleted(Activity activity, Receipt purchaseItem) {
+	public void onPurchaseCompleted(Activity activity, Receipt purchaseItem, boolean restore) {
 		Settings.showSnackBar(activity, R.string.thank_you);
 		PreferenceUtils.set(PURCHASE_PRODUCT_ID, purchaseItem.getSku());
 		PreferenceUtils.set(PURCHASED, true);

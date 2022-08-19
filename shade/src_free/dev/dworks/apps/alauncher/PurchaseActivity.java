@@ -91,7 +91,7 @@ public class PurchaseActivity extends Activity {
         String purchaseId = App.getPurchaseId();
         String price = App.getInstance().getPurchasePrice(purchaseId);
         if (!TextUtils.isEmpty(price)) {
-            purchaseButton.setText(purchaseText + " with " + price);
+            purchaseButton.setText(purchaseText + " for " + price);
         }
     }
 

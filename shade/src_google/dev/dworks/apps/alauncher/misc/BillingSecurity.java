@@ -65,9 +65,10 @@ public class BillingSecurity {
      * the verified purchase. The data is in JSON format and signed
      * with a private key. The data also contains the {@link Purchase.PurchaseState}
      * and product ID of the purchase.
+     *
      * @param base64PublicKey the base64-encoded public key to use for verifying.
-     * @param signedData the signed JSON string (signed, not encrypted)
-     * @param signature the signature for the data, signed with the private key
+     * @param signedData      the signed JSON string (signed, not encrypted)
+     * @param signature       the signature for the data, signed with the private key
      */
     public static boolean verifyPurchase(String base64PublicKey, String signedData, String signature) {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
@@ -102,9 +103,9 @@ public class BillingSecurity {
      * Verifies that the signature from the server matches the computed
      * signature on the data.  Returns true if the data is correctly signed.
      *
-     * @param publicKey public key associated with the developer account
+     * @param publicKey  public key associated with the developer account
      * @param signedData signed data from server
-     * @param signature server signature
+     * @param signature  server signature
      * @return true if the data and signature match
      */
     private static boolean verify(PublicKey publicKey, String signedData, String signature) {
@@ -119,10 +120,7 @@ public class BillingSecurity {
             Signature sig = Signature.getInstance(SIGNATURE_ALGORITHM);
             sig.initVerify(publicKey);
             sig.update(signedData.getBytes());
-            if (!sig.verify(signatureBytes)) {
-                return false;
-            }
-            return true;
+            return sig.verify(signatureBytes);
         } catch (NoSuchAlgorithmException | SignatureException | InvalidKeyException e) {
             e.printStackTrace();
         }

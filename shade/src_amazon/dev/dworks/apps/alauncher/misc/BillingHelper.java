@@ -1,5 +1,7 @@
 package dev.dworks.apps.alauncher.misc;
 
+import static com.amazon.device.iap.model.PurchaseResponse.RequestStatus.ALREADY_PURCHASED;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.ArrayMap;
@@ -22,43 +24,42 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.amazon.device.iap.model.PurchaseResponse.RequestStatus.ALREADY_PURCHASED;
-
 
 public class BillingHelper implements PurchasingListener {
 
     private Context context;
     private BillingListener mBillingListener;
-    private List<String> skuInAppList = new ArrayList<>();
-    private List<String> skuSubList = new ArrayList<>();
-    private ArrayMap<String, Product> skuDetailsMap = new ArrayMap<String, Product>();
+    private List<String> productInAppList = new ArrayList<>();
+    private List<String> productSubList = new ArrayList<>();
+    private ArrayMap<String, Product> productDetailsMap = new ArrayMap<String, Product>();
     private ArrayMap<String, Receipt> purchaseDetailsMap = new ArrayMap<String, Receipt>();
     private boolean mSubscriptionSupported = false;
     private Activity mCurrentActivity;
 
     /**
      * To instantiate the object
-     *  @param context           It will be used to get an application context to bind to the in-app billing service.
-     * @param listener          Your listener to get the response for your query.
+     *
+     * @param context  It will be used to get an application context to bind to the in-app billing service.
+     * @param listener Your listener to get the response for your query.
      */
     public BillingHelper(Context context, BillingListener listener) {
         this.context = context;
         this.mBillingListener = listener;
     }
 
-    public void setSkuInAppList(List<String> skuInAppList) {
-        this.skuInAppList = skuInAppList;
+    public void setProductInAppList(List<String> productInAppList) {
+        this.productInAppList = productInAppList;
     }
 
-    public void setSkuSubList(List<String> skuSubList) {
-        this.skuSubList = skuSubList;
+    public void setProductSubList(List<String> productSubList) {
+        this.productSubList = productSubList;
         this.mSubscriptionSupported = true;
     }
 
-    public void initialize(){
+    public void initialize() {
         PurchasingService.registerListener(this.context, this);
         getOwnedItems();
-        getSKUDetails();
+        getProductDetails();
     }
 
     public void setCurrentActivity(Activity activity) {
@@ -72,6 +73,7 @@ public class BillingHelper implements PurchasingListener {
     public void getOwnedItems() {
         getPurchasedItems();
     }
+
     /**
      * Get purchases details for all the items bought within your app.
      */
@@ -86,35 +88,36 @@ public class BillingHelper implements PurchasingListener {
         PurchasingService.getPurchaseUpdates(true);
     }
 
-    /**x
-     * Perform a network query to get SKU details and return the result asynchronously.
+    /**
+     * x
+     * Perform a network query to get product details and return the result asynchronously.
      */
-    public void getSKUDetails() {
-        getSKUInAppDetails();
-        getSKUSubDetails();
+    public void getProductDetails() {
+        getProductInAppDetails();
+        getProductSubDetails();
     }
 
     /**
-     * Perform a network query to get In App SKU details and return the result asynchronously.
+     * Perform a network query to get In App product details and return the result asynchronously.
      */
-    public void getSKUInAppDetails() {
-        if(null == skuInAppList || skuInAppList.isEmpty()){
+    public void getProductInAppDetails() {
+        if (null == productInAppList || productInAppList.isEmpty()) {
             return;
         }
         Set<String> keys = new HashSet<>();
-        keys.addAll(this.skuInAppList);
+        keys.addAll(this.productInAppList);
         PurchasingService.getProductData(keys);
     }
 
     /**
-     * Perform a network query to get Sub SKU details and return the result asynchronously.
+     * Perform a network query to get Sub product details and return the result asynchronously.
      */
-    public void getSKUSubDetails() {
-        if(null == skuSubList || skuSubList.isEmpty()){
+    public void getProductSubDetails() {
+        if (null == productSubList || productSubList.isEmpty()) {
             return;
         }
         Set<String> keys = new HashSet<>();
-        keys.addAll(this.skuSubList);
+        keys.addAll(this.productSubList);
         PurchasingService.getProductData(keys);
     }
 
@@ -122,12 +125,12 @@ public class BillingHelper implements PurchasingListener {
      * Initiate the billing flow for an in-app purchase or subscription.
      *
      * @param productId product Id of the product to be purchased
-     *                   Developer console.
+     *                  Developer console.
      */
     public void launchBillingFLow(Activity activity, final String productId) {
-        synchronized (skuDetailsMap) {
-            Product skuDetails = skuDetailsMap.get(productId);
-            if(null == skuDetails){
+        synchronized (productDetailsMap) {
+            Product details = productDetailsMap.get(productId);
+            if (null == details) {
                 return;
             }
             mCurrentActivity = activity;
@@ -151,26 +154,20 @@ public class BillingHelper implements PurchasingListener {
         }
     }
 
-    public String getSkuPrice(String productId){
+    public String getProductPrice(String productId) {
         String priceValue = "";
-        synchronized (skuDetailsMap) {
-            Product sku = skuDetailsMap.get(productId);
-            if (null != sku) {
-                priceValue = sku.getPrice();
+        synchronized (productDetailsMap) {
+            Product details = productDetailsMap.get(productId);
+            if (null != details) {
+                priceValue = details.getPrice();
             }
         }
         return priceValue;
     }
 
-    public Product getSkuDetails(String productId){
-        synchronized (skuDetailsMap) {
-            return skuDetailsMap.get(productId);
-        }
-    }
-
-    public Receipt getPurchaseDetails(String productId){
-        synchronized (purchaseDetailsMap) {
-            return purchaseDetailsMap.get(productId);
+    public Product getProductDetails(String productId) {
+        synchronized (productDetailsMap) {
+            return productDetailsMap.get(productId);
         }
     }
 
@@ -178,7 +175,7 @@ public class BillingHelper implements PurchasingListener {
         return true;
     }
 
-    public static boolean isBillingAvailable(Context context){
+    public static boolean isBillingAvailable(Context context) {
         return true;
     }
 
@@ -201,15 +198,15 @@ public class BillingHelper implements PurchasingListener {
         if (status == ProductDataResponse.RequestStatus.SUCCESSFUL) {
             final Set<String> unavailableSkus = response.getUnavailableSkus();
             Map<String, Product> productData = response.getProductData();
-            synchronized (skuDetailsMap) {
-                if(null != productData && !productData.isEmpty()) {
+            synchronized (productDetailsMap) {
+                if (null != productData && !productData.isEmpty()) {
                     for (Map.Entry<String, Product> entry : productData.entrySet()) {
                         Product product = productData.get(entry.getKey());
-                        skuDetailsMap.put(product.getSku(), product);
+                        productDetailsMap.put(product.getSku(), product);
                     }
                 }
                 if (mBillingListener != null) {
-                    mBillingListener.onSkuListResponse(skuDetailsMap);
+                    mBillingListener.onProductListResponse(productDetailsMap);
                 }
             }
         } else if (mBillingListener != null) {
@@ -234,7 +231,7 @@ public class BillingHelper implements PurchasingListener {
         }
     }
 
-    private void processPurchase(Receipt receipt, boolean restore){
+    private void processPurchase(Receipt receipt, boolean restore) {
         if (receipt.getProductType() == ProductType.SUBSCRIPTION) {
             consumePurchase(receipt, restore);
         } else {
@@ -251,7 +248,7 @@ public class BillingHelper implements PurchasingListener {
         if (status == PurchaseUpdatesResponse.RequestStatus.SUCCESSFUL) {
             Receipt[] receiptsList = response.getReceipts().toArray(new Receipt[0]);
             synchronized (purchaseDetailsMap) {
-                if(null != receiptsList && receiptsList.length != 0) {
+                if (null != receiptsList && receiptsList.length != 0) {
                     for (Receipt receipt : receiptsList) {
                         if (receipt != null && !receipt.isCanceled()) {
                             purchaseDetailsMap.put(receipt.getSku(), receipt);
@@ -272,9 +269,12 @@ public class BillingHelper implements PurchasingListener {
      * Listener interface for handling the various responses of the Purchase helper util
      */
     public interface BillingListener {
-        void onSkuListResponse(ArrayMap<String, Product> skuDetailsMap);
+        void onProductListResponse(ArrayMap<String, Product> productDetailsMap);
+
         void onPurchaseHistoryResponse(List<Receipt> purchasedList);
+
         void onPurchaseCompleted(Activity activity, Receipt purchaseItem, boolean restore);
+
         void onPurchaseError(Activity activity, PurchaseResponse.RequestStatus errorCode);
     }
 }

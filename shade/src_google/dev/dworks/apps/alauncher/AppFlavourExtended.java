@@ -11,8 +11,11 @@ import android.widget.Toast;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.billingclient.api.BillingClient;
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
+import com.android.launcher3.BuildConfig;
 import com.android.launcher3.R;
+import com.android.launcher3.Utilities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +46,14 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	public static boolean isPurchased() {
-		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED);
+		return Settings.isProVersion() || PreferenceUtils.getBooleanPrefs(PURCHASED) || BuildConfig.DEBUG;
 	}
 
 	public void initializeBilling(Activity activity) {
 		List<String> skuList = new ArrayList<>();
 		skuList.add(getPurchaseId());
 		billingHelper = new BillingHelper(this, this);
-		billingHelper.setSkuInAppList(skuList);
+		billingHelper.setProductInAppList(skuList);
 		billingHelper.setCurrentActivity(activity);
 		billingHelper.initialize();
 	}
@@ -83,11 +86,15 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 	}
 
 	public String getPurchasePrice(String productId){
-		return billingHelper.getSkuPrice(productId);
+		BillingHelper.BillingPricing details = billingHelper.getPurchasePricingDetails(productId);
+		if(null == details){
+			return "";
+		}
+		return details.getFormattedPrice();
 	}
 
 	@Override
-	public void onSkuListResponse(ArrayMap<String, com.android.billingclient.api.SkuDetails> skuDetailsMap) {
+	public void onProductListResponse(ArrayMap<String, ProductDetails> productDetailsMap) {
 		LocalBroadcastManager.getInstance(getApplicationContext())
 				.sendBroadcast(new Intent(BILLING_ACTION));
 	}
@@ -148,7 +155,7 @@ public abstract class AppFlavourExtended extends Application implements BillingH
 				action = "Contact";
 				break;
 		}
-		if(null != activity) {
+		if(null != activity && !Utilities.ATLEAST_TIRAMISU) {
 			if(TextUtils.isEmpty(action)) {
 				Settings.showSnackBar(activity, message);
 			} else {
