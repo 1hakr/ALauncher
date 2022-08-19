@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 3
         versionName versionCode + ".0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -39,6 +39,7 @@ android {
             manifest.srcFile 'src/pixel/AndroidManifest.xml'
         }
     }
+    namespace 'dev.dworks.apps.alauncher.companion'
 }
 
 dependencies {

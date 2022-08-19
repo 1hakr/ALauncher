@@ -6,8 +6,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
     }
 
     sourceSets {
@@ -18,9 +16,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
@@ -30,8 +25,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    lint {
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation "androidx.core:core:1.7.0"
+    implementation "androidx.core:core:1.8.0"
 }
