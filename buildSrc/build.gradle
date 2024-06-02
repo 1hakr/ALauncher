@@ -9,7 +9,7 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.google.guava', name: 'guava', version: '24.1-jre'
+    implementation group: 'com.google.guava', name: 'guava', version: '32.0.1-jre'
     implementation group: 'org.smali', name: 'smali', version: '2.2.5'
     implementation gradleApi()
     implementation localGroovy()
