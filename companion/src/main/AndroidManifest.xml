@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <service android:name=".BridgeService">
+        <service android:name=".BridgeService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.launcher3.WINDOW_OVERLAY" />
                 <data android:scheme="app" />

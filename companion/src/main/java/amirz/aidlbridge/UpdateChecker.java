@@ -12,6 +12,8 @@ import android.util.Log;
 
 import java.util.List;
 
+import dev.dworks.apps.alauncher.companion.BuildConfig;
+import dev.dworks.apps.alauncher.companion.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

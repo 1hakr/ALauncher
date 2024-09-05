@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 35
+    compileSdk 35
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 35
