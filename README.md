@@ -53,14 +53,14 @@ Features
 
 Everything, that is available in Rootless Pixel Launcher, with some added options, such as:
 
-Feedback is greatly appreciated. Any issues please report through mail only to support@dworks.io
+Feedback is greatly appreciated. Any issues please report through github
 
 Unzip buildlibs.zip and paste in /build/
 
 Developed By
 ============
 
-* Hari Krishna Dulipudi - <hakr@dworks.io>
+* Hari Krishna Dulipudi 
 
 
 License
