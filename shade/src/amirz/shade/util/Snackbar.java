@@ -100,12 +100,9 @@ public class Snackbar extends LinearLayout {
 
         snackbar.mIsOpen = true;
         ViewGroup layer = getParentView(activity);
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(null != layer) {
-                    layer.addView(snackbar);
-                }
+        activity.runOnUiThread(() -> {
+            if(null != layer) {
+                layer.addView(snackbar);
             }
         });
 
@@ -214,6 +211,9 @@ public class Snackbar extends LinearLayout {
         ViewGroup layer = activity.findViewById(R.id.content_view);
         if(null == layer) {
             layer = activity.findViewById(android.R.id.content);
+        }
+        if(null == layer) {
+            layer = activity.findViewById(R.id.launcher);
         }
         return layer;
     }

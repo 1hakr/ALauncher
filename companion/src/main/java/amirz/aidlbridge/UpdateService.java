@@ -33,7 +33,7 @@ public class UpdateService extends Service {
                 int oldState = mPidState.get(pid, 0);
                 if ((state & STATE_CREATED) != 0 && (oldState & STATE_CREATED) == 0) {
                     Log.d(TAG, "Activity created");
-                    UpdateChecker.getInstance(UpdateService.this).checkForUpdates();
+                    //UpdateChecker.getInstance(UpdateService.this).checkForUpdates();
                 }
                 mPidState.put(pid, state);
             }

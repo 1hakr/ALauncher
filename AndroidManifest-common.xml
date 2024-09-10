@@ -20,6 +20,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <permission-group android:name="${packageName}.permission-group.SYSTEM_TOOLS" />
     <!--
     The manifest defines the common entries that should be present in any derivative of Launcher3.
     The components should generally not require any changes.
@@ -30,6 +31,7 @@
     -->
     <permission
         android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
+        android:permissionGroup="${packageName}.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="dangerous"
         android:label="@string/permlab_install_shortcut"
         android:description="@string/permdesc_install_shortcut" />
@@ -51,11 +53,13 @@
     -->
     <permission
         android:name="${packageName}.permission.READ_SETTINGS"
+        android:permissionGroup="${packageName}.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="signatureOrSystem"
         android:label="@string/permlab_read_settings"
         android:description="@string/permdesc_read_settings"/>
     <permission
         android:name="${packageName}.permission.WRITE_SETTINGS"
+        android:permissionGroup="${packageName}.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="signatureOrSystem"
         android:label="@string/permlab_write_settings"
         android:description="@string/permdesc_write_settings"/>

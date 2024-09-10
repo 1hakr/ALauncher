@@ -6,7 +6,7 @@ buildscript {
         maven { url "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.2'
+        classpath 'com.android.tools.build:gradle:8.6.0'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.4'
     }
 }
@@ -17,7 +17,7 @@ ext {
     minSdkVersion = 21
     versionMajor = 2
     versionMinor = 5
-    versionPatch = 1
+    versionPatch = 2
 }
 
 private Integer generateVersionCode(Integer variant) {

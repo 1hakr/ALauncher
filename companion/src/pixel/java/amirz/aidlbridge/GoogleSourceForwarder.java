@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.util.Log;
 
+import dev.dworks.apps.alauncher.companion.BuildConfig;
+
 public abstract class GoogleSourceForwarder extends BroadcastReceiver {
     private static final String TAG = "GoogleSourceForwarder";
 

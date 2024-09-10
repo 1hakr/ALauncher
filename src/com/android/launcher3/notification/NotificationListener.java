@@ -335,9 +335,13 @@ public class NotificationListener extends NotificationListenerService {
 
     /** This makes a potentially expensive binder call and should be run on a background thread. */
     public List<StatusBarNotification> getNotificationsForKeys(List<NotificationKeyData> keys) {
-        StatusBarNotification[] notifications = NotificationListener.this
-                .getActiveNotifications(NotificationKeyData.extractKeysOnly(keys)
-                        .toArray(new String[keys.size()]));
+        StatusBarNotification[] notifications = null;
+        try {
+            notifications = NotificationListener.this
+                    .getActiveNotifications(NotificationKeyData.extractKeysOnly(keys)
+                            .toArray(new String[keys.size()]));
+        } catch (Throwable ignored) {
+        }
         return notifications == null
                 ? Collections.<StatusBarNotification>emptyList() : Arrays.asList(notifications);
     }
