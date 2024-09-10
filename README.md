@@ -1,7 +1,7 @@
 Another Launcher
 ==================================
 
-<a href='https://ko-fi.com/H2H6BPBP' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href="https://www.buymeacoffee.com/1hakr" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" height='50' style='border:0px;height:50px;' ></a>
 
 ![ALauncher](https://github.com/1hakr/ALauncher/raw/master/header.jpg)
 
@@ -53,14 +53,14 @@ Features
 
 Everything, that is available in Rootless Pixel Launcher, with some added options, such as:
 
-Feedback is greatly appreciated. Any issues please report through mail only to support@dworks.io
+Feedback is greatly appreciated. Any issues please report through github
 
 Unzip buildlibs.zip and paste in /build/
 
 Developed By
 ============
 
-* Hari Krishna Dulipudi - <hakr@dworks.io>
+* Hari Krishna Dulipudi 
 
 
 License
