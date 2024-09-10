@@ -1,44 +1,55 @@
 apply plugin: 'com.android.application'
 
-def props = new Properties()
-props.load(new FileInputStream(rootProject.file("keystore.properties")))
-
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.google.android.apps.nexuslauncher"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    signingConfigs {
-        companion
+        targetSdkVersion rootProject.ext.compileSdkVersion
+        versionCode 3
+        versionName versionCode + ".0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.companion
+        optimized {
+            initWith debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
         }
     }
 
     productFlavors {
-        bridge {
+        aidlbridge {
+            applicationId 'dev.dworks.apps.alauncher.companion'
+            flavorDimensions 'default'
+        }
+
+        pixelbridge {
             applicationId 'com.google.android.apps.nexuslauncher'
             flavorDimensions 'default'
         }
+    }
+
+    sourceSets {
+        pixelbridge {
+            aidl.srcDirs = ['src/pixel/aidl']
+            java.srcDirs = ['src/pixel/java']
+            res.srcDirs = ['src/pixel/res']
+            manifest.srcFile 'src/pixel/AndroidManifest.xml'
+        }
+    }
+    namespace 'dev.dworks.apps.alauncher.companion'
+    buildFeatures {
+        aidl true
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-
-android.signingConfigs.companion.storeFile rootProject.file(props.keyStore)
-android.signingConfigs.companion.storePassword props.keyStorePassword
-android.signingConfigs.companion.keyAlias props.keyAlias
-android.signingConfigs.companion.keyPassword props.keyAliasPassword

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<amirz.shade.views.CheckableLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:paddingStart="20dp"
+    android:paddingEnd="?android:attr/dialogPreferredPadding"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall">
+    <CheckedTextView
+        android:id="@android:id/text1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="?android:attr/textColorAlertDialogListItem"
+        android:gravity="center_vertical"
+        android:drawableStart="?android:attr/listChoiceIndicatorSingle"
+        android:drawablePadding="20dp"
+        android:ellipsize="marquee" />
+    <ImageView
+        android:id="@android:id/icon1"
+        android:layout_width="@dimen/color_circle_size"
+        android:layout_height="@dimen/color_circle_size"
+        android:baselineAlignBottom="true"
+        android:scaleType="centerInside" />
+</amirz.shade.views.CheckableLinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_info_version_value" translatable="false">%1$s (%2$d)</string>
+    <string name="placeholder_string" translatable="false">@string/loading</string> <!-- Used for preference height loading. -->
+    <string name="dock_search_value" translatable="false">%1$s %2$s</string>
+    <string name="feed_provider_value" translatable="false">%1$s %2$s</string>
+    <string name="font_google_sans" translatable="false">Google Sans</string>
+    <string name="icon_pack" translatable="false">@string/app_info_icon_pack</string>
+    <string name="about_app_version" translatable="false">@string/app_info_version</string>
+    <string name="about_app_version_value" translatable="false">%1$s %2$s</string>
+    <string name="about_contact_desc" translatable="false">Give us your suggestions</string>
+    <string name="gesture_service_label" translatable="false">This service enables an invisible floating home button on the screen.</string>
+    <string name="dt2s_service_label" translatable="false">
+        This service enables opening recent apps on the home screen by dragging up,
+        and double tapping the background to turn off the screen.
+    </string>
+    <string name="shadespace_subtext_double" translatable="false">%1$s • %2$s</string>
+    <string name="search_hidden_global" translatable="false">Hidden</string>
+</resources>

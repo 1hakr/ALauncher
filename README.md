@@ -55,6 +55,7 @@ Everything, that is available in Rootless Pixel Launcher, with some added option
 
 Feedback is greatly appreciated. Any issues please report through mail only to support@dworks.io
 
+Unzip buildlibs.zip and paste in /build/
 
 Developed By
 ============

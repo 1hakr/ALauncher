@@ -1,0 +1,94 @@
+final String FRAMEWORK_PREBUILTS_DIR = "prebuilts"
+
+def props = new Properties()
+File keystoreProperties = rootProject.file("keystore.properties")
+if (keystoreProperties.exists()) {
+    props.load(new FileInputStream(keystoreProperties))
+} else {
+    props['keystorefile'] = 'none';
+}
+
+android {
+    defaultConfig {
+        versionName rootProject.generateVersionName()
+        versionCode rootProject.generateVersionCode(1)
+        buildConfigField "String", "PLAYSTORE_LICENSE_KEY",  "$props.PLAYSTORE_LICENSE_KEY"
+        buildConfigField "String", "MERCHANT_ID",  "$props.MERCHANT_ID"
+    }
+
+    productFlavors {
+        app {
+            dimension "app"
+            testApplicationId 'dev.dworks.apps.alauncher.tests'
+        }
+
+        free {
+            applicationId "dev.dworks.apps.alauncher"
+            dimension "default"
+        }
+
+        pro {
+            applicationId "dev.dworks.apps.alauncher.pro"
+            dimension "default"
+        }
+
+        customUI {
+            dimension "recents"
+        }
+
+        google {
+            dimension "store"
+        }
+
+        amazon {
+            dimension "store"
+        }
+    }
+
+    sourceSets {
+        app {
+            aidl.srcDirs = ['shade/aidl']
+            assets.srcDirs = ['shade/assets']
+            res.srcDirs = ['shade/res', 'shade/res_translations', 'shade/res_translations_manual']
+            java.srcDirs = ['shade/src', 'shade/src_flags', 'src_shortcuts_overrides', 'shade/src_backport']
+            manifest.srcFile "shade/AndroidManifest.xml"
+        }
+
+        customUI {
+            java.srcDirs = ['shade/src_ui_overrides']
+            res.srcDirs = ['shade/res_ui_overrides']
+        }
+
+        free {
+            java.srcDirs = ['shade/src_free']
+            res.srcDirs = ['shade/res_free']
+            manifest.srcFile "shade/src_free/AndroidManifest.xml"
+        }
+
+        pro {
+            java.srcDirs = ['shade/src_pro']
+            res.srcDirs = ['shade/res_pro']
+        }
+
+
+        google {
+            java.srcDirs = ['shade/src_google']
+        }
+
+        amazon {
+            java.srcDirs = ['shade/src_amazon']
+        }
+    }
+
+    dependencies {
+        // Required for AOSP to compile. This is already included in the sysui_shared.jar
+        customUIImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
+        implementation 'com.zsoltsafrany:needle:1.0.0'
+        freeImplementation "androidx.cardview:cardview:1.0.0"
+
+        googleImplementation 'com.android.billingclient:billing:7.0.0'
+        amazonImplementation fileTree(dir: 'libs', include: ['in-app-purchasing-2.0.76.jar'])
+    }
+}
+
+apply from: 'shade/smali.gradle'

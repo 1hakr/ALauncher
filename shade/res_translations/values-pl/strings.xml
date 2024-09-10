@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+/*
+* Copyright (C) 2017 The Android Open Source Project
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+ -->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="recent_task_option_split_screen" msgid="5353188922202653570">"Podziel ekran"</string>
+    <string name="recent_task_option_pin" msgid="7929860679018978258">"Przypnij"</string>
+    <string name="recent_task_option_freeform" msgid="48863056265284071">"Tryb dowolny"</string>
+    <string name="accessibility_desc_recent_apps" msgid="1444379410873162882">"Przegląd"</string>
+    <string name="recents_empty_message" msgid="7040467240571714191">"Brak ostatnich elementów"</string>
+    <string name="accessibility_close_task" msgid="5354563209433803643">"Zamknij"</string>
+    <string name="accessibility_app_usage_settings" msgid="6312864233673544149">"Ustawienia użycia aplikacji"</string>
+    <string name="recents_clear_all" msgid="5328176793634888831">"Wyczyść wszystko"</string>
+    <string name="accessibility_recent_apps" msgid="4058661986695117371">"Ostatnie aplikacje"</string>
+    <string name="task_contents_description_with_remaining_time" msgid="4479688746574672685">"<xliff:g id="TASK_DESCRIPTION">%1$s</xliff:g>, <xliff:g id="REMAINING_TIME">%2$s</xliff:g>"</string>
+    <string name="shorter_duration_less_than_one_minute" msgid="4722015666335015336">"&gt; 1 min"</string>
+    <string name="time_left_for_app" msgid="3111996412933644358">"Na dziś zostało <xliff:g id="TIME">%1$s</xliff:g>"</string>
+    <string name="title_app_suggestions" msgid="4185902664111965088">"Sugerowane aplikacje"</string>
+    <string name="all_apps_label" msgid="8542784161730910663">"Wszystkie aplikacje"</string>
+    <string name="all_apps_prediction_tip" msgid="2672336544844936186">"Przewidywane aplikacje"</string>
+	<string name="smartspace_preferences">"Ustawienia"</string>
+	<string name="smartspace_preferences_in_settings">"W skrócie"</string>
+	<string name="smartspace_preferences_in_settings_desc">"U góry ekranu głównego"</string>
+	<string name="icon_shape_override_label">"Zmień kształt ikon"</string>
+	<string name="icon_shape_override_progress">"Zmieniam kształt ikon"</string>
+	<string name="icon_shape_square">"Kwadrat"</string>
+	<string name="icon_shape_squircle">"Zaokrąglony kwadrat"</string>
+	<string name="icon_shape_circle">"Okrąg"</string>
+	<string name="icon_shape_teardrop">"Łza"</string>
+	<string name="icon_shape_rounded_square">"Zaokrąglony kwadrat"</string>
+	<string name="icon_shape_cylinder">"Cylinder"</string>
+	<string name="device_theme_tone">"Ton"</string>
+	<string name="device_theme_wallpaper">"Automatyczny (na podstawie tapety)"</string>
+	<string name="device_theme_light">"Jasny"</string>
+	<string name="device_theme_dark">"Ciemny"</string>
+	<string name="category_general">"Ogólne"</string>
+	<string name="category_style">"Motyw"</string>
+	<string name="category_customization">"Dostosowywanie"</string>
+	<string name="category_about">"Informacje"</string>
+	<string name="pref_value_default">"Domyślne"</string>
+	<string name="pref_value_disabled">"Wyłączone"</string>
+	<string name="show_drop_target_label">"Pokaż"</string>
+	<string name="hide_drop_target_label">"Ukryj"</string>
+	<string name="app_info_more">"Więcej"</string>
+	<string name="app_info_version">"Wersja"</string>
+	<string name="app_info_icon_pack">"Pakiet ikon"</string>
+	<string name="app_info_icon_pack_none">"Brak"</string>
+	<string name="app_info_source_unknown">"Nieznany"</string>
+	<string name="font">"Czcionka"</string>
+	<string name="icon_shape">"Kształt"</string>
+	<string name="loading">"Ładowanie..."</string>
+	<string name="about_donate">"Wspomóż"</string>
+	<string name="any_activity_shortcut">"Wybierz działanie"</string>
+</resources>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** Copyright 2008, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!--
+    Manifest entries specific to Launcher3. This is merged with AndroidManifest-common.xml.
+    Refer comments around specific entries on how to extend individual components.
+    -->
+
+    <!-- Tablet support -->
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <!-- Swipe down for notifications -->
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
+
+    <!-- App prediction -->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Home button overlay -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Tap to lock -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Double tap to sleep and recents -->
+    <permission
+        android:name="${packageName}.permission.ACCESSIBILITY"
+        android:protectionLevel="signature" />
+
+    <!-- App lock-->
+<!--    <uses-permission android:name="android.permission.USE_BIOMETRIC" />-->
+
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+
+    <uses-permission android:name="${packageName}.permission.ACCESSIBILITY" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="amirz.App"
+        android:backupAgent="com.android.launcher3.LauncherBackupAgent"
+        android:fullBackupOnly="true"
+        android:fullBackupContent="@xml/backupscheme"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher_home"
+        android:roundIcon="@drawable/ic_launcher_home"
+        android:label="@string/derived_app_name"
+        android:theme="@style/AppTheme"
+        android:largeHeap="@bool/config_largeHeap"
+        android:restoreAnyVersion="true"
+        android:supportsRtl="true" >
+
+        <activity
+            android:name="com.android.launcher3.Launcher"
+            tools:node="remove" />
+
+        <!--
+        Main launcher activity. When extending only change the name, and keep all the
+        attributes and intent filters the same
+        -->
+        <activity
+            android:name="amirz.shade.ShadeLauncher"
+            android:label="@string/shade_app_name_short"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="unspecified"
+            android:configChanges="keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:resizeableActivity="true"
+            android:resumeWhilePausing="true"
+            android:taskAffinity=""
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.MONKEY"/>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER_APP" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+            <meta-data
+                android:name="com.android.launcher3.grid.control"
+                android:value="${packageName}.grid_control" />
+        </activity>
+
+        <activity
+            android:name="com.android.launcher3.settings.SettingsActivity"
+            tools:node="remove" />
+
+        <!--
+        The settings activity. To extend point settings_fragment_name to appropriate fragment class
+        -->
+        <activity
+            android:name="amirz.shade.ShadeSettings"
+            android:label="@string/settings_title"
+            android:autoRemoveFromRecents="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.android.launcher3.dragndrop.AddItemActivity"
+            tools:node="remove" />
+
+        <!--
+        The activity that shows the Add To Home screen popup in Chrome.
+        -->
+        <activity android:name="amirz.shade.dragndrop.ShadeAddItemActivity"
+            android:theme="@style/AppItemActivityTheme"
+            android:excludeFromRecents="true"
+            android:autoRemoveFromRecents="true"
+            android:label="@string/action_add_to_workspace"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT" />
+                <action android:name="android.content.pm.action.CONFIRM_PIN_APPWIDGET" />
+            </intent-filter>
+        </activity>
+
+        <!-- The service for the home button overlay -->
+        <service
+            android:name="amirz.gesture.GestureService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/gesture_service_config" />
+        </service>
+
+        <!-- The service for double tap to sleep and opening recents. -->
+        <service
+            android:name="amirz.shade.services.GlobalActionService"
+            android:enabled="@bool/atleast_p"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/sleep_service_config" />
+        </service>
+
+        <!-- Widget shortcut to any activity -->
+        <activity android:name="amirz.shortcut.CreateShortcut"
+            android:icon="@drawable/ic_launcher_shortcut"
+            android:label="@string/any_activity_shortcut"
+            android:theme="@style/ShortcutTheme"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="amirz.helpers.LockTimeoutActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/TimeoutTheme" />
+    </application>
+</manifest>

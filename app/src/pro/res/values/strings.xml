@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [ <!ENTITY appid "dev.dworks.apps.alauncher.pro"> ]>
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="derived_app_name" translatable="false">ALauncher Pro</string>
-    <string name="settingsApplicationId" translatable="false">&appid;</string>
-    <string name="applicationId" translatable="false">&appid;</string>
-    <string name="store_url" translatable="false">http://play.google.com/store/apps/details?id=&appid;</string>
-</resources>

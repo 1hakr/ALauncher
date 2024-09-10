@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="shade_app_name" translatable="false">ALauncher Pro</string>
+    <string name="shade_app_name_short" translatable="false">ALauncher Pro</string>
+    <string name="settings_title" translatable="false">ALauncher Pro settings</string>
+    <string name="about_review" translatable="false">"Like ALauncher Pro?"</string>
+    <string name="restoring_purchase" translatable="false">Restoring purchase…</string>
+    <string name="could_not_restore_purchase" translatable="false">Could not restore purchase.</string>
+    <string name="purchase" translatable="false">Purchase</string>
+    <string name="restore" translatable="false">Restore</string>
+    <string name="thank_you" translatable="false">Thank you!</string>
+    <string name="support_app" translatable="false">ALauncher Pro</string>
+    <string name="restored_previous_purchase_please_restart" translatable="false">Restored previous purchase.</string>
+</resources>

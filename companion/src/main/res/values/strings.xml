@@ -3,4 +3,12 @@
     <string name="at_a_glance_enabled">Congratulations!\nAt A Glance should now work with ALauncher!</string>
     <string name="hide_companion_app">Hide companion app</string>
     <string name="open_lean_settings">Open ALauncher Settings</string>
+
+    <string name="plugin_update">Updater</string>
+    <string name="plugin_update_desc">Check for updates when launcher opens</string>
+    <string name="update_title">Version %1$d of %2$s is available</string>
+    <string name="update_desc">Click here to visit the download page on GitHub</string>
+    <string name="bridge_owner">amirzaidi</string>
+    <string name="bridge_repo">AIDLBridge</string>
+    <string name="bridge_url">https://github.com/amirzaidi/AIDLBridge/releases/latest</string>
 </resources>
