@@ -15,8 +15,7 @@
 -->
 
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.launcher3.tests">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
 
@@ -28,7 +27,8 @@
 
         <receiver
             android:name="com.android.launcher3.testcomponent.AppWidgetNoConfig"
-            android:label="No Config">
+            android:label="No Config"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -38,7 +38,8 @@
 
         <receiver
             android:name="com.android.launcher3.testcomponent.AppWdigetHidden"
-            android:label="Hidden widget">
+            android:label="Hidden widget"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -48,7 +49,8 @@
 
         <receiver
             android:name="com.android.launcher3.testcomponent.AppWidgetWithConfig"
-            android:label="With Config">
+            android:label="With Config"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
@@ -57,12 +59,12 @@
         </receiver>
 
         <activity
-            android:name="com.android.launcher3.testcomponent.WidgetConfigActivity">
+            android:name="com.android.launcher3.testcomponent.WidgetConfigActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.android.launcher3.testcomponent.CustomShortcutConfigActivity">
+        <activity android:name="com.android.launcher3.testcomponent.CustomShortcutConfigActivity" android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -71,7 +73,8 @@
         <activity
             android:name="com.android.launcher3.testcomponent.RequestPinItemActivity"
             android:icon="@drawable/test_drawable_pin_item"
-            android:label="Test Pin Item">
+            android:label="Test Pin Item"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -97,7 +100,8 @@
             android:stateNotNeeded="true"
             android:taskAffinity=""
             android:theme="@android:style/Theme.DeviceDefault.Light"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.HOME"/>
@@ -109,7 +113,8 @@
         <activity
             android:name="com.android.launcher3.testcomponent.BaseTestingActivity"
             android:label="LauncherTestApp"
-            android:taskAffinity="com.android.launcher3.testcomponent.Affinity1">
+            android:taskAffinity="com.android.launcher3.testcomponent.Affinity1"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -123,7 +128,8 @@
         </activity>
         <activity-alias android:name="Activity2"
                         android:label="TestActivity2"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -131,7 +137,8 @@
         </activity-alias>
         <activity-alias android:name="Activity3"
                         android:label="TestActivity3"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -139,7 +146,8 @@
         </activity-alias>
         <activity-alias android:name="Activity4"
                         android:label="TestActivity4"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -147,7 +155,8 @@
         </activity-alias>
         <activity-alias android:name="Activity5"
                         android:label="TestActivity5"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -155,7 +164,8 @@
         </activity-alias>
         <activity-alias android:name="Activity6"
                         android:label="TestActivity6"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -163,7 +173,8 @@
         </activity-alias>
         <activity-alias android:name="Activity7"
                         android:label="TestActivity7"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -171,7 +182,8 @@
         </activity-alias>
         <activity-alias android:name="Activity8"
                         android:label="TestActivity8"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -179,7 +191,8 @@
         </activity-alias>
         <activity-alias android:name="Activity9"
                         android:label="TestActivity9"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -187,7 +200,8 @@
         </activity-alias>
         <activity-alias android:name="Activity10"
                         android:label="TestActivity10"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -195,7 +209,8 @@
         </activity-alias>
         <activity-alias android:name="Activity11"
                         android:label="TestActivity11"
-                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity">
+                        android:targetActivity="com.android.launcher3.testcomponent.BaseTestingActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
