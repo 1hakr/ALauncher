@@ -23,11 +23,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragment;
@@ -51,6 +57,8 @@ import static com.android.launcher3.states.RotationHelper.ALLOW_ROTATION_PREFERE
 import static com.android.launcher3.states.RotationHelper.getAllowRotationDefaultValue;
 import static com.android.launcher3.util.SecureSettingsObserver.newNotificationSettingsObserver;
 
+import amirz.shade.ShadeSettings;
+
 /**
  * Settings activity for Launcher. Currently implements the following setting: Allow rotation
  */
@@ -72,10 +80,13 @@ public class SettingsActivity extends Activity
 
     public static final String GRID_OPTIONS_PREFERENCE_KEY = "pref_grid_options";
 
+    public static int topInset;
+    public static int bottomInset;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        enableEdgeToEdge();
         if (savedInstanceState == null) {
             Bundle args = new Bundle();
             String prefKey = getIntent().getStringExtra(EXTRA_FRAGMENT_ARG_KEY);
@@ -89,9 +100,50 @@ public class SettingsActivity extends Activity
             getFragmentManager().beginTransaction()
                     .replace(android.R.id.content, f)
                     .commit();
+
+            getFragmentManager().executePendingTransactions();
+            applyInsetsToFragment((PreferenceFragment) f);
+
         }
         Utilities.getPrefs(getApplicationContext()).registerOnSharedPreferenceChangeListener(this);
+        getInsets(getWindow().getDecorView());
     }
+
+    private void enableEdgeToEdge() {
+        // Make the activity content extend behind the system bars
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        // Optional: Make system bars translucent/transparent
+        View decorView = getWindow().getDecorView();
+        WindowInsetsControllerCompat insetsController = new WindowInsetsControllerCompat(getWindow(), decorView);
+
+        // Light status bar if needed (for dark backgrounds)
+        // Remove this if your theme already handles this
+        insetsController.setAppearanceLightStatusBars(false);
+
+        // Make navigation bar translucent if desired
+        getWindow().setNavigationBarColor(Color.TRANSPARENT);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+    }
+
+    public void getInsets(View view) {
+        if (view != null) {
+            ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+                topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+                bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+
+                return insets;
+            });
+            ViewCompat.requestApplyInsets(view);
+        }
+    }
+
+    public static void applyInsets(View listView) {
+        if (listView != null) {
+            listView.setPadding(listView.getPaddingLeft(), topInset, listView.getPaddingRight(), bottomInset);
+        }
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (GRID_OPTIONS_PREFERENCE_KEY.equals(key)) {
@@ -129,8 +181,18 @@ public class SettingsActivity extends Activity
                     .replace(android.R.id.content, f)
                     .addToBackStack(key)
                     .commit();
+
+            getFragmentManager().executePendingTransactions();
+            applyInsetsToFragment((PreferenceFragment) f);
         }
         return true;
+    }
+
+    private void applyInsetsToFragment(PreferenceFragment fragment) {
+        View view = fragment.getView();
+        if (view != null) {
+            applyInsets(fragment.getListView());
+        }
     }
 
     @Override
@@ -155,6 +217,18 @@ public class SettingsActivity extends Activity
 
         private String mHighLightKey;
         private boolean mPreferenceHighlighted = false;
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            ViewCompat.setOnApplyWindowInsetsListener(view, (v, insets) -> {
+                topInset = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top;
+                bottomInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom;
+                applyInsets(getListView());
+                return insets;
+            });
+            applyInsets(getListView());
+        }
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

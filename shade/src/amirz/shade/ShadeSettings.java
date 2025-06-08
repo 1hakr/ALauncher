@@ -14,6 +14,8 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -263,6 +265,10 @@ public class ShadeSettings extends SettingsActivity {
                 CharSequence title = preferenceScreen.getTitle();
                 ((ShadeSettings)getActivity()).setupActionbar(title, isHome);
             }
+
+
+            View listView = getListView();
+            applyInsets(listView);
         }
 
         @Override
