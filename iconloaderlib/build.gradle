@@ -22,8 +22,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     lint {
         abortOnError false
@@ -33,5 +33,5 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.8.0'
+    implementation 'androidx.core:core:1.16.0'
 }
